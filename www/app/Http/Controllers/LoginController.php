@@ -2,8 +2,6 @@
 
 namespace Creativolab\App\Http\Controllers;
 
-use \Creativolab\App\Http\Controllers\DashboardController;
-
 class LoginController extends Controller {
 
    public function __construct()
