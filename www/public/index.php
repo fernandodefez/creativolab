@@ -30,4 +30,5 @@ $router->set404(function () {
     $response->render('errors/404');
 });
 
+$router->get('/alex', function(){ echo "Ruta añadida por Alex"; });
 $router->run();
