@@ -5,7 +5,7 @@ Fork this repository. Then, clone the forked repository
 git clone the_forked_repositroy
 ```
 
-Go to /www/ and run the follow command
+Go to /www/ and run the following command
 ```
 composer install
 ```
