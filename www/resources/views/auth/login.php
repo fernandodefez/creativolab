@@ -9,7 +9,7 @@
    <meta name="description" content="">
    <meta name="author" content="">
 
-   <title>Login</title>
+   <title>Inicio de sesión</title>
 
    <!-- Custom fonts for this template-->
    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -35,40 +35,75 @@
                      <div class="col-lg-6">
                         <div class="p-5">
                            <div class="text-center">
-                              <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
+                              <h1 class="h4 text-gray-900 mb-4">Bienvenido de nuevo!</h1>
                            </div>
-                           <?php echo var_dump($data) ?>
                            <form class="user" action="/login" method="POST">
                               <div class="form-group">
-                                 <input type="text" class="form-control form-control-user" id="exampleInputEmail" aria-describedby="emailHelp" placeholder="Enter email address" name="email">
+                                  <label for="exampleInputEmail">Correo electrónico</label>
+                                  <input type="text" class="form-control
+                                  <?php
+                                  if (
+                                          isset($errors) &&
+                                          isset($errors['email_error']) &&
+                                          !empty($errors['email_error'])
+                                  ) {
+                                      echo 'is-invalid';
+                                  } else {
+                                      echo '';
+                                  }
+                                  ?>" <?php
+                                  if (isset($data) && isset($data['email_value'])) {
+                                      echo "value='" . $data['email_value'] . "'";
+                                  }
+                                  ?> id="exampleInputEmail" placeholder="Correo electrónico" name="email">
+                                  <?php
+                                  if (isset($errors) && isset($errors['email_error'])) {
+                                      echo "<div class='invalid-feedback'>" . $errors['email_error'] . "</div>";
+                                  }
+                                  ?>
                               </div>
                               <div class="form-group">
-                                 <input type="password" class="form-control form-control-user" id="exampleInputPassword" name="password" placeholder="Enter your password">
+                                  <label for="exampleInputPassword">Contraseña</label>
+                                  <input type="password" class="form-control
+                                  <?php
+                                  if (
+                                          isset($errors) &&
+                                          isset($errors['password_error']) &&
+                                          !empty($errors['password_error'])
+                                  ) {
+                                      echo 'is-invalid';
+                                  } else {
+                                      echo '';
+                                  }
+                                  ?>" id="exampleInputPassword" placeholder="Contraseña" name="password">
+                                  <?php
+                                  if (isset($errors) && isset($errors['password_error'])) {
+                                      echo "<div class='invalid-feedback'>" . $errors['password_error'] . "</div>";
+                                  }
+                                  ?>
                               </div>
                               <div class="form-group">
                                  <div class="custom-control custom-checkbox small">
                                     <input type="checkbox" class="custom-control-input" id="customCheck">
-                                    <label class="custom-control-label" for="customCheck">Remember
-                                       Me</label>
+                                    <label class="custom-control-label" for="customCheck"> Recordarme </label>
                                  </div>
                               </div>
-                              <button style="font-weight: bold;" type="submit" class="btn btn-primary btn-user btn-block">
-                                 Login
+                              <button type="submit" class="btn btn-primary btn-block font-weight-bold">
+                                 Iniciar sesión
                               </button>
-                              <!---
-                              <a href="index.html" class="btn btn-google btn-user btn-block">
+                              <a href="<?php echo $_ENV['APP_URL'] ?>" class="btn btn-google btn-block font-weight-bold">
                                  <i class="fab fa-google fa-fw"></i> Login with Google
                               </a>
-                              <a href="index.html" class="btn btn-facebook btn-user btn-block">
+                               <a href="<?php echo $_ENV['APP_URL'] ?>" class="btn btn-facebook btn-block font-weight-bold">
                                  <i class="fab fa-facebook-f fa-fw"></i> Login with Facebook
-                              </a> -->
+                              </a>
                            </form>
                            <hr>
                            <div class="text-center">
-                              <a class="small" href="forgot-password.html">Forgot Password?</a>
+                              <a class="small" href="forgot-password.html">¿Has olvidado tu contraseña?</a>
                            </div>
                            <div class="text-center">
-                              <a class="small" href="/register">Create an Account!</a>
+                              <a class="small" href="/register">Crear cuenta</a>
                            </div>
                         </div>
                      </div>

@@ -11,10 +11,10 @@ class DashboardController extends Controller {
 
    public function index()
    {
-      if (isset($_SESSION['user'])) {
+      if (isset($_SESSION['user_id'])) {
          $this->render('dashboard/dashboard', array($_SESSION['user']));
       } else {
-         header('Location: http://localhost/login');
+         header('Location: '. $_ENV['APP_URL'] . '/login');
       }
    }
 }
