@@ -11,7 +11,6 @@ class HomeController extends Controller {
 
    public function index()
    {
-      echo "Mostar página principal ";
-      echo $_ENV['APP_URL'];
+       $this->render('index');
    }
 }

@@ -2,6 +2,7 @@
 
 namespace Creativolab\App\Http\Controllers\Auth;
 
+use Creativolab\App\Auth;
 use Creativolab\App\Http\Controllers\Controller;
 
 class LogoutController extends Controller {
@@ -13,10 +14,11 @@ class LogoutController extends Controller {
 
    public function destroy()
    {
-      if (isset($_SESSION['user_id'])) {
-         unset($_SESSION['user_id']);
-         header('Location: '. $_ENV['APP_URL'] . '/login');
-      }
-      header('Location: '. $_ENV['APP_URL'] . '/login');
+       if (!Auth::user()) {
+           $this->render('auth/login');
+           exit();
+       }
+       unset($_SESSION['user_id']);
+       header('Location: '. $_ENV['APP_URL'] . '/login');
    }
 }

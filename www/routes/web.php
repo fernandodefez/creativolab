@@ -14,6 +14,11 @@ $router = new Bramus\Router\Router();
 $router->get("/", '\Creativolab\App\Http\Controllers\HomeController@index');
 
 $router->get("/dashboard", '\Creativolab\App\Http\Controllers\DashboardController@index');
+$router->get("/dashboard/education", '\Creativolab\App\Http\Controllers\EducationController@index');
+
+
+$router->get("/r", '\Creativolab\App\Http\Controllers\TestController@index');
+$router->get("/r/1", '\Creativolab\App\Http\Controllers\TestController@route');
 
 $router->get("/login", '\Creativolab\App\Http\Controllers\Auth\LoginController@index');
 $router->post("/login", '\Creativolab\App\Http\Controllers\Auth\LoginController@login');
@@ -23,13 +28,7 @@ $router->get("/logout", '\Creativolab\App\Http\Controllers\Auth\LogoutController
 $router->get("/register", '\Creativolab\App\Http\Controllers\Auth\RegisterController@index');
 $router->post("/register", '\Creativolab\App\Http\Controllers\Auth\RegisterController@store');
 
-$router->get("/verify-email/{token}", '\Creativolab\App\Http\Controllers\Auth\AccountVerificationController@verify');
-
-$router->set404(function () {
-    http_response_code(404);
-    $response = new Response();
-    $response->render('errors/404');
-});
+$router->get("/verify-email/{token}", '\Creativolab\App\Http\Controllers\Auth\UserVerificationController@verify');
 
 $router->get('/alex', function(){
     $link = 'www.google.com';
@@ -37,7 +36,7 @@ $router->get('/alex', function(){
         [
             'eccLevel' => QRCode::ECC_M,
             'outputType' => QRCode::OUTPUT_IMAGE_PNG,
-            'version' => 5,
+            'version' => 5
         ]
     );
     $qr = (new QRCode($options))->render($link);
@@ -56,7 +55,7 @@ $router->get('/alex', function(){
     echo $image;
 
     // Estructura de la carpeta deseada
-    $estructura = __DIR__ . '/../storage/accounts/fernandodefez/';
+    $estructura = __DIR__ . '/../storage/users/fernandodefez/';
 
     // Para crear una estructura anidada se debe especificar
     // el parámetro $recursive en mkdir().
@@ -78,14 +77,10 @@ $router->get('/alex', function(){
 
 });
 
-$router->get('/user_not_verified', function (){
+$router->set404(function () {
+    http_response_code(404);
     $response = new Response();
-    $response->render('auth/user_not_verified');
-});
-
-$router->get('/user_verified', function (){
-    $response = new Response();
-    $response->render('auth/user_verified');
+    $response->render('errors/404');
 });
 
 $router->run();

@@ -6,7 +6,7 @@ use Creativolab\App\Mail;
 use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\PHPMailer;
 
-class AccountVerification implements Mail {
+class UserVerification implements Mail {
 
     private array $attributes;
     private string $template;

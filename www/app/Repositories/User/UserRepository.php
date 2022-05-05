@@ -71,6 +71,32 @@ class UserRepository implements UserRepositoryInterface {
         );
     }
 
+    public function getUserById(int $id)
+    {
+        $sql = "
+        SELECT * FROM users WHERE id = :id
+        ";
+        $stmt = $this->db->connect()->prepare($sql);
+        $stmt->execute(['id' => $id]);
+        $user = $stmt->fetchAll();
+        foreach ($user as $row) {
+
+        }
+        return new User(
+            $row['id'],
+            $row['first_name'],
+            $row['middle_name'],
+            $row['first_lastname'],
+            $row['second_lastname'],
+            $row['email'],
+            $row['password'],
+            $row['cellphone_number'],
+            $row['token'],
+            $row['verified'],
+            $row['template']
+        );
+    }
+
     public function getUserByEmail(string $email) : User
     {
         $sql = "
@@ -94,6 +120,20 @@ class UserRepository implements UserRepositoryInterface {
             $row['token'],
             $row['verified'],
             $row['template']
+        );
+    }
+
+    public function verify(string $token) {
+        $sql = "
+        UPDATE users 
+        SET verified = ? 
+        WHERE token = ?
+        ";
+        $this->db->connect()->prepare($sql)->execute(
+            [
+                1,
+                $token
+            ]
         );
     }
 }

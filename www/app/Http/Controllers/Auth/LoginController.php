@@ -2,6 +2,7 @@
 
 namespace Creativolab\App\Http\Controllers\Auth;
 
+use Creativolab\App\Auth;
 use Creativolab\App\Http\Controllers\Controller;
 use Creativolab\App\Repositories\User\UserRepository;
 
@@ -14,10 +15,10 @@ class LoginController extends Controller {
 
    public function index()
    {
-       if (isset($_SESSION['user_id'])) {
-           header('Location: '. $_ENV['APP_URL'] . '/dashboard');
+       if (!Auth::user()) {
+           $this->render('auth/login');
        }
-       $this->render('auth/login');
+       header('Location: '. $_ENV['APP_URL'] . '/dashboard');
    }
 
    public function login()
@@ -48,8 +49,19 @@ class LoginController extends Controller {
            $passwordError = "Este campo es obligatorio";
        } else {
            if (password_verify($password, $user->getHashedPassword())) {
-               $_SESSION['user_id'] = $user->getId();
-               header('Location: '. $_ENV['APP_URL'] . '/dashboard');
+               if ($user->isVerified() == 1) {
+                   $_SESSION['user_id'] = $user->getId();
+                   header('Location: '. $_ENV['APP_URL'] . '/dashboard');
+
+               } else if ($user->isVerified() == 0) {
+                   $this->render('auth/user_not_verified',
+                       array(
+                           "email" => $user->getEmail()
+                       )
+                   );
+               } else {
+                   $this->render('errors/404');
+               }
            } else {
                $passwordError = "Contraseña no válida";
            }

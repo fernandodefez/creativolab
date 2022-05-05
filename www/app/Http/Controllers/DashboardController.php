@@ -2,6 +2,9 @@
 
 namespace Creativolab\App\Http\Controllers;
 
+use Creativolab\App\Auth;
+use Creativolab\App\Repositories\User\UserRepository;
+
 class DashboardController extends Controller {
 
    public function __construct()
@@ -11,10 +14,15 @@ class DashboardController extends Controller {
 
    public function index()
    {
-      if (isset($_SESSION['user_id'])) {
-         $this->render('dashboard/dashboard', array($_SESSION['user']));
-      } else {
-         header('Location: '. $_ENV['APP_URL'] . '/login');
-      }
+       if (!Auth::user()) {
+           header('Location: '. $_ENV['APP_URL'] . '/login');
+       }
+
+       $id = $_SESSION['user_id'];
+       $userRepository = new UserRepository();
+       $user = $userRepository->getUserById($id);
+       $this->render('dashboard/dashboard', array(
+           "user" => $user
+       ));
    }
 }

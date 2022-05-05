@@ -20,19 +20,18 @@
 
 </head>
 
-<body class="bg-gradient-primary">
+<body class="bg-white">
 
    <div class="container">
 
-      <div class="card o-hidden border-0 shadow-lg my-5">
+      <div class="card o-hidden border-0 my-5">
          <div class="card-body p-0">
             <!-- Nested Row within Card Body -->
             <div class="row">
-               <div class="col-lg-5 d-none d-lg-block bg-register-image"></div>
-               <div class="col-lg-7">
-                  <div class="p-5">
+               <div class="col-lg-9 col-xl-7 col-md-11 col-12 mx-auto">
+                  <div class="p-2 p-md-4 p-lg-5">
                      <div class="text-center">
-                        <h1 class="h4 text-gray-900 mb-4">Crear una cuenta</h1>
+                        <h1 class="h4 text-gray-900 mb-5">Crear una cuenta</h1>
                      </div>
                      <form class="user" action="/register" method="POST">
                         <div class="form-group row mb-0">

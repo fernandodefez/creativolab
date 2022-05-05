@@ -2,9 +2,10 @@
 
 namespace Creativolab\App\Http\Controllers\Auth;
 
+use Creativolab\App\Auth;
 use Creativolab\App\Http\Controllers\Controller;
 use Creativolab\App\Models\User;
-use Creativolab\App\Notifications\AccountVerification;
+use Creativolab\App\Notifications\UserVerification;
 use Creativolab\App\Repositories\User\UserRepository;
 use PHPMailer\PHPMailer\Exception;
 use Ramsey\Uuid\Uuid;
@@ -18,8 +19,11 @@ class RegisterController extends Controller {
 
    public function index()
    {
-      $this->render('auth/register');
-      exit();
+       if (!Auth::user()) {
+           $this->render('auth/register');
+           exit();
+       }
+       header('Location: '. $_ENV['APP_URL'] . '/login');
    }
 
    public function store()
@@ -152,7 +156,7 @@ class RegisterController extends Controller {
               $userRepository = new UserRepository();
               $userRepository->create($user);
               // TODO: send a email to $user->email
-              $sendAccountVerificationEmail = new AccountVerification( array(
+              $sendAccountVerificationEmail = new UserVerification( array(
                   "email"       =>      $email,
                   "name"        =>      $firstName,
                   "lastname"    =>      $firstLastname,
