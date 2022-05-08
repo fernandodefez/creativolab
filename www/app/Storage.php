@@ -11,7 +11,7 @@ class Storage {
      * @param string folder
      *
     */
-    public static function store($folder)
+    public static function store($folder): void
     {
         $path= $_SERVER['DOCUMENT_ROOT'] . "/storage/users/". $folder;
 

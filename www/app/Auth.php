@@ -6,7 +6,7 @@ class Auth {
 
     /**
      * Performs the user's authentication
-     * @return bool whether the user is logged in or logged out
+     * @return bool whether the user is logged in or not
     */
     public static function user() :bool
     {

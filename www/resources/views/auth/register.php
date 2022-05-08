@@ -160,7 +160,16 @@
                            </div>
                         </div>
                          <div class="form-group row mb-0">
-                             <div class="col-sm-12 mb-4 mb-sm-3">
+                             <div class="col-3 mb-4 mb-sm-3">
+                                 <label for="exampleTemplateSelect">Código</label>
+                                 <select name="template" id="exampleTemplateSelect" class="custom-select form-control col-12">
+                                     <option value="52">52</option>
+                                     <option value="1">1</option>
+                                     <option value="595">595</option>
+                                     <option value="34">34</option>
+                                 </select>
+                             </div>
+                             <div class="col-9 mb-4 mb-sm-3">
                                  <label for="exampleInputCellPhone">Número celular</label>
                                  <input type="text" class="form-control
                            <?php
@@ -228,7 +237,7 @@
                            </div>
                         </div>
                         <div class="form-group mb-4">
-                            <label for="exampleTemplateSelect">Seleccionar plantilla</label>
+                            <label for="exampleTemplateSelect">Selecciona tu profesión</label>
                             <select name="template" id="exampleTemplateSelect" class="custom-select form-control col-12
                            <?php
                            if (
@@ -241,14 +250,14 @@
                               echo '';
                            }
                            ?>">
-                                <option value="0">Selecciona una plantilla</option>
+                                <option value="0">Selecciona tu profesión</option>
                                 <option value="1"
                                   <?php
                                   if (isset($data) && isset($data['template_value']) && $data['template_value'] == 1) {
                                     echo "selected";
                                   }
                                   ?>
-                                >Template 1
+                                >Agente inmobiliario
                                 </option>
                                 <option value="2"
                                     <?php
@@ -256,7 +265,7 @@
                                         echo "selected";
                                     }
                                     ?>
-                                >Template 2
+                                >Diseñador
                                 </option>
                                 <option value="3"
                                     <?php
@@ -264,7 +273,7 @@
                                         echo "selected";
                                     }
                                     ?>
-                                >Template 3
+                                >Ejecutivo
                                 </option>
                            </select>
                            <?php
