@@ -2,7 +2,8 @@
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
     <!-- Sidebar - Brand -->
-    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+    <a class="sidebar-brand d-flex align-items-center justify-content-center"
+       href="<?php echo $_ENV['APP_URL'] . '/dashboard'?>">
         <div class="sidebar-brand-icon rotate-n-15">
             <i class="fas fa-laugh-wink"></i>
         </div>
@@ -22,7 +23,7 @@
     ">
         <a class="nav-link" href="<?php echo $_ENV['APP_URL'] . '/dashboard'?>">
             <i class="fas fa-fw fa-tachometer-alt"></i>
-            <span>Inicio</span></a>
+            <span>Dashboard</span></a>
     </li>
 
     <!-- Divider -->
@@ -30,21 +31,58 @@
 
     <!-- Heading -->
     <div class="sidebar-heading">
-        Cuenta
+        Perfil
     </div>
 
     <!-- Nav Item - Pages Collapse Menu -->
-    <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTwo"
-        aria-expanded="true" aria-controls="collapseTwo">
-            <i class="fas fa-fw fa-cog"></i>
-            <span>Mi cuenta</span>
+    <li class="nav-item
+    <?php
+    if ($_SERVER['REQUEST_URI'] === "/profile/personal-data") {
+        echo "active";
+    }
+    if ($_SERVER['REQUEST_URI'] === "/profile/about-me") {
+        echo "active";
+    }
+    ?>
+    ">
+        <a class="nav-link
+        <?php
+        if ($_SERVER['REQUEST_URI'] === "/profile/personal-data" || $_SERVER['REQUEST_URI'] === "/profile/about-me") {
+            echo "";
+        } else {
+            echo "collapsed";
+        }
+        ?>
+        " href="" data-toggle="collapse" data-target="#collapseTwo"
+        aria-expanded="false" aria-controls="collapseTwo">
+            <i class="fas fa-fw fa-user"></i>
+            <span>Mi perfil</span>
         </a>
-        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+        <div id="collapseTwo" class="collapse
+        <?php
+        if ($_SERVER['REQUEST_URI'] === "/profile/personal-data" || $_SERVER['REQUEST_URI'] === "/profile/about-me") {
+            echo "show";
+        } else {
+            echo "";
+        }
+        ?>
+        " aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <h6 class="collapse-header">Mi cuenta:</h6>
-                <a class="collapse-item" href="datos_personales.html">Datos personales</a>
-                <a class="collapse-item" href="about_me.html">Sobre mi</a>
+                <a class="collapse-item
+                <?php
+                if ($_SERVER['REQUEST_URI'] === "/profile/personal-data") {
+                    echo "active";
+                }?>
+                "
+                   href="<?php echo $_ENV['APP_URL'] . '/profile/personal-data'?>">Datos personales</a>
+                <a class="collapse-item
+                <?php
+                if ($_SERVER['REQUEST_URI'] === "/profile/about-me") {
+                    echo "active";
+                }
+                ?>
+                ?>"
+                   href="<?php echo $_ENV['APP_URL'] . '/profile/about-me'?>">Sobre mi</a>
             </div>
         </div>
     </li>
@@ -53,7 +91,7 @@
     <hr class="sidebar-divider">
 
     <!-- Heading -->
-    <div class="sidebar-heading">
+    <div class="sidebar-heading modules">
         Módulos
     </div>
 
@@ -74,12 +112,12 @@
     <!-- Nav Item - Tables -->
     <li class="nav-item
     <?php
-    if ($_SERVER['REQUEST_URI'] === "/dashboard/education") {
+    if ($_SERVER['REQUEST_URI'] === "/education") {
         echo "active";
     }
     ?>
     ">
-        <a class="nav-link" href="<?php echo $_ENV['APP_URL'] . '/dashboard/education'?>">
+        <a class="nav-link" href="<?php echo $_ENV['APP_URL'] . '/education'?>">
             <i class="fas fa-fw fa-graduation-cap"></i>
             <span>Educación</span></a>
     </li>

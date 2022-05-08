@@ -17,8 +17,9 @@ class LoginController extends Controller {
    {
        if (!Auth::user()) {
            $this->render('auth/login');
+       } else {
+           header('Location: '. $_ENV['APP_URL'] . '/dashboard');
        }
-       header('Location: '. $_ENV['APP_URL'] . '/dashboard');
    }
 
    public function login()

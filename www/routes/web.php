@@ -1,8 +1,8 @@
 <?php
 
 use Creativolab\App\Http\Response;
-use chillerlan\QRCode\QRCode;
-use chillerlan\QRCode\QROptions;
+use Creativolab\App\Auth;
+use Creativolab\App\Repositories\User\UserRepository;
 
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../');
 $dotenv->load();
@@ -13,12 +13,19 @@ $router = new Bramus\Router\Router();
 
 $router->get("/", '\Creativolab\App\Http\Controllers\HomeController@index');
 
-$router->get("/dashboard", '\Creativolab\App\Http\Controllers\DashboardController@index');
-$router->get("/dashboard/education", '\Creativolab\App\Http\Controllers\EducationController@index');
+$router->mount('/dashboard', function () use ($router) {
+    $router->get("", '\Creativolab\App\Http\Controllers\DashboardController@index');
+});
 
+$router->mount("/education", function () use ($router) {
+    $router->get("", '\Creativolab\App\Http\Controllers\EducationController@index');
+});
 
-$router->get("/r", '\Creativolab\App\Http\Controllers\TestController@index');
-$router->get("/r/1", '\Creativolab\App\Http\Controllers\TestController@route');
+$router->mount("/profile", function () use ($router) {
+    $router->get("/personal-data", '\Creativolab\App\Http\Controllers\PersonalDataController@index');
+    $router->get("/about-me", '\Creativolab\App\Http\Controllers\AboutMeController@index');
+});
+
 
 $router->get("/login", '\Creativolab\App\Http\Controllers\Auth\LoginController@index');
 $router->post("/login", '\Creativolab\App\Http\Controllers\Auth\LoginController@login');
@@ -30,57 +37,21 @@ $router->post("/register", '\Creativolab\App\Http\Controllers\Auth\RegisterContr
 
 $router->get("/verify-email/{token}", '\Creativolab\App\Http\Controllers\Auth\UserVerificationController@verify');
 
-$router->get('/alex', function(){
-    $link = 'www.google.com';
-    $options = new QROptions(
-        [
-            'eccLevel' => QRCode::ECC_M,
-            'outputType' => QRCode::OUTPUT_IMAGE_PNG,
-            'version' => 5
-        ]
-    );
-    $qr = (new QRCode($options))->render($link);
-
-    echo "<img src=' ".  $qr ."' alt=''>";
-
-    //Create an Imagick object
-    $image = new Imagick($qr);
-
-    //header('Content-type: image/jpeg');
-
-    // Use blurImage function
-    $image->blurImage(7, 3);
-
-    // Display the output image
-    echo $image;
-
-    // Estructura de la carpeta deseada
-    $estructura = __DIR__ . '/../storage/users/fernandodefez/';
-
-    // Para crear una estructura anidada se debe especificar
-    // el parámetro $recursive en mkdir().
-
-    $array = pathinfo($image);
-    $filename = $array['filename'];
-    $ext = $array['extension'];
-
-    $targetFileExtension = __DIR__ . '/../storage/'. '.' .$ext;
-    move_uploaded_file($image, $targetFileExtension);
-
-    $hash = md5(Date('Ymdgi').$filename) . '.' .$ext;
-
-    echo $hash;
-
-    if(!mkdir($estructura, 0777, true)) {
-        echo 'Fallo al crear las carpetas...';
-    }
-
-});
+$router->get('/preview', '\Creativolab\App\Http\Controllers\Templates\RealEstateController@index');
 
 $router->set404(function () {
-    http_response_code(404);
     $response = new Response();
-    $response->render('errors/404');
+    if (Auth::user()) {
+        $id = $_SESSION['user_id'];
+        $userRepository = new UserRepository();
+        $user = $userRepository->getUserById($id);
+        $response->render('panel/404', array(
+            "user" => $user
+        ));
+    } else {
+        $response->render('errors/404');
+    }
+    http_response_code(404);
 });
 
 $router->run();

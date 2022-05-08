@@ -21,7 +21,7 @@ class DashboardController extends Controller {
        $id = $_SESSION['user_id'];
        $userRepository = new UserRepository();
        $user = $userRepository->getUserById($id);
-       $this->render('dashboard/dashboard', array(
+       $this->render('panel/dashboard', array(
            "user" => $user
        ));
    }

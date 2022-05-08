@@ -5,7 +5,7 @@ namespace Creativolab\App\Http\Controllers;
 use Creativolab\App\Auth;
 use Creativolab\App\Repositories\User\UserRepository;
 
-class EducationController extends Controller {
+class AboutMeController extends Controller {
 
     public function __construct()
     {
@@ -21,7 +21,7 @@ class EducationController extends Controller {
         $id = $_SESSION['user_id'];
         $userRepository = new UserRepository();
         $user = $userRepository->getUserById($id);
-        $this->render('panel/education', array(
+        $this->render('panel/about-me', array(
             "user" => $user
         ));
     }

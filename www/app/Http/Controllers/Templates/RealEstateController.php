@@ -1,11 +1,12 @@
 <?php
 
-namespace Creativolab\App\Http\Controllers;
+namespace Creativolab\App\Http\Controllers\Templates;
 
 use Creativolab\App\Auth;
 use Creativolab\App\Repositories\User\UserRepository;
+use Creativolab\App\Http\Controllers\Controller;
 
-class EducationController extends Controller {
+class RealEstateController extends Controller {
 
     public function __construct()
     {
@@ -21,7 +22,7 @@ class EducationController extends Controller {
         $id = $_SESSION['user_id'];
         $userRepository = new UserRepository();
         $user = $userRepository->getUserById($id);
-        $this->render('panel/education', array(
+        $this->render('templates/realestate/index', array(
             "user" => $user
         ));
     }

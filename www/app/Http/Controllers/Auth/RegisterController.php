@@ -6,7 +6,9 @@ use Creativolab\App\Auth;
 use Creativolab\App\Http\Controllers\Controller;
 use Creativolab\App\Models\User;
 use Creativolab\App\Notifications\UserVerification;
+use Creativolab\App\QRCodeBuilder;
 use Creativolab\App\Repositories\User\UserRepository;
+use Creativolab\App\Storage;
 use PHPMailer\PHPMailer\Exception;
 use Ramsey\Uuid\Uuid;
 
@@ -122,7 +124,7 @@ class RegisterController extends Controller {
           "email_error"               =>      $emailError,
           "password_error"            =>      $passwordError,
           "repeated_password_error"   =>      $repeatedPasswordError,
-          "cell_phone_error"          =>       $cellPhoneError,
+          "cell_phone_error"          =>      $cellPhoneError,
           "template_error"            =>      $templateError
       );
 
@@ -138,7 +140,7 @@ class RegisterController extends Controller {
          empty($templateError)
       ) {
           try {
-              $token = Uuid::uuid4();
+              $token = base64_encode(random_bytes(64));
               $user = new User(
                   -1,
                   $firstName,
@@ -153,9 +155,13 @@ class RegisterController extends Controller {
                   $template
               );
 
+              #$token = Uuid::uuid();
+
+              // Store the user
               $userRepository = new UserRepository();
               $userRepository->create($user);
-              // TODO: send a email to $user->email
+
+              // Send message so the user can verify their account
               $sendAccountVerificationEmail = new UserVerification( array(
                   "email"       =>      $email,
                   "name"        =>      $firstName,
@@ -164,9 +170,21 @@ class RegisterController extends Controller {
               ));
               $sendAccountVerificationEmail->send();
 
+              // Create user's folder to store all their data such as qr, images, etc...
+              $folder = strtolower(
+                  $firstName .
+                  $middleName .
+                  $firstLastname .
+                  $secondLastname
+              );
+
+              Storage::store($folder);
+
+              // Render a qr code within the user's folder previously created
+              QRCodeBuilder::build("www.google.com", $folder);
+
+
               header('Location: '. $_ENV['APP_URL'] . '/login');
-              // TODO: generate qrcode
-              // TODO: create directory with the name of the user
           } catch (Exception $exception) {
               echo $exception;
           }

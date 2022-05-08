@@ -4,6 +4,10 @@ namespace Creativolab\App;
 
 class Auth {
 
+    /**
+     * Performs the user's authentication
+     * @return bool whether the user is logged in or logged out
+    */
     public static function user() :bool
     {
         if (isset($_SESSION['user_id'])) {
