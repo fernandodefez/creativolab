@@ -3,6 +3,7 @@
 namespace Creativolab\App\Http\Controllers;
 
 use Creativolab\App\Auth;
+use Creativolab\App\Repositories\Profession\ProfessionRepository;
 use Creativolab\App\Repositories\User\UserRepository;
 
 class DashboardController extends Controller {
@@ -21,8 +22,15 @@ class DashboardController extends Controller {
        $id = $_SESSION['user_id'];
        $userRepository = new UserRepository();
        $user = $userRepository->getUserById($id);
+
+       $professionRepository = new ProfessionRepository();
+       $profession = $professionRepository->getProfessionByUserId($user);
+
+       $user->setProfession($profession);
+
        $this->render('panel/dashboard', array(
-           "user" => $user
+           "user"        =>  $user,
+           "profession"  =>  $profession
        ));
    }
 }

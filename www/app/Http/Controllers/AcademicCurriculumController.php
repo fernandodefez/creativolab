@@ -3,9 +3,10 @@
 namespace Creativolab\App\Http\Controllers;
 
 use Creativolab\App\Auth;
+use Creativolab\App\Repositories\Profession\ProfessionRepository;
 use Creativolab\App\Repositories\User\UserRepository;
 
-class EducationController extends Controller {
+class AcademicCurriculumController extends Controller {
 
     public function __construct()
     {
@@ -21,8 +22,15 @@ class EducationController extends Controller {
         $id = $_SESSION['user_id'];
         $userRepository = new UserRepository();
         $user = $userRepository->getUserById($id);
-        $this->render('panel/education', array(
-            "user" => $user
+
+        $professionRepository = new ProfessionRepository();
+        $profession = $professionRepository->getProfessionByUserId($user);
+
+        $user->setProfession($profession);
+
+        $this->render('panel/academic-curriculum', array(
+            "user"        =>  $user,
+            "profession"  =>  $profession
         ));
     }
 }

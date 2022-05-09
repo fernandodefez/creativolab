@@ -17,13 +17,22 @@ $router->mount('/dashboard', function () use ($router) {
     $router->get("", '\Creativolab\App\Http\Controllers\DashboardController@index');
 });
 
-$router->mount("/education", function () use ($router) {
-    $router->get("", '\Creativolab\App\Http\Controllers\EducationController@index');
-});
-
 $router->mount("/profile", function () use ($router) {
     $router->get("/personal-data", '\Creativolab\App\Http\Controllers\PersonalDataController@index');
     $router->get("/about-me", '\Creativolab\App\Http\Controllers\AboutMeController@index');
+});
+
+$router->mount("/module", function () use ($router) {
+    $router->get("/skills", '\Creativolab\App\Http\Controllers\SkillController@index');
+    $router->post("/skills", '\Creativolab\App\Http\Controllers\SkillController@index');
+
+    $router->get("/languages", '\Creativolab\App\Http\Controllers\LanguageController@index');
+    $router->post("/languages", '\Creativolab\App\Http\Controllers\LanguageController@index');
+
+    $router->get("/academic-curriculum", '\Creativolab\App\Http\Controllers\AcademicCurriculumController@index');
+
+    $router->get("/experience", '\Creativolab\App\Http\Controllers\LanguageController@index');
+    $router->post("/experience", '\Creativolab\App\Http\Controllers\LanguageController@index');
 });
 
 
@@ -37,7 +46,8 @@ $router->post("/register", '\Creativolab\App\Http\Controllers\Auth\RegisterContr
 
 $router->get("/verify-email/{token}", '\Creativolab\App\Http\Controllers\Auth\UserVerificationController@verify');
 
-$router->get('/preview', '\Creativolab\App\Http\Controllers\Templates\RealEstateController@index');
+$router->get('/preview', '\Creativolab\App\Http\Controllers\TemplatePreviewController@index');
+
 
 $router->set404(function () {
     $response = new Response();

@@ -6,15 +6,18 @@ class Profession {
 
     private int $id;
     private string $profession;
+    private string $template;
 
     /**
      * @param int $id
      * @param string $profession
+     * @param string $template
      */
-    public function __construct(int $id, string $profession)
+    public function __construct(int $id = 0, string $profession = "", string $template = "")
     {
         $this->id = $id;
         $this->profession = $profession;
+        $this->template = $template;
     }
 
     /**
@@ -47,5 +50,21 @@ class Profession {
     public function setProfession(string $profession): void
     {
         $this->profession = $profession;
+    }
+
+    /**
+     * @return string
+     */
+    public function getTemplate(): string
+    {
+        return $this->template;
+    }
+
+    /**
+     * @param string $template
+     */
+    public function setTemplate(string $template): void
+    {
+        $this->template = $template;
     }
 }

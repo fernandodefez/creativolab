@@ -4,6 +4,7 @@ namespace Creativolab\App\Http\Controllers\Auth;
 
 use Creativolab\App\Auth;
 use Creativolab\App\Http\Controllers\Controller;
+use Creativolab\App\Models\User;
 use Creativolab\App\Repositories\User\UserRepository;
 
 class LoginController extends Controller {
@@ -40,8 +41,8 @@ class LoginController extends Controller {
        } else if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
            $emailError = "Correo no válido";
        } else {
-           if ($user->getEmail() == null) {
-               $emailError = "No existe cuenta con este correo";
+           if (!($user->getId() > 0)) {
+               $emailError = "No encontramos una cuenta con este correo";
            }
        }
 
@@ -49,22 +50,19 @@ class LoginController extends Controller {
        if (empty($password)) {
            $passwordError = "Este campo es obligatorio";
        } else {
-           if (password_verify($password, $user->getHashedPassword())) {
-               if ($user->isVerified() == 1) {
-                   $_SESSION['user_id'] = $user->getId();
-                   header('Location: '. $_ENV['APP_URL'] . '/profile/personal-data');
-
-               } else if ($user->isVerified() == 0) {
-                   $this->render('auth/user_not_verified',
-                       array(
-                           "email" => $user->getEmail()
-                       )
-                   );
+           if ($user->getId() > 0) {
+               if (password_verify($password, $user->getPassword())) {
+                   if ($user->isVerified() === true) {
+                       $_SESSION['user_id'] = $user->getId();
+                       header('Location: '. $_ENV['APP_URL'] . '/profile/personal-data');
+                   } else if ($user->isVerified() === false) {
+                       $this->render('auth/user_not_verified', array("email" => $user->getEmail()));
+                   } else {
+                       $this->render('errors/404');
+                   }
                } else {
-                   $this->render('errors/404');
+                   $passwordError = "La contraseña es incorrecta";
                }
-           } else {
-               $passwordError = "Contraseña no válida";
            }
        }
 

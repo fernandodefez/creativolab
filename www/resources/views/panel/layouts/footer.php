@@ -14,3 +14,39 @@
 <!-- Page level custom scripts -->
 <script src="/assets/js/demo/chart-area-demo.js"></script>
 <script src="/assets/js/demo/chart-pie-demo.js"></script>
+
+<script>
+    $(document).ready(function() {
+        console.log(localStorage.getItem("product-tour-is-active") === null ? "nulo" : "no nulo");
+        if (localStorage.getItem("product-tour-is-active") === null) {
+            $("#tourToggleArea").html("" +
+                "<button class='btn btn-danger btn-sm font-weight-bold' role='button' id='tourToggleOff'>"
+                + " Desactivar guía " +
+                "</button>");
+        } else if (localStorage.getItem("product-tour-is-active") === "false"){
+            $("#tourToggleArea").html("" +
+                "<button class='btn btn-success btn-sm font-weight-bold' role='button' id='tourToggleOn'>"
+                + " Activar guía " +
+                "</button>");
+        } else {
+            $("#tourToggleArea").html("" +
+                "<button class='btn btn-danger btn-sm font-weight-bold' role='button' id='tourToggleOff'>"
+                + " Desactivar guía " +
+                "</button>");
+        }
+
+        $("#tourToggleOff").click(function() {
+            $("#tourToggleOff").hide();
+            $("#tourToggleOn").show();
+            localStorage.setItem('product-tour-is-active', "false");
+            location.reload();
+        });
+        $("#tourToggleOn").click(function() {
+            $("#tourToggleOn").hide();
+            $("#tourToggleOff").show();
+            localStorage.setItem('product-tour-is-active', "true");
+            location.reload();
+        });
+    });
+
+</script>

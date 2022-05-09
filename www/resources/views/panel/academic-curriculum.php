@@ -20,6 +20,9 @@
     <!-- Custom styles for this template-->
     <link href="/assets/css/sb-admin-2.min.css" rel="stylesheet">
 
+    <!-- Product Tour JavaScript Library --->
+    <link href="/assets/vendor/product-tour/lib.css" rel="stylesheet">
+
     <!-- Toogle -->
     <link href="/assets/css/toggle.css" rel="stylesheet">
 
@@ -45,8 +48,8 @@
 
                 <!-- Page Heading -->
                 <div class="px-1 d-flex justify-content-between">
-                    <h1 class="h3 mb-4 text-gray-800 px-2 font-weight-bold">Educación</h1>
-                    <div class="">
+                    <h1 class="h3 mb-4 text-gray-800 px-2 font-weight-bold module">Curriculum Académico</h1>
+                    <div class="enable-module-toggle">
                         <label class="toggle" data-bs-toggle="tooltip" data-bs-placement="bottom"
                                title="Show module">
                             <input type="checkbox" checked>
@@ -64,8 +67,8 @@
                 <div class="row p-0 m-0">
 
                     <div class="col-12 mb-4">
-                        <p class="text-gray-900 mb-4">Agregar niveles educativos</p>
-                        <form>
+                        <p class="text-gray-900 mb-4">Agregar nivel educativo</p>
+                        <form class="module-fields">
                             <div class="form-row">
                                 <div class="form-group col-md-3">
                                     <label for="inputState">Nivel escolar</label>
@@ -107,7 +110,9 @@
                                           id="exampleFormControlTextarea1" rows="3"></textarea>
                             </div>
                             <div class="d-flex justify-content-end">
-                                <button type="submit" class="btn btn-primary">Agregar</button>
+                                <button type="submit" class="btn btn-primary font-weight-bold">
+                                    Agregar
+                                </button>
                             </div>
                         </form>
                     </div>
@@ -117,11 +122,11 @@
                     <div class="col-12 d-flex flex-column flex-lg-row p-0 justify-content-around">
 
                         <!-- Area Chart -->
-                        <div class="col-xl-12 col-lg-12">
-                            <div class="card shadow mb-4">
+                        <div class="col-xl-12 col-lg-12 module-content">
+                            <div class="card mb-4">
                                 <!-- Card Header - Dropdown -->
                                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                                    <h6 class="m-0 font-weight-bold text-primary">Earnings Overview</h6>
+                                    <h6 class="m-0 font-weight-bold text-primary">Niveles educativos</h6>
                                     <div class="dropdown no-arrow">
                                         <a class="dropdown-toggle" href="#" role="button" id="dropdownMenuLink"
                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -194,6 +199,75 @@
     </div>
 
     <?php include __DIR__ . "/layouts/footer.php" ?>
+
+    <!--- Product Tour Library JavaScript -->
+    <script src="/assets/vendor/product-tour/lib.js"></script>
+
+    <script>
+        console.log("Hola");
+        let isActive = localStorage.getItem('product-tour-is-active');
+
+        if (isActive === "true") {
+            let tourOptions = {
+                options: {
+                    darkLayerPersistence: true,
+                    next: 'Next',
+                    prev: 'Previous',
+                    finish: 'Okay!',
+                    mobileThreshold: 768
+                },
+                tips: [
+                    {
+                        title: 'Módulo',
+                        description: 'Este es el nombre del módulo',
+                        selector: '.module',
+                        x: 50,
+                        y: 50,
+                        offx: 0,
+                        offy: 0,
+                        position: 'bottom',
+                        onSelected: false
+                    },
+                    {
+                        title: 'Campos del módulo',
+                        description: 'Estos son los campos que debes llenar para poder crear un contenido',
+                        selector: '.module-fields',
+                        x: 50,
+                        y: 50,
+                        offx: 0,
+                        offy: 0,
+                        position: 'top',
+                        onSelected: false
+                    },
+                    {
+                        title: 'Contenido de los módulos',
+                        description: 'En esta parte se muestra el contenido creado',
+                        selector: '.module-content',
+                        x: 50,
+                        y: 50,
+                        offx: 0,
+                        offy: 0,
+                        position: 'top',
+                        onSelected: false
+                    }, {
+                        title: 'Habilitar módulo',
+                        description: 'El contenido de los este módulo se mostrara en tu plantilla en función de si está habilitada o desabilitada',
+                        selector: '.enable-module-toggle',
+                        x: 50,
+                        y: 30,
+                        offx: -10,
+                        offy: 0,
+                        position: 'left',
+                        onSelected: false
+                    }
+                ]
+            };
+
+            ProductTourJS.init(tourOptions);
+            ProductTourJS.start();
+        }
+
+    </script>
 
 </body>
 

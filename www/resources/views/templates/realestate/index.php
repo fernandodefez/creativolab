@@ -1,10 +1,17 @@
+<?php
+if (isset($data)) { ?>
+
 <!DOCTYPE html>
 <html lang="en-US">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Creative CV</title>
+    <title>
+        <?php
+            echo $data['user']->getFirstName() . " " . $data['user']->getFirstLastname();
+        ?>
+    </title>
     <meta name="description" content="Creative CV is a HTML resume template for professionals. Built with Bootstrap 4, Now UI Kit and FontAwesome, this modern and responsive design template is perfect to showcase your portfolio, skils and experience."/>
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700,200" rel="stylesheet">
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css" rel="stylesheet">
@@ -17,16 +24,41 @@
     <div class="profile-page sidebar-collapse">
         <nav class="navbar navbar-expand-lg fixed-top navbar-transparent bg-primary" color-on-scroll="400">
             <div class="container">
-                <div class="navbar-translate"><a class="navbar-brand" href="#" rel="tooltip">Creative CV</a>
+                <div class="navbar-translate">
+                    <a class="navbar-brand" href="#" rel="tooltip">
+                        <!-- Creative CV -->
+                    </a>
                     <button class="navbar-toggler navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-bar bar1"></span><span class="navbar-toggler-bar bar2"></span><span class="navbar-toggler-bar bar3"></span></button>
                 </div>
                 <div class="collapse navbar-collapse justify-content-end" id="navigation">
                     <ul class="navbar-nav">
-                        <li class="nav-item"><a class="nav-link smooth-scroll" href="#about">About</a></li>
-                        <li class="nav-item"><a class="nav-link smooth-scroll" href="#skill">Skills</a></li>
-                        <li class="nav-item"><a class="nav-link smooth-scroll" href="#portfolio">Portfolio</a></li>
-                        <li class="nav-item"><a class="nav-link smooth-scroll" href="#experience">Experience</a></li>
-                        <li class="nav-item"><a class="nav-link smooth-scroll" href="#contact">Contact</a></li>
+                        <li class="nav-item">
+                            <a class="nav-link smooth-scroll" href="#about">
+                                About
+                            </a>
+                        </li>
+                        <!--
+                        <li class="nav-item"><a class="nav-link smooth-scroll" href="#skill">
+                                 Skills
+                            </a>
+                        </li>
+                        --->
+                        <li class="nav-item">
+                            <a class="nav-link smooth-scroll" href="#portfolio">
+                                Portfolio
+                            </a>
+                        </li>
+                        <!---
+                        <li class="nav-item">
+                            <a class="nav-link smooth-scroll" href="#experience">
+                                Experience
+                            </a>
+                        </li> --->
+                        <li class="nav-item">
+                            <a class="nav-link smooth-scroll" href="#contact">
+                                Contact
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -45,8 +77,19 @@
                             <div class="h2 title">
                                 <?php
                                     echo $data['user']->getFirstName() . " " . $data['user']->getFirstLastname();
-                                ?></div>
-                            <p class="category text-white">Web Developer, Graphic Designer,  Photographer</p><a class="btn btn-primary smooth-scroll mr-2" href="#contact" data-aos="zoom-in" data-aos-anchor="data-aos-anchor">Hire Me</a><a class="btn btn-primary" href="#" data-aos="zoom-in" data-aos-anchor="data-aos-anchor">Download CV</a>
+                                ?>
+                            </div>
+                            <p class="category text-white">
+                                <?php
+                                    echo $data['profession']->getProfession();
+                                ?>
+                            </p>
+                            <a class="btn btn-primary smooth-scroll mr-2" href="#contact" data-aos="zoom-in" data-aos-anchor="data-aos-anchor">
+                                Hire Me
+                            </a>
+                            <a class="btn btn-primary" href="#" data-aos="zoom-in" data-aos-anchor="data-aos-anchor">
+                                Download CV
+                            </a>
                         </div>
                     </div>
                     <div class="section">
@@ -81,7 +124,11 @@
                                 </div>
                                 <div class="row mt-3">
                                     <div class="col-sm-4"><strong class="text-uppercase">Phone:</strong></div>
-                                    <div class="col-sm-8">+1718-111-0011</div>
+                                    <div class="col-sm-8">
+                                        <?php
+                                            echo "+" . $data['user']->getCode() . " " . $data['user']->getPhoneNumber();
+                                        ?>
+                                    </div>
                                 </div>
                                 <div class="row mt-3">
                                     <div class="col-sm-4"><strong class="text-uppercase">Address:</strong></div>
@@ -91,6 +138,9 @@
                                     <div class="col-sm-4"><strong class="text-uppercase">Language:</strong></div>
                                     <div class="col-sm-8">English, German, French</div>
                                 </div>
+                            </div>
+                            <div class="row p-3">
+                                <img src="<?php echo "/storage/users/". $data['user']->getFolder() ."/". $data['user']->getQr() . ".png"; ?>" alt="">
                             </div>
                         </div>
                     </div>
@@ -514,7 +564,11 @@
 </div>
 <footer class="footer">
     <div class="container text-center"><a class="cc-facebook btn btn-link" href="#"><i class="fa fa-facebook fa-2x " aria-hidden="true"></i></a><a class="cc-twitter btn btn-link " href="#"><i class="fa fa-twitter fa-2x " aria-hidden="true"></i></a><a class="cc-google-plus btn btn-link" href="#"><i class="fa fa-google-plus fa-2x" aria-hidden="true"></i></a><a class="cc-instagram btn btn-link" href="#"><i class="fa fa-instagram fa-2x " aria-hidden="true"></i></a></div>
-    <div class="h4 title text-center">Anthony Barnett</div>
+    <div class="h4 title text-center">
+        <?php
+        echo $data['user']->getFirstName() . " " . $data['user']->getFirstLastname();
+        ?>
+    </div>
     <div class="text-center text-muted">
         <p>&copy; Creative CV. All rights reserved.<br>Design - <a class="credit" href="https://templateflip.com" target="_blank">TemplateFlip</a></p>
     </div>
@@ -527,3 +581,7 @@
 <script src="/assets/templates/realestate/scripts/main.js"></script>
 </body>
 </html>
+
+<?php
+}
+?>

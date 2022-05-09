@@ -8,15 +8,15 @@ use Creativolab\App\Repositories\User\UserRepository;
 
 class UserVerificationController extends Controller
 {
-    public function verify($token)
+    public function verify(string $token)
     {
         $userRepository = new UserRepository();
-        $user = $userRepository->getUserByToken($token);
+        $user = $userRepository->getUserByVerificationToken($token);
         $response = new Response();
-        if ($user->isVerified() === 0) {
-            $userRepository->verify($token);
-            $response->render('auth/user_verified');
-        } else if ($user->isVerified() === 1){
+        if (!empty($user) && $user->getId() > 0) {
+            if (!$user->isVerified()) {
+                $userRepository->verifyUser($token);
+            }
             $response->render('auth/user_verified');
         } else {
             $response->render('errors/404');

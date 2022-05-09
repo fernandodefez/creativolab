@@ -45,6 +45,8 @@
                     <h1 class="h3 mb-4 text-gray-800 px-2 font-weight-bold">Datos personales</h1>
                 </div>
 
+                <?php var_dump($data);?>
+
                 <!-- Content Row -->
                 <div class="row p-0 m-0">
 
@@ -83,10 +85,10 @@
                                 <div class="form-group col-md-4">
                                     <label>Número celular</label>
                                     <input class="form-control" type="text"
-                                           readonly value="<?php echo $data['user']->getCellPhoneNumber(); ?>">
+                                           readonly value="<?php echo $data['user']->getPhoneNumber(); ?>">
                                 </div>
                                 <div class="form-group col-md-4">
-                                    <label>Número celular</label>
+                                    <label>Número telefónico</label>
                                     <input class="form-control" type="text" value="">
                                 </div>
                             </div>

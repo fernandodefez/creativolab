@@ -96,51 +96,46 @@
     </div>
 
     <!-- Nav Item - Charts -->
-    <li class="nav-item">
-        <a class="nav-link" href="charts.html">
+    <li class="nav-item <?php if ($_SERVER['REQUEST_URI'] === "/module/skills") { echo "active"; } ?>">
+        <a class="nav-link" href="<?php echo $_ENV['APP_URL'] . '/module/skills'?>">
             <i class="fas fa-fw fa-hand-scissors"></i>
-            <span>Habilidades</span></a>
+            <span>Mis Habilidades</span>
+        </a>
     </li>
 
     <!-- Nav Item - Charts -->
-    <li class="nav-item">
-        <a class="nav-link" href="charts.html">
+    <li class="nav-item <?php if ($_SERVER['REQUEST_URI'] === "/module/languages") { echo "active"; } ?>">
+        <a class="nav-link" href="<?php echo $_ENV['APP_URL'] . '/module/languages'?>">
             <i class="fas fa-fw fa-globe"></i>
-            <span>Idiomas</span></a>
+            <span>Mis Idiomas</span></a>
     </li>
 
     <!-- Nav Item - Tables -->
-    <li class="nav-item
-    <?php
-    if ($_SERVER['REQUEST_URI'] === "/education") {
-        echo "active";
-    }
-    ?>
-    ">
-        <a class="nav-link" href="<?php echo $_ENV['APP_URL'] . '/education'?>">
+    <li class="nav-item <?php if ($_SERVER['REQUEST_URI'] === "/module/academic-curriculum") { echo "active"; } ?>">
+        <a class="nav-link" href="<?php echo $_ENV['APP_URL'] . '/module/academic-curriculum'?>">
             <i class="fas fa-fw fa-graduation-cap"></i>
-            <span>Educación</span></a>
+            <span>Curriculum Académico</span></a>
     </li>
 
     <!-- Nav Item - Tables -->
-    <li class="nav-item">
-        <a class="nav-link" href="tables.html">
+    <li class="nav-item <?php if ($_SERVER['REQUEST_URI'] === "/module/experiences") { echo "active"; } ?>">
+        <a class="nav-link" href="<?php echo $_ENV['APP_URL'] . '/module/experiences'?>">
             <i class="fas fa-fw fa-book"></i>
-            <span>Experiencia</span></a>
+            <span>Mis Experiencias</span></a>
     </li>
 
     <!-- Nav Item - Tables -->
-    <li class="nav-item">
-        <a class="nav-link" href="tables.html">
+    <li class="nav-item <?php if ($_SERVER['REQUEST_URI'] === "/module/portfolio") { echo "active"; } ?>">
+        <a class="nav-link" href="<?php echo $_ENV['APP_URL'] . '/module/portfolio'?>">
             <i class="fas fa-fw fa-briefcase"></i>
-            <span>Portafolio</span></a>
+            <span>Mi Portafolio</span></a>
     </li>
 
     <!-- Nav Item - Tables -->
-    <li class="nav-item">
-        <a class="nav-link" href="tables.html">
+    <li class="nav-item <?php if ($_SERVER['REQUEST_URI'] === "/module/testimonials") { echo "active"; } ?>">
+        <a class="nav-link" href="<?php echo $_ENV['APP_URL'] . '/module/testimonials'?>">
             <i class="fas fa-fw fa-users"></i>
-            <span>Testimonios</span></a>
+            <span>Mis Testimonios</span></a>
     </li>
 
     <!-- Nav Item - Pages Collapse Menu

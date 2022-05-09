@@ -20,6 +20,7 @@
     <!-- Custom styles for this template-->
     <link href="/assets/css/sb-admin-2.min.css" rel="stylesheet">
 
+    <!-- Product Tour JavaScript Library --->
     <link href="/assets/vendor/product-tour/lib.css" rel="stylesheet">
 
 </head>
@@ -248,8 +249,7 @@
     <script src="/assets/vendor/product-tour/lib.js"></script>
     <script>
 
-        localStorage.setItem('product-tour-is-active', "true");
-        var isActive = localStorage.getItem('product-tour-is-active');
+        let isActive = localStorage.getItem('product-tour-is-active');
 
         if (isActive === "true") {
             let tourOptions = {
@@ -291,7 +291,6 @@
             ProductTourJS.init(tourOptions);
             ProductTourJS.start();
         }
-
 
     </script>
 

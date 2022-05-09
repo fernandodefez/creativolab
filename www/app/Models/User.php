@@ -2,229 +2,369 @@
 
 namespace Creativolab\App\Models;
 
-class User {
+class User
+{
 
-    private $id;
-    private $firstName;
-    private $middleName;
-    private $firstLastname;
-    private $secondLastname;
-    private $email;
-    private $hashedPassword;
-    #private $telephoneNumber;
-    private $cellphoneNumber;
-    #private $age;
+    private int $id;
+    private string $firstName;
+    private string $middleName;
+    private string $firstLastname;
+    private string $secondLastname;
+    private string $email;
+    private string $password;
+    private string $confirmedPassword;
+    private int $age;
+    private string $code;
+    private string $phoneNumber;
     #private $address;
     #private $lang;
-    #private $thumbnail;
-    #private $logo;
-    #private $qr;
-    private $token;
-    private $isVerified;
-    private $template;
+    private string $folder;
+    private string $thumbnail;
+    private string $logo;
+    private string $qr;
+    private string $verificationToken;
+    private bool $isVerified;
+
+    private bool $isAcademicCurriculumEnabled;
+    private bool $isTestimonialsEnabled;
+    private bool $isSkillsEnabled;
+
+    private Profession $profession;
 
     /**
-     * @param $id
-     * @param $firstName
-     * @param $middleName
-     * @param $firstLastname
-     * @param $secondLastname
-     * @param $email
-     * @param $hashedPassword
-     * @param $cellphoneNumber
-     * @param $token
-     * @param $isVerified
-     * @param $template
+     * @return int
      */
-    public function __construct($id = -1, $firstName, $middleName, $firstLastname, $secondLastname, $email, $hashedPassword, $cellphoneNumber, $token, $isVerified, $template)
-    {
-        $this->id                   =       $id;
-        $this->firstName            =       $firstName;
-        $this->middleName           =       $middleName;
-        $this->firstLastname        =       $firstLastname;
-        $this->secondLastname       =       $secondLastname;
-        $this->email                =       $email;
-        $this->hashedPassword       =       $hashedPassword;
-        $this->cellphoneNumber      =       $cellphoneNumber;
-        $this->token                =       $token;
-        $this->isVerified           =       $isVerified;
-        $this->template             =       $template;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
 
     /**
-     * @param mixed $id
+     * @param int $id
      */
-    public function setId($id): void
+    public function setId(int $id): void
     {
         $this->id = $id;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getFirstName()
+    public function getFirstName(): string
     {
         return $this->firstName;
     }
 
     /**
-     * @param mixed $firstName
+     * @param string $firstName
      */
-    public function setFirstName($firstName): void
+    public function setFirstName(string $firstName): void
     {
         $this->firstName = $firstName;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getMiddleName()
+    public function getMiddleName(): string
     {
         return $this->middleName;
     }
 
     /**
-     * @param mixed $middleName
+     * @param string $middleName
      */
-    public function setMiddleName($middleName): void
+    public function setMiddleName(string $middleName): void
     {
         $this->middleName = $middleName;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getFirstLastname()
+    public function getFirstLastname(): string
     {
         return $this->firstLastname;
     }
 
     /**
-     * @param mixed $firstLastname
+     * @param string $firstLastname
      */
-    public function setFirstLastname($firstLastname): void
+    public function setFirstLastname(string $firstLastname): void
     {
         $this->firstLastname = $firstLastname;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getSecondLastname()
+    public function getSecondLastname(): string
     {
         return $this->secondLastname;
     }
 
     /**
-     * @param mixed $secondLastname
+     * @param string $secondLastname
      */
-    public function setSecondLastname($secondLastname): void
+    public function setSecondLastname(string $secondLastname): void
     {
         $this->secondLastname = $secondLastname;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getEmail()
+    public function getEmail(): string
     {
         return $this->email;
     }
 
     /**
-     * @param mixed $email
+     * @param string $email
      */
-    public function setEmail($email): void
+    public function setEmail(string $email): void
     {
         $this->email = $email;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getHashedPassword()
+    public function getPassword(): string
     {
-        return $this->hashedPassword;
+        return $this->password;
     }
 
     /**
-     * @param mixed $hashedPassword
+     * @param string $password
      */
-    public function setHashedPassword($hashedPassword): void
+    public function setPassword(string $password): void
     {
-        $this->hashedPassword = $hashedPassword;
+        $this->password = $password;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function getCellphoneNumber()
+    public function getConfirmedPassword(): string
     {
-        return $this->cellphoneNumber;
+        return $this->confirmedPassword;
     }
 
     /**
-     * @param mixed $cellphoneNumber
+     * @param string $confirmedPassword
      */
-    public function setCellphoneNumber($cellphoneNumber): void
+    public function setConfirmedPassword(string $confirmedPassword): void
     {
-        $this->cellphoneNumber = $cellphoneNumber;
+        $this->confirmedPassword = $confirmedPassword;
     }
 
     /**
-     * @return mixed
+     * @return int
      */
-    public function getToken()
+    public function getAge(): int
     {
-        return $this->token;
+        return $this->age;
     }
 
     /**
-     * @param mixed $token
+     * @param int $age
      */
-    public function setToken($token): void
+    public function setAge(int $age): void
     {
-        $this->token = $token;
+        $this->age = $age;
     }
 
     /**
-     * @return mixed
+     * @return string
      */
-    public function isVerified()
+    public function getCode(): string
+    {
+        return $this->code;
+    }
+
+    /**
+     * @param string $code
+     */
+    public function setCode(string $code): void
+    {
+        $this->code = $code;
+    }
+
+    /**
+     * @return string
+     */
+    public function getPhoneNumber(): string
+    {
+        return $this->phoneNumber;
+    }
+
+    /**
+     * @param string $phoneNumber
+     */
+    public function setPhoneNumber(string $phoneNumber): void
+    {
+        $this->phoneNumber = $phoneNumber;
+    }
+
+    /**
+     * @return string
+     */
+    public function getFolder(): string
+    {
+        return $this->folder;
+    }
+
+    /**
+     * @param string $folder
+     */
+    public function setFolder(string $folder): void
+    {
+        $this->folder = $folder;
+    }
+
+    /**
+     * @return string
+     */
+    public function getThumbnail(): string
+    {
+        return $this->thumbnail;
+    }
+
+    /**
+     * @param string $thumbnail
+     */
+    public function setThumbnail(string $thumbnail): void
+    {
+        $this->thumbnail = $thumbnail;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLogo(): string
+    {
+        return $this->logo;
+    }
+
+    /**
+     * @param string $logo
+     */
+    public function setLogo(string $logo): void
+    {
+        $this->logo = $logo;
+    }
+
+    /**
+     * @return string
+     */
+    public function getQr(): string
+    {
+        return $this->qr;
+    }
+
+    /**
+     * @param string $qr
+     */
+    public function setQr(string $qr): void
+    {
+        $this->qr = $qr;
+    }
+
+    /**
+     * @return string
+     */
+    public function getVerificationToken(): string
+    {
+        return $this->verificationToken;
+    }
+
+    /**
+     * @param string $verificationToken
+     */
+    public function setVerificationToken(string $verificationToken): void
+    {
+        $this->verificationToken = $verificationToken;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isVerified(): bool
     {
         return $this->isVerified;
     }
 
     /**
-     * @param mixed $isVerified
+     * @param bool $isVerified
      */
-    public function setIsVerified($isVerified): void
+    public function setIsVerified(bool $isVerified): void
     {
         $this->isVerified = $isVerified;
     }
 
     /**
-     * @return mixed
+     * @return bool
      */
-    public function getTemplate()
+    public function isAcademicCurriculumEnabled(): bool
     {
-        return $this->template;
+        return $this->isAcademicCurriculumEnabled;
     }
 
     /**
-     * @param mixed $template
+     * @param bool $isAcademicCurriculumEnabled
      */
-    public function setTemplate($template): void
+    public function setIsAcademicCurriculumEnabled(bool $isAcademicCurriculumEnabled): void
     {
-        $this->template = $template;
+        $this->isAcademicCurriculumEnabled = $isAcademicCurriculumEnabled;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isTestimonialsEnabled(): bool
+    {
+        return $this->isTestimonialsEnabled;
+    }
+
+    /**
+     * @param bool $isTestimonialsEnabled
+     */
+    public function setIsTestimonialsEnabled(bool $isTestimonialsEnabled): void
+    {
+        $this->isTestimonialsEnabled = $isTestimonialsEnabled;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isSkillsEnabled(): bool
+    {
+        return $this->isSkillsEnabled;
+    }
+
+    /**
+     * @param bool $isSkillsEnabled
+     */
+    public function setIsSkillsEnabled(bool $isSkillsEnabled): void
+    {
+        $this->isSkillsEnabled = $isSkillsEnabled;
+    }
+
+    /**
+     * @return Profession
+     */
+    public function getProfession(): Profession
+    {
+        return $this->profession;
+    }
+
+    /**
+     * @param Profession $profession
+     */
+    public function setProfession(Profession $profession): void
+    {
+        $this->profession = $profession;
     }
 
 }

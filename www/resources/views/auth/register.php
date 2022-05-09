@@ -3,20 +3,20 @@
 
 <head>
 
-   <meta charset="utf-8">
-   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-   <meta name="description" content="">
-   <meta name="author" content="">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
 
-   <title>Crear cuenta</title>
+    <title>Crear cuenta</title>
 
-   <!-- Custom fonts for this template-->
-   <link href="/assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-   <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+    <!-- Custom fonts for this template-->
+    <link href="/assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
-   <!-- Custom styles for this template-->
-   <link href="/assets/css/sb-admin-2.min.css" rel="stylesheet">
+    <!-- Custom styles for this template-->
+    <link href="/assets/css/sb-admin-2.min.css" rel="stylesheet">
 
 </head>
 
@@ -53,7 +53,7 @@
                                        echo "value='" . $data['first_name_value'] . "' ";
                                     }
                                     ?>
-                                                                     id="FirstName" placeholder="Primer nombre" name="firstName">
+                                      id="FirstName" placeholder="Primer nombre" name="firstName">
                               <?php
                               if (isset($errors) && isset($errors['first_name_error'])) {
                                  echo "<div class='invalid-feedback'>" . $errors["first_name_error"] . "</div>";
@@ -133,6 +133,86 @@
                               ?>
                            </div>
                         </div>
+                         <div class="form-group row mb-0">
+                             <div class="col-3 mb-4 mb-sm-3">
+                                 <label for="exampleCodeSelect">Código</label>
+                                 <select name="code" id="exampleCodeSelect" class="custom-select form-control col-12
+                                     <?php
+                                     if (
+                                         isset($errors) &&
+                                         isset($errors['code_error']) &&
+                                         !empty($errors['code_error'])
+                                     ) {
+                                         echo 'is-invalid';
+                                     } else {
+                                         echo '';
+                                     }
+                                     ?>">
+                                     <option value="0">Código</option>
+                                     <option value="52"
+                                         <?php
+                                         if (isset($data) && isset($data['code_value']) && $data['code_value'] == "52") {
+                                             echo "selected";
+                                         }
+                                         ?>
+                                     >+52
+                                     </option>
+                                     <option value="1"
+                                         <?php
+                                         if (isset($data) && isset($data['code_value']) && $data['code_value'] == "1") {
+                                             echo "selected";
+                                         }
+                                         ?>
+                                     >+1
+                                     </option>
+                                     <option value="34"
+                                         <?php
+                                         if (isset($data) && isset($data['code_value']) && $data['code_value'] == "34") {
+                                             echo "selected";
+                                         }
+                                         ?>
+                                     >+34
+                                     </option>
+                                     <option value="595"
+                                         <?php
+                                         if (isset($data) && isset($data['code_value']) && $data['code_value'] == "595") {
+                                             echo "selected";
+                                         }
+                                         ?>
+                                     >+595
+                                     </option>
+                                 </select>
+                                 <?php
+                                 if (isset($errors) && isset($errors['code_error'])) {
+                                     echo "<div class='invalid-feedback'>" . $errors['code_error'] . "</div>";
+                                 }
+                                 ?>
+                             </div>
+                             <div class="col-9 mb-4 mb-sm-3">
+                                 <label for="exampleInputPhoneNumber">Número de teléfono</label>
+                                 <input type="text" class="form-control
+                           <?php
+                                 if (
+                                     isset($errors) &&
+                                     isset($errors['phone_number_error']) &&
+                                     !empty($errors['phone_number_error'])
+                                 ) {
+                                     echo 'is-invalid';
+                                 } else {
+                                     echo '';
+                                 }
+                                 ?>" <?php
+                                 if (isset($data) && isset($data['phone_number_value'])) {
+                                     echo "value='" . $data['phone_number_value'] . "'";
+                                 }
+                                 ?> id="exampleInputPhoneNumber" placeholder="Número celular" name="phoneNumber">
+                                 <?php
+                                 if (isset($errors) && isset($errors['phone_number_error'])) {
+                                     echo "<div class='invalid-feedback'>" . $errors['phone_number_error'] . "</div>";
+                                 }
+                                 ?>
+                             </div>
+                         </div>
                         <div class="form-group row mb-0">
                            <div class="col-sm-12 mb-4 mb-sm-3">
                                <label for="exampleInputEmail">Correo electrónico</label>
@@ -159,41 +239,6 @@
                               ?>
                            </div>
                         </div>
-                         <div class="form-group row mb-0">
-                             <div class="col-3 mb-4 mb-sm-3">
-                                 <label for="exampleTemplateSelect">Código</label>
-                                 <select name="template" id="exampleTemplateSelect" class="custom-select form-control col-12">
-                                     <option value="52">52</option>
-                                     <option value="1">1</option>
-                                     <option value="595">595</option>
-                                     <option value="34">34</option>
-                                 </select>
-                             </div>
-                             <div class="col-9 mb-4 mb-sm-3">
-                                 <label for="exampleInputCellPhone">Número celular</label>
-                                 <input type="text" class="form-control
-                           <?php
-                                 if (
-                                     isset($errors) &&
-                                     isset($errors['cell_phone_error']) &&
-                                     !empty($errors['cell_phone_error'])
-                                 ) {
-                                     echo 'is-invalid';
-                                 } else {
-                                     echo '';
-                                 }
-                                 ?>" <?php
-                                 if (isset($data) && isset($data['cell_phone_value'])) {
-                                     echo "value='" . $data['cell_phone_value'] . "'";
-                                 }
-                                 ?> id="exampleInputCellPhone" placeholder="Número celular" name="cellPhone">
-                                 <?php
-                                 if (isset($errors) && isset($errors['cell_phone_error'])) {
-                                     echo "<div class='invalid-feedback'>" . $errors['cell_phone_error'] . "</div>";
-                                 }
-                                 ?>
-                             </div>
-                         </div>
                         <div class="form-group row mb-0">
                            <div class="col-sm-6 mb-4 mb-sm-3">
                                <label for="exampleInputPassword">Contraseña</label>
@@ -216,34 +261,34 @@
                               ?>
                            </div>
                            <div class="col-sm-6 mb-4 mb-sm-3">
-                               <label for="exampleRepeatPassword">Confirmar contraseña</label>
+                               <label for="exampleConfirmedPassword">Confirmar contraseña</label>
                                <input type="password" class="form-control
                               <?php
                               if (
                                  isset($errors) &&
-                                 isset($errors['repeated_password_error']) &&
-                                 !empty($errors['repeated_password_error'])
+                                 isset($errors['confirmed_password_error']) &&
+                                 !empty($errors['confirmed_password_error'])
                               ) {
                                  echo 'is-invalid';
                               } else {
                                  echo '';
                               }
-                              ?>" id="exampleRepeatPassword" placeholder="Confirmar contraseña" name="repeatedPassword">
+                              ?>" id="exampleConfirmedPassword" placeholder="Confirmar contraseña" name="confirmedPassword">
                               <?php
-                              if (isset($errors) && isset($errors['repeated_password_error'])) {
-                                 echo "<div class='invalid-feedback'>" . $errors['repeated_password_error'] . "</div>";
+                              if (isset($errors) && isset($errors['confirmed_password_error'])) {
+                                 echo "<div class='invalid-feedback'>" . $errors['confirmed_password_error'] . "</div>";
                               }
                               ?>
                            </div>
                         </div>
                         <div class="form-group mb-4">
-                            <label for="exampleTemplateSelect">Selecciona tu profesión</label>
-                            <select name="template" id="exampleTemplateSelect" class="custom-select form-control col-12
+                            <label for="exampleProfessionSelect">Selecciona tu profesión</label>
+                            <select name="profession" id="exampleTemplateSelect" class="custom-select form-control col-12
                            <?php
                            if (
                               isset($errors) &&
-                              isset($errors['template_error']) &&
-                              !empty($errors['template_error'])
+                              isset($errors['profession_error']) &&
+                              !empty($errors['profession_error'])
                            ) {
                               echo 'is-invalid';
                            } else {
@@ -253,39 +298,39 @@
                                 <option value="0">Selecciona tu profesión</option>
                                 <option value="1"
                                   <?php
-                                  if (isset($data) && isset($data['template_value']) && $data['template_value'] == 1) {
+                                  if (isset($data) && isset($data['profession_value']) && $data['profession_value'] == 1) {
                                     echo "selected";
                                   }
                                   ?>
-                                >Agente inmobiliario
+                                > Agente inmobiliario
                                 </option>
                                 <option value="2"
                                     <?php
-                                    if (isset($data) && isset($data['template_value']) && $data['template_value'] == 2) {
+                                    if (isset($data) && isset($data['profession_value']) && $data['profession_value'] == 2) {
                                         echo "selected";
                                     }
                                     ?>
-                                >Diseñador
+                                > Diseñador
                                 </option>
                                 <option value="3"
                                     <?php
-                                    if (isset($data) && isset($data['template_value']) && $data['template_value'] == 3) {
+                                    if (isset($data) && isset($data['profession_value']) && $data['profession_value'] == 3) {
                                         echo "selected";
                                     }
                                     ?>
-                                >Ejecutivo
+                                > Ejecutivo
                                 </option>
                            </select>
                            <?php
-                           if (isset($errors) && isset($errors['template_error'])) {
-                              echo "<div class='invalid-feedback'>" . $errors['template_error'] . "</div>";
+                           if (isset($errors) && isset($errors['profession_error'])) {
+                              echo "<div class='invalid-feedback'>" . $errors['profession_error'] . "</div>";
                            }
                            ?>
                         </div>
                         <button href="/register" class="btn btn-primary btn-block font-weight-bold">
                            Crear cuenta
                         </button>
-                        <!---
+                        <!--
                         <hr>
                         <a href="index.html" class="btn btn-google btn-user btn-block">
                            <i class="fab fa-google fa-fw"></i> Register with Google

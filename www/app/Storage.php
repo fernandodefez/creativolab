@@ -6,12 +6,12 @@ class Storage {
 
 
     /**
-     * Performs the storage within the storage root folder
+     * Performs the creation of the user's folder within storage folder.
      *
      * @param string folder
      *
     */
-    public static function store($folder): void
+    public static function createFolder($folder): void
     {
         $path= $_SERVER['DOCUMENT_ROOT'] . "/storage/users/". $folder;
 

@@ -5,8 +5,9 @@ namespace Creativolab\App\Http\Controllers;
 use Creativolab\App\Auth;
 use Creativolab\App\Repositories\Profession\ProfessionRepository;
 use Creativolab\App\Repositories\User\UserRepository;
+use Creativolab\App\Http\Controllers\Controller;
 
-class PersonalDataController extends Controller {
+class TemplatePreviewController extends Controller {
 
     public function __construct()
     {
@@ -28,9 +29,11 @@ class PersonalDataController extends Controller {
 
         $user->setProfession($profession);
 
-        $this->render('panel/personal-data', array(
-            "user"        =>  $user,
-            "profession"  =>  $profession
-        ));
+        $this->render('templates/' . $user->getProfession()->getTemplate() . '/index',
+            array(
+                "user"        =>  $user,
+                "profession"  =>  $profession
+            )
+        );
     }
 }
