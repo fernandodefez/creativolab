@@ -24,9 +24,9 @@ class PersonalDataController extends Controller {
         $user = $userRepository->getUserById($id);
 
         $professionRepository = new ProfessionRepository();
-        $profession = $professionRepository->getProfessionByUserId($user);
+        $profession = $professionRepository->getProfessionByUser($user);
 
-        $user->setProfession($profession);
+        $user->setProfession($profession->getId());
 
         $this->render('panel/personal-data', array(
             "user"        =>  $user,

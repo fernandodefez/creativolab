@@ -3,9 +3,9 @@
 namespace Creativolab\App\Http\Controllers;
 
 use Creativolab\App\Auth;
+use Creativolab\App\Repositories\Education\EducationRepository;
 use Creativolab\App\Repositories\Profession\ProfessionRepository;
 use Creativolab\App\Repositories\User\UserRepository;
-use Creativolab\App\Http\Controllers\Controller;
 
 class TemplatePreviewController extends Controller {
 
@@ -25,14 +25,17 @@ class TemplatePreviewController extends Controller {
         $user = $userRepository->getUserById($id);
 
         $professionRepository = new ProfessionRepository();
-        $profession = $professionRepository->getProfessionByUserId($user);
+        $profession = $professionRepository->getProfessionByUser($user);
 
-        $user->setProfession($profession);
+        $educationRepository = new EducationRepository();
+        $degrees = $educationRepository->findAll($user);
 
-        $this->render('templates/' . $user->getProfession()->getTemplate() . '/index',
+
+        $this->render('templates/' . $profession->getTemplate() . '/index',
             array(
                 "user"        =>  $user,
-                "profession"  =>  $profession
+                "profession"  =>  $profession,
+                "degrees"     =>  $degrees
             )
         );
     }

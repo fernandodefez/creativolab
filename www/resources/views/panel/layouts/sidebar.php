@@ -111,10 +111,10 @@
     </li>
 
     <!-- Nav Item - Tables -->
-    <li class="nav-item <?php if ($_SERVER['REQUEST_URI'] === "/module/academic-curriculum") { echo "active"; } ?>">
-        <a class="nav-link" href="<?php echo $_ENV['APP_URL'] . '/module/academic-curriculum'?>">
+    <li class="nav-item <?php if ($_SERVER['REQUEST_URI'] === "/module/education") { echo "active"; } ?>">
+        <a class="nav-link" href="<?php echo $_ENV['APP_URL'] . '/module/education'?>">
             <i class="fas fa-fw fa-graduation-cap"></i>
-            <span>Curriculum Académico</span></a>
+            <span>Mi educación</span></a>
     </li>
 
     <!-- Nav Item - Tables -->

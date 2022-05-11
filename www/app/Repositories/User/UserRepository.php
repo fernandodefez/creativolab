@@ -51,7 +51,7 @@ class UserRepository implements UserRepositoryInterface {
                 $user->getFolder(),
                 $user->getQr(),
                 $user->getVerificationToken(),
-                $user->getProfession()->getId()
+                $user->getProfession()
             ]
         );
         return true;
@@ -91,10 +91,10 @@ class UserRepository implements UserRepositoryInterface {
             $user->setQr($row['qr'] ? $row['qr'] : '');
             $user->setVerificationToken($row['verification_token']);
             $user->setIsVerified($row['verified']);
-            $user->setIsAcademicCurriculumEnabled($row['academic_curriculum_enabled']);
+            $user->setIsEducationEnabled($row['education_enabled']);
             $user->setIsTestimonialsEnabled($row['testimonials_enabled']);
             $user->setIsSkillsEnabled($row['skills_enabled']);
-            $user->setProfession(new Profession($row['profession_id_fk']));
+            $user->setProfession($row['profession_id_fk']);
         } else {
             $user->setId(-1);
         }

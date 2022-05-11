@@ -53,7 +53,7 @@ class RegisterController extends Controller {
        $user->setConfirmedPassword((is_string($confirmedPassword)) ? $confirmedPassword : "");
        $user->setCode((is_numeric($code)) ? $code : 0);
        $user->setPhoneNumber((is_string($phoneNumber)) ? $phoneNumber : "");
-       $user->setProfession(new Profession((is_numeric($profession)) ? $profession : 0));
+       $user->setProfession(is_numeric($profession) ? $profession : 0);
 
        $values = array(
            "first_name_value"            =>       $user->getFirstName(),
@@ -63,7 +63,7 @@ class RegisterController extends Controller {
            "email_value"                 =>       $user->getEmail(),
            "code_value"                  =>       $user->getCode(),
            "phone_number_value"          =>       $user->getPhoneNumber(),
-           "profession_value"            =>       $user->getProfession()->getId()
+           "profession_value"            =>       $user->getProfession()
        );
 
        $firstNameError = "";
@@ -127,11 +127,8 @@ class RegisterController extends Controller {
        }
 
        $professionError = "";
-       if (!empty($user->getProfession()->getId())) {
-           if (!filter_var($user->getProfession()->getId(), FILTER_VALIDATE_INT)) {
-               $professionError = "Selecciona una profesión válida";
-           }
-           else if (!($user->getProfession()->getId() > 0 && $user->getProfession()->getId() < 4)) {
+       if (!$user->getProfession() == 0) {
+           if (!($user->getProfession() > 0 && $user->getProfession() < 4)) {
                $professionError = "Selecciona una profesión disponible";
            } else {
                $professionError = "";
@@ -139,7 +136,6 @@ class RegisterController extends Controller {
        } else {
            $professionError = "Este campo es obligatorio";
        }
-
 
        $errors = array(
            "first_name_error"          =>      $firstNameError,
@@ -153,6 +149,7 @@ class RegisterController extends Controller {
            "phone_number_error"        =>      $phoneNumberError,
            "profession_error"          =>      $professionError
        );
+
 
        if(!array_filter($errors)) {
            try {
@@ -174,14 +171,14 @@ class RegisterController extends Controller {
                $userRepository = new UserRepository();
                $userRepository->create($user);
 
-               // Send message so the user can verify their account
+               /* Send message so the user can verify their account
                $sendAccountVerificationEmail = new UserVerification( array(
                    "email"       =>      $user->getEmail(),
                    "name"        =>      $user->getFirstName(),
                    "lastname"    =>      $user->getFirstLastname(),
                    "token"       =>      $user->getVerificationToken()
                ));
-               $sendAccountVerificationEmail->send();
+               $sendAccountVerificationEmail->send();*/
 
                Storage::createFolder($user->getFolder());
 

@@ -24,9 +24,9 @@ class DashboardController extends Controller {
        $user = $userRepository->getUserById($id);
 
        $professionRepository = new ProfessionRepository();
-       $profession = $professionRepository->getProfessionByUserId($user);
+       $profession = $professionRepository->getProfessionByUser($user);
 
-       $user->setProfession($profession);
+       $user->setProfession($profession->getId());
 
        $this->render('panel/dashboard', array(
            "user"        =>  $user,

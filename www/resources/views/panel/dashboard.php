@@ -197,8 +197,6 @@
                 </div>
                 <!-- /.container-fluid -->
 
-
-
             </div>
             <!-- End of Main Content -->
 
@@ -218,81 +216,62 @@
     </div>
     <!-- End of Page Wrapper -->
 
-    <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="#page-top">
-        <i class="fas fa-angle-up"></i>
-    </a>
+</div>
+<!-- End of Page Wrapper -->
 
-    <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-         aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="<?php echo $_ENV['APP_URL'] . "/logout"?>">Logout</a>
-                </div>
-            </div>
-        </div>
-    </div>
+<?php include __DIR__ . "/layouts/footer.php" ?>
 
-    <?php include __DIR__ . "/layouts/footer.php" ?>
+<!-- Page level plugins -->
+<script src="/assets/vendor/chart.js/Chart.min.js"></script>
 
-    <!--- Product Tour Library JavaScript -->
-    <script src="/assets/vendor/product-tour/lib.js"></script>
-    <script>
+<!-- Page level custom scripts -->
+<script src="/assets/js/demo/chart-area-demo.js"></script>
+<script src="/assets/js/demo/chart-pie-demo.js"></script>
 
-        let isActive = localStorage.getItem('product-tour-is-active');
+<!--- Product Tour Library JavaScript -->
+<script src="/assets/vendor/product-tour/lib.js"></script>
 
-        if (isActive === "true") {
-            let tourOptions = {
+<script>
 
-                options: {
-                    darkLayerPersistence: true,
-                    next: 'Next',
-                    prev: 'Previous',
-                    finish: 'Okay!',
-                    mobileThreshold: 768
+    let isActive = localStorage.getItem('product-tour-is-active');
+    if (isActive === "true") {
+
+        let tourOptions = {
+            options: {
+                darkLayerPersistence: true,
+                next: 'Next',
+                prev: 'Previous',
+                finish: 'Okay!',
+                mobileThreshold: 768
+            },
+            tips: [
+                {
+                    title: '🤘🏼 Módulos',
+                    description: 'These are the modules where you can fill with your own information in order for them to be shown on your subdomain',
+                    selector: '.modules',
+                    x: 50,
+                    y: 50,
+                    offx: 5,
+                    offy: -5,
+                    position: 'right',
+                    onSelected: false
                 },
-
-                tips: [
-                    {
-                        title: '🤘🏼 Módulos',
-                        description: 'These are the modules where you can fill with your own information in order for them to be shown on your subdomain',
-                        selector: '.modules',
-                        x: 50,
-                        y: 50,
-                        offx: 5,
-                        offy: -5,
-                        position: 'right',
-                        onSelected: false
-                    },
-                    {
-                        title: 'Activación de guía',
-                        description: 'Puedes activar y desactivar en cualquier momento esta guía de uso',
-                        selector: '.tour',
-                        x: 50,
-                        y: 50,
-                        offx: 0,
-                        offy: 15,
-                        position: 'bottom',
-                        onSelected: false
-                    },
-                ]
-            };
-
-            ProductTourJS.init(tourOptions);
-            ProductTourJS.start();
-        }
-
-    </script>
+                {
+                    title: 'Activación de guía',
+                    description: 'Puedes activar y desactivar en cualquier momento esta guía de uso',
+                    selector: '.tour',
+                    x: 50,
+                    y: 50,
+                    offx: 0,
+                    offy: 15,
+                    position: 'bottom', onSelected: false
+                },
+            ]
+        };
+        ProductTourJS.init(tourOptions);
+        ProductTourJS.start();
+    }
+</script>
 
 </body>
 

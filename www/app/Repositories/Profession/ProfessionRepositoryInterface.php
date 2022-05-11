@@ -12,6 +12,5 @@ interface ProfessionRepositoryInterface {
      * @param User $user
      * @return Profession $profession
     */
-    public function getProfessionByUserId(User $user) : Profession;
-
+    public function getProfessionByUser(User $user) : Profession;
 }

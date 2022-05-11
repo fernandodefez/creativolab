@@ -25,11 +25,11 @@ class User
     private string $verificationToken;
     private bool $isVerified;
 
-    private bool $isAcademicCurriculumEnabled;
+    private bool $isEducationEnabled;
     private bool $isTestimonialsEnabled;
     private bool $isSkillsEnabled;
 
-    private Profession $profession;
+    private int $profession;
 
     /**
      * @return int
@@ -306,17 +306,17 @@ class User
     /**
      * @return bool
      */
-    public function isAcademicCurriculumEnabled(): bool
+    public function isEducationEnabled(): bool
     {
-        return $this->isAcademicCurriculumEnabled;
+        return $this->isEducationEnabled;
     }
 
     /**
-     * @param bool $isAcademicCurriculumEnabled
+     * @param bool $isEducationEnabled
      */
-    public function setIsAcademicCurriculumEnabled(bool $isAcademicCurriculumEnabled): void
+    public function setIsEducationEnabled(bool $isEducationEnabled): void
     {
-        $this->isAcademicCurriculumEnabled = $isAcademicCurriculumEnabled;
+        $this->isEducationEnabled = $isEducationEnabled;
     }
 
     /**
@@ -354,15 +354,15 @@ class User
     /**
      * @return Profession
      */
-    public function getProfession(): Profession
+    public function getProfession(): int
     {
         return $this->profession;
     }
 
     /**
-     * @param Profession $profession
+     * @param int $profession
      */
-    public function setProfession(Profession $profession): void
+    public function setProfession(int $profession): void
     {
         $this->profession = $profession;
     }

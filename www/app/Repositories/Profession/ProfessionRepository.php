@@ -20,13 +20,13 @@ class ProfessionRepository implements ProfessionRepositoryInterface {
      * @param User $user
      * @return Profession $profession
      */
-    public function getProfessionByUserId(User $user): Profession
+    public function getProfessionByUser(User $user): Profession
     {
         $sql = "SELECT * FROM professions WHERE id = :id";
         $stmt = $this->db->connect()->prepare($sql);
         $stmt->execute(
             [
-                'id' => $user->getProfession()->getId()
+                'id' => $user->getProfession()
             ]
         );
         $row = $stmt->fetch();

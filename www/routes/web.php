@@ -29,7 +29,11 @@ $router->mount("/module", function () use ($router) {
     $router->get("/languages", '\Creativolab\App\Http\Controllers\LanguageController@index');
     $router->post("/languages", '\Creativolab\App\Http\Controllers\LanguageController@index');
 
-    $router->get("/academic-curriculum", '\Creativolab\App\Http\Controllers\AcademicCurriculumController@index');
+    $router->get("/education", '\Creativolab\App\Http\Controllers\EducationController@index');
+    $router->get("/education/{id}", '\Creativolab\App\Http\Controllers\EducationController@show');
+    $router->post("/education", '\Creativolab\App\Http\Controllers\EducationController@store');
+    $router->delete("/education", '\Creativolab\App\Http\Controllers\EducationController@destroy');
+    $router->put("/education", '\Creativolab\App\Http\Controllers\EducationController@update');
 
     $router->get("/experience", '\Creativolab\App\Http\Controllers\LanguageController@index');
     $router->post("/experience", '\Creativolab\App\Http\Controllers\LanguageController@index');
