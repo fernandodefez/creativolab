@@ -73,7 +73,9 @@ if (isset($data)) { ?>
                     <div class="page-header-image" data-parallax="true" style="background-image: url('/assets/templates/realestate/images/cc-bg-1.jpg');"></div>
                     <div class="container">
                         <div class="content-center">
-                            <div class="cc-profile-image"><a href="#"><img src="/assets/templates/realestate/images/anthony.jpg" alt="Image"/></a></div>
+                            <div class="cc-profile-image">
+                                <a href="#"><img src="/assets/templates/realestate/images/anthony.jpg" alt="Image"/></a>
+                            </div>
                             <div class="h2 title">
                                 <?php
                                     echo $data['user']->getFirstName() . " " . $data['user']->getFirstLastname();

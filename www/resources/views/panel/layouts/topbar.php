@@ -6,17 +6,15 @@
         <i class="fa fa-bars"></i>
     </button>
 
-    <!-- Topbar Search -->
-    <div class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
-        <div class="input-group">
+    <!-- Topbar Navbar --->
+    <ul class="navbar-nav ml-auto">
+
+        <li class="nav-item d-flex align-items-center">
             <a href="<?php echo $_ENV['APP_URL'] . "/preview" ?>" class="btn btn-primary btn-sm font-weight-bold">
                 Previsualizar
             </a>
-        </div>
-    </div>
+        </li>
 
-    <!-- Topbar Navbar --->
-    <ul class="navbar-nav ml-auto">
 
         <!-- Nav Item - Search Dropdown (Visible Only XS)
         <li class="nav-item dropdown no-arrow d-sm-none">
@@ -41,11 +39,6 @@
                 </form>
             </div>
         </li> -->
-
-        <!-- Nav Item - Alerts -->
-        <li class="tour d-flex align-items-center" id="tourToggleArea">
-
-        </li>
 
         <!-- Nav Item - Alerts
         <li class="nav-item dropdown no-arrow mx-1">
@@ -168,36 +161,36 @@
         <li class="nav-item dropdown no-arrow">
             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="mr-2 d-none d-lg-inline text-gray-600 small">
-                                <?php
-                                if (isset($data)) {
-                                    echo $data['user']->getFirstName() . ' ' . $data['user']->getFirstLastname();
-                                }
-                                ?>
-                            </span>
+                <span class="mr-2 d-none d-lg-inline text-gray-700 small">
+                    <?php
+                    if (isset($data)) {
+                        echo $data['user']->getFirstName() . ' ' . $data['user']->getFirstLastname();
+                    }
+                    ?>
+                </span>
                 <!-- <img class="img-profile rounded-circle"
                      src="/storage/users/fernandodefez/juanlopez.jpg"> -->
-                <div class="img-profile rounded-circle bg-gray-700 d-flex justify-content-center align-items-center">
-                                <span class="text-gray-200 small font-weight-bold">
-                                <?php
-                                if (isset($data)) {
-                                    echo substr($data['user']->getFirstName(),0,1)  .
-                                        substr($data['user']->getFirstLastname(),0,1);
-                                }
-                                ?>
-                                </span>
+                <div class="img-profile rounded-circle bg-gray-800 d-flex justify-content-center align-items-center">
+                    <span class="text-gray-200 small font-weight-bold">
+                        <?php
+                        if (isset($data)) {
+                            echo substr($data['user']->getFirstName(),0,1)  .
+                                substr($data['user']->getFirstLastname(),0,1);
+                        }
+                        ?>
+                    </span>
                 </div>
             </a>
             <!-- Dropdown - User Information -->
             <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                  aria-labelledby="userDropdown">
                 <a class="dropdown-item" href="#">
-                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-500"></i>
-                    Account
+                    <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-700"></i>
+                    Mi cuenta
                 </a>
                 <a class="dropdown-item" href="#">
-                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-500"></i>
-                    Settings
+                    <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-700"></i>
+                    Configuración
                 </a>
                 <!--
                 <a class="dropdown-item" href="#">
@@ -205,9 +198,10 @@
                     Activity Log
                 </a> -->
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="<?php echo $_ENV['APP_URL'] . "/logout"?>" data-toggle="modal" data-target="#logoutModal">
-                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-500"></i>
-                    Logout
+                <a class="dropdown-item" href="<?php echo $_ENV['APP_URL'] . "/logout"?>"
+                   data-toggle="modal" data-target="#logoutModal">
+                    <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-700"></i>
+                    Cerrar sesión
                 </a>
             </div>
         </li>

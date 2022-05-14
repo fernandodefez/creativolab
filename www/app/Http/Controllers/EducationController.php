@@ -46,65 +46,71 @@ class EducationController extends Controller {
     */
     public function store()
     {
-        $errors = [];
-        $data = [];
+        if (Auth::user()) {
+            $errors = [];
+            $data = [];
 
-        if (empty($_POST['level'])) {
-            $errors['level'] = 'Este campos es obligatorio';
-        }
+            if (empty($_POST['level'])) {
+                $errors['level'] = 'Este campos es obligatorio';
+            }
 
-        if (empty($_POST['degree'])) {
-            $errors['degree'] = 'Este campo es obligatorio';
-        }
+            if (empty($_POST['degree'])) {
+                $errors['degree'] = 'Este campo es obligatorio';
+            }
 
-        if (empty($_POST['institute'])) {
-            $errors['institute'] = 'Este campo es obligatorio';
-        }
+            if (empty($_POST['institute'])) {
+                $errors['institute'] = 'Este campo es obligatorio';
+            }
 
-        if (empty($_POST['startedAt'])) {
-            $errors['startedAt'] = 'Este campo es obligatorio';
-        }
+            if (empty($_POST['startedAt'])) {
+                $errors['startedAt'] = 'Este campo es obligatorio';
+            }
 
-        if (empty($_POST['endedAt'])) {
-            $errors['endedAt'] = 'Este campo es obligatorio';
-        }
+            if (empty($_POST['endedAt'])) {
+                $errors['endedAt'] = 'Este campo es obligatorio';
+            }
 
-        if (empty($_POST['details'])) {
-            $errors['details'] = 'Este campo es obligatorio';
-        }
+            if (empty($_POST['details'])) {
+                $errors['details'] = 'Este campo es obligatorio';
+            }
 
-        $user = new User();
-        $user->setId($_SESSION['user_id']);
-
-        $educationRepository = new EducationRepository();
-        $degrees = $educationRepository->findAll($user);
-
-        if (count($degrees) == 3) {
-            $errors['outofbounds'] = "Solo puedes agregar hasta 3 niveles educativos";
-        }
-
-        if (!empty($errors)) {
-            $data['success'] = false;
-            $data['errors'] = $errors;
-        } else {
             $user = new User();
             $user->setId($_SESSION['user_id']);
 
-            $degree = new Education();
-            $degree->setLevel($_POST['level']);
-            $degree->setDegree($_POST['degree']);
-            $degree->setInstitute($_POST['institute']);
-            $degree->setStartedAt($_POST['startedAt']);
-            $degree->setEndedAt($_POST['endedAt']);
-            $degree->setDetails($_POST['details']);
-            $degree->setUser($user->getId());
-
-            // TODO: Store data
             $educationRepository = new EducationRepository();
-            $educationRepository->create($degree);
+            $degrees = $educationRepository->findAll($user);
 
-            $data['success'] = true;
-            $data['message'] = 'Success!';
+            if (count($degrees) == 3) {
+                $errors['outofbounds'] = "Solo puedes agregar hasta 3 niveles educativos";
+            }
+
+            if (!empty($errors)) {
+                $data['success'] = false;
+                $data['errors'] = $errors;
+            } else {
+                $user = new User();
+                $user->setId($_SESSION['user_id']);
+
+                $degree = new Education();
+                $degree->setLevel($_POST['level']);
+                $degree->setDegree($_POST['degree']);
+                $degree->setInstitute($_POST['institute']);
+                $degree->setStartedAt($_POST['startedAt']);
+                $degree->setEndedAt($_POST['endedAt']);
+                $degree->setDetails($_POST['details']);
+                $degree->setUser($user->getId());
+
+                // TODO: Store data
+                $educationRepository = new EducationRepository();
+                $educationRepository->create($degree);
+
+                $data['success'] = true;
+                $data['message'] = 'Success!';
+            }
+        } else {
+            $data['success'] = false;
+            $data['message'] = "No tienes permitido realizar esta operación";
+            http_response_code(401);
         }
         echo json_encode($data);
     }
@@ -117,34 +123,39 @@ class EducationController extends Controller {
     {
         $data = [];
         $errors = [];
-        $values = [];
-        if ($_SERVER['REQUEST_METHOD'] == "DELETE") {
-            parse_str(file_get_contents('php://input'), $content);
-            if ($content['id']) {
-                if (is_numeric($content['id'])) {
+        if (Auth::user()) {
+            if ($_SERVER['REQUEST_METHOD'] == "DELETE") {
+                parse_str(file_get_contents('php://input'), $content);
+                if ($content['id']) {
+                    if (is_numeric($content['id'])) {
 
-                    $education = new Education();
-                    $education->setId($content['id']);
+                        $education = new Education();
+                        $education->setId($content['id']);
 
-                    $educationRepository = new EducationRepository();
-                    $educationRepository->delete($education);
+                        $educationRepository = new EducationRepository();
+                        $educationRepository->delete($education);
 
+                    } else {
+                        $errors['id_not_specified'] = "Solo se permiten números.";
+                    }
                 } else {
-                    $errors['id_not_specified'] = "Solo se permiten números.";
+                    $errors['id_not_specified'] = "No se pudo remover el elemento";
                 }
             } else {
-                $errors['id_not_specified'] = "No se pudo remover el elemento";
+                $errors['request'] = "Ocurrió un error en la petición.";
+            }
+
+            if (!empty($errors)) {
+                $data['success'] = false;
+                $data['errors'] = $errors;
+            } else {
+                $data['success'] = true;
+                $data['message'] = "Success!";
             }
         } else {
-            $errors['request'] = "Ocurrió un error en la petición.";
-        }
-
-        if (!empty($errors)) {
             $data['success'] = false;
-            $data['errors'] = $errors;
-        } else {
-            $data['success'] = true;
-            $data['message'] = "Success!";
+            $data['message'] = "No tienes permitido realizar esta operación";
+            http_response_code(401);
         }
         echo json_encode($data);
     }

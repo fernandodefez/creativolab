@@ -2,9 +2,6 @@
 
 namespace Creativolab\App\Http\Controllers;
 
-use Creativolab\App\Repositories\User\UserRepository;
-use Creativolab\App\Auth;
-
 class TestController extends Controller {
 
     public function __construct()
@@ -14,7 +11,7 @@ class TestController extends Controller {
 
     public function index()
     {
-        echo "index";
+        $this->render('templates/executive/index');
     }
 
     public function test()

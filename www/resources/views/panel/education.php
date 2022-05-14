@@ -9,22 +9,22 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Educación</title>
+    <title> Educación </title>
 
     <!-- Custom fonts for this template-->
-    <link href="/assets/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link
-            href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-            rel="stylesheet">
+    <link href="/assets/core/fontawesome/css/all.min.css" rel="stylesheet" type="text/css">
+
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+          rel="stylesheet">
 
     <!-- Custom styles for this template-->
-    <link href="/assets/css/sb-admin-2.min.css" rel="stylesheet">
+    <link href="/assets/core/css/sb-admin-2.min.css" rel="stylesheet">
 
     <!-- Product Tour JavaScript Library --->
-    <link href="/assets/vendor/product-tour/lib.css" rel="stylesheet">
+    <link href="/assets/core/product-tour/lib.css" rel="stylesheet">
 
-    <!-- Toogle -->
-    <link href="/assets/css/toggle.css" rel="stylesheet">
+    <!-- Module Toogle -->
+    <link href="/assets/styles/toggle.css" rel="stylesheet">
 
 </head>
 
@@ -54,13 +54,14 @@
                     <div class="enable-module-toggle">
                         <label class="toggle" data-bs-toggle="tooltip" data-bs-placement="bottom"
                                title="Show module">
-                            <input type="checkbox"
-                                   <?php
-                                   if (isset($data) && $data['user']->isEducationEnabled()) {
-                                       echo "checked";
-                                   }
-                                   ?>
-                                   >
+                            <input 
+                                    type="checkbox"
+                                <?php 
+                                if (isset($data) && $data['user']->isEducationEnabled()) {
+                                    echo "checked";
+                                }
+                                ?>
+                            >
                             <span class="slider round"></span>
                         </label>
                     </div>
@@ -141,13 +142,13 @@
                 </div>
                 <!-- /.container-fluid -->
 
-                <div class="col-12 p-0 m-0">
+                <div class="col-12 p-0 m-0 module-content">
                     <div class="col-12 d-flex flex-wrap p-0">
                         <?php
                         if (isset($data['degrees']) && !empty($data['degrees'])) {
-                            $degress = $data['degrees'];
+                            $degrees = $data['degrees'];
 
-                            foreach ($degress as $degree) {
+                            foreach ($degrees as $degree) {
 
                         ?>
                             <div class="col-12 col-lg-6">
@@ -217,215 +218,76 @@
 
 <?php include __DIR__ . "/layouts/footer.php" ?>
 
+<script src="/assets/core/sweetalert2/sweetalert2.js"> </script>
 
-<!-- SweetAlert2 -->
-<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"> </script>
+<!-- Prueba -->
+<script type="text/javascript" src="/assets/scripts/education.js"></script>
 
 <!-- Product Tour Library JavaScript -->
-<script src="/assets/vendor/product-tour/lib.js"></script>
+<script src="/assets/core/product-tour/lib.js"></script>
 
-<!-- Form Submit -->
 <script>
-
     /**
-     * Delete Processing
+     * Product Tour JavaScript Library
      * */
-    function remove(id) {
-        $.ajax({
-            type: "DELETE",
-            url: "<?php echo $_ENV['APP_URL'] . $_SERVER['REQUEST_URI'] ?>",
-            data: { id },
-            dataType: "json",
-            encode: true,
-        }).done(function (data) {
-            if (!data.success) {
-                Swal.fire({
-                    icon: "error",
-                    title: 'Ocurrió un error al intentar eliminar el elemento',
-                    text: data.errors
-                });
-            } else {
-                Swal.fire({
-                    icon: 'success',
-                    title: 'Elemento eliminado',
-                    text: 'El elemento ha sido eliminado satisfactoriamente'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        location.reload();
-                    } else {
-                        location.reload();
-                    }
-                });
-            }
-        }).fail(function (data) {
-            Swal.fire({
-                icon: 'error',
-                title: 'Server error',
-                text: 'Ocurrió un error al intentar borrar el elemento',
-            });
-        });
-    }
+    let isActive = localStorage.getItem('product-tour-is-active');
+    if (isActive === null) {
 
-    $(document).ready(function () {
-
-        /**
-         * Product Tour JavaScript Library
-         * */
-        let isActive = localStorage.getItem('product-tour-is-active');
-
-        if (isActive === "true") {
-            let tourOptions = {
-                options: {
-                    darkLayerPersistence: true,
-                    next: 'Next',
-                    prev: 'Previous',
-                    finish: 'Okay!',
-                    mobileThreshold: 768
+        let tourOptions = {
+            options: {
+                darkLayerPersistence: true,
+                next: 'Next',
+                prev: 'Previous',
+                finish: 'Okay!',
+                mobileThreshold: 768
+            },
+            tips: [
+                {
+                    title: 'Módulo',
+                    description: 'Este es el nombre del módulo',
+                    selector: '.module',
+                    x: 50,
+                    y: 50,
+                    offx: 0,
+                    offy: 19,
+                    position: 'bottom',
+                    onSelected: false
                 },
-                tips: [
-                    {
-                        title: 'Módulo',
-                        description: 'Este es el nombre del módulo',
-                        selector: '.module',
-                        x: 50,
-                        y: 50,
-                        offx: 0,
-                        offy: 0,
-                        position: 'bottom',
-                        onSelected: false
-                    },
-                    {
-                        title: 'Campos del módulo',
-                        description: 'Estos son los campos que debes llenar para poder crear un contenido',
-                        selector: '.module-fields',
-                        x: 50,
-                        y: 50,
-                        offx: 0,
-                        offy: 0,
-                        position: 'top',
-                        onSelected: false
-                    },
-                    {
-                        title: 'Contenido de los módulos',
-                        description: 'En esta parte se muestra el contenido creado',
-                        selector: '.module-content',
-                        x: 50,
-                        y: 50,
-                        offx: 0,
-                        offy: 0,
-                        position: 'top',
-                        onSelected: false
-                    },
-                    {
-                        title: 'Habilitar módulo',
-                        description: 'El contenido de los este módulo se mostrara en tu plantilla en función de si está habilitada o desabilitada',
-                        selector: '.enable-module-toggle',
-                        x: 50,
-                        y: 30,
-                        offx: -10,
-                        offy: 0,
-                        position: 'left',
-                        onSelected: false
-                    }
-                ]
-            };
-
-            ProductTourJS.init(tourOptions);
-            ProductTourJS.start();
-        }
-
-        /**
-         * Submit Processing
-         * */
-        $("form").submit(function (event) {
-            $(".form-control").removeClass("is-invalid");
-            $(".invalid-feedback").remove();
-            let formData = {
-                level: $("#level").val(),
-                degree: $("#degree").val(),
-                institute: $("#institute").val(),
-                startedAt: $("#startedAt").val(),
-                endedAt: $("#endedAt").val(),
-                details: $("#details").val()
-            };
-
-            $.ajax({
-                type: "POST",
-                url: "<?php echo $_ENV['APP_URL'] . $_SERVER['REQUEST_URI'] ?>",
-                data: formData,
-                dataType: "json",
-                encode: true,
-            }).done(function (data) {
-                if (!data.success) {
-                    if (data.errors.outofbounds) {
-                        Swal.fire({
-                            icon: 'error',
-                            title: 'Límite alcanzado',
-                            text: data.errors.outofbounds,
-                        });
-                        return
-                    }
-                    if (data.errors.level) {
-                        $("#level").toggleClass("is-invalid");
-                        $("#level-group").append(
-                            `<div class='invalid-feedback'> ${data.errors.level} </div>`
-                        );
-                    }
-                    if (data.errors.degree) {
-                        $("#degree").toggleClass("is-invalid");
-                        $("#degree-group").append(
-                            `<div class='invalid-feedback'> ${data.errors.degree} </div>`
-                        );
-                    }
-                    if (data.errors.institute) {
-                        $("#institute").toggleClass("is-invalid");
-                        $("#institute-group").append(
-                            `<div class='invalid-feedback'> ${data.errors.institute} </div>`
-                        );
-                    }
-                    if (data.errors.startedAt) {
-                        $("#startedAt").toggleClass("is-invalid");
-                        $("#startedAt-group").append(
-                            `<div class='invalid-feedback'> ${data.errors.startedAt} </div>`
-                        );
-                    }
-                    if (data.errors.endedAt) {
-                        $("#endedAt").toggleClass("is-invalid");
-                        $("#endedAt-group").append(
-                            `<div class='invalid-feedback'> ${data.errors.endedAt} </div>`
-                        );
-                    }
-                    if (data.errors.details) {
-                        $("#details").toggleClass("is-invalid");
-                        $("#details-group").append(
-                            `<div class='invalid-feedback'> ${data.errors.details} </div>`
-                        );
-                    }
-                } else {
-                    Swal.fire({
-                        icon: 'success',
-                        title: 'Datos guardados',
-                        text: 'Tu curriculum académico has sido ampliado correctamente'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            location.reload();
-                        } else {
-                            location.reload();
-                        }
-                        $('html,body').animate({scrollTop: document.body.scrollHeight},"fast");
-                    });
+                {
+                    title: 'Habilitar sección',
+                    description: 'Esta opción te permite habilitar esta sección en tu plantilla',
+                    selector: '.enable-module-toggle',
+                    x: 50,
+                    y: 50,
+                    offx: -32,
+                    offy: -17,
+                    position: 'left', onSelected: false
+                },
+                {
+                    title: 'Campos del módulo',
+                    description: 'Aquí podrás agregar un nuevo contenido',
+                    selector: '.module-fields',
+                    x: 50,
+                    y: 50,
+                    offx: -32,
+                    offy: -17,
+                    position: 'left', onSelected: false
+                },
+                {
+                    title: 'Contenido del módulo',
+                    description: 'Aquí se muestra todo el contenido agregado',
+                    selector: '.module-content',
+                    x: 50,
+                    y: 50,
+                    offx: 0,
+                    offy: 0,
+                    position: 'left', onSelected: false
                 }
-            }).fail(function () {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Server error',
-                    text: 'Ocurrió un error al intentar guardar tus datos',
-                });
-            });
-            event.preventDefault();
-        });
-    });
-
+            ]
+        };
+        ProductTourJS.init(tourOptions);
+        ProductTourJS.start();
+    }
 </script>
 
 </body>

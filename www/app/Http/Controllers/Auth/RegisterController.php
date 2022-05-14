@@ -8,6 +8,8 @@ use Creativolab\App\Models\Profession;
 use Creativolab\App\Models\User;
 use Creativolab\App\Notifications\UserVerification;
 use Creativolab\App\QRCodeBuilder;
+use Creativolab\App\Repositories\Code\CodeRepository;
+use Creativolab\App\Repositories\Profession\ProfessionRepository;
 use Creativolab\App\Repositories\User\UserRepository;
 use Creativolab\App\Storage;
 use PHPMailer\PHPMailer\Exception;
@@ -23,8 +25,13 @@ class RegisterController extends Controller {
    public function index()
    {
        if (!Auth::user()) {
-           $this->render('auth/register');
-           exit();
+           $professions = (new ProfessionRepository())->findAll();
+           $codes = (new CodeRepository())->findAll();
+           if (count($professions) > 0 && count($codes) > 0) {
+               $this->render('auth/register', ["professions" => $professions, 'codes' => $codes]);
+               exit();
+           }
+           header('Location: '. $_ENV['APP_URL']);
        }
        header('Location: '. $_ENV['APP_URL'] . '/login');
    }
@@ -42,6 +49,7 @@ class RegisterController extends Controller {
        $phoneNumber        =  trim(htmlentities($this->post('phoneNumber')));
        $profession         =  $this->post('profession');
 
+       // This is an empty object where we will store the data and use when storing the user in the DDBB
        $user = new User();
 
        $user->setFirstName((is_string($firstName)) ? $firstName : "");
@@ -55,6 +63,9 @@ class RegisterController extends Controller {
        $user->setPhoneNumber((is_string($phoneNumber)) ? $phoneNumber : "");
        $user->setProfession(is_numeric($profession) ? $profession : 0);
 
+       $professions = (new ProfessionRepository())->findAll();
+       $codes = (new CodeRepository())->findAll();
+
        $values = array(
            "first_name_value"            =>       $user->getFirstName(),
            "middle_name_value"           =>       $user->getMiddleName(),
@@ -63,93 +74,91 @@ class RegisterController extends Controller {
            "email_value"                 =>       $user->getEmail(),
            "code_value"                  =>       $user->getCode(),
            "phone_number_value"          =>       $user->getPhoneNumber(),
-           "profession_value"            =>       $user->getProfession()
+           "profession_value"            =>       $user->getProfession(),
+           "professions"                 =>       $professions,
+           "codes"                       =>       $codes
        );
 
-       $firstNameError = "";
+       $errors = [];
+
        if (empty($user->getFirstName())) {
-           $firstNameError = "Este campo es obligatorio";
+           $errors['first_name_error'] = "Este campo es obligatorio";
+       } else if(strlen($user->getFirstName()) > 49) {
+           $errors['first_name_error'] = "Solo se permiten hasta 49 carácteres";
        } else if(!preg_match("/^[a-zA-Z-' ]*$/", $user->getFirstName())) {
-           $firstNameError = "Solo se permiten letras y espacios";
+           $errors['first_name_error'] = "Solo se permiten letras y espacios";
        }
 
-       $middleNameError = "";
        if (!empty($user->getMiddleName())) {
            if (!preg_match("/^[a-zA-Z-' ]*$/", $user->getMiddleName())) {
-               $middleNameError = "Solo se permiten letras y espacios";
+               $errors['middle_name_error'] = "Solo se permiten letras y espacios";
            }
        }
 
-       $firstLastnameError = "";
        if (empty($user->getFirstLastname())) {
-           $firstLastnameError = "Este campo es obligatorio";
+           $errors['first_lastname_error'] = "Este campo es obligatorio";
        } else if (!preg_match("/^[a-zA-Z-' ]*$/", $user->getFirstLastname())) {
-           $firstLastnameError = "Solo se permiten letras y espacios";
+           $errors['first_lastname_error'] = "Solo se permiten letras y espacios";
        }
 
-       $secondLastnameError = "";
        if (!empty($user->getSecondLastname())) {
            if (!preg_match("/^[a-zA-Z-' ]*$/", $user->getSecondLastname())) {
-               $secondLastnameError = "Solo se permiten letras y espacios";
+               $errors['second_lastname_error'] = "Solo se permiten letras y espacios";
            }
        }
 
-       $emailError = "";
        if (empty($user->getEmail())) {
-           $emailError = "Este campo es obligatorio";
+           $errors['email_error'] = "Este campo es obligatorio";
        } else if (!filter_var($user->getEmail(), FILTER_VALIDATE_EMAIL)) {
-           $emailError = "Correo no válido";
+           $errors['email_error'] = "Correo no válido";
+       } else if ((new UserRepository())->getUserByEmail($user->getEmail())->getId() != -1) {
+           $errors['email_error'] = "Ya existe una cuenta con este correo";
        }
 
-       $passwordError = "";
        if (empty($user->getPassword())) {
-           $passwordError = "Este campo es obligatorio";
+           $errors['password_error'] = "Este campo es obligatorio";
        } else if (!(strlen($user->getPassword()) >= 8)) {
-           $passwordError = "Tu contraseña debe tener mínimo 8 caracteres";
+           $errors['password_error'] = "Tu contraseña debe tener mínimo 8 caracteres";
+       } else if (!empty($user->getConfirmedPassword()) && $user->getConfirmedPassword() !== $user->getPassword()) {
+           $errors['password_error'] = "Las contraseñas no coinciden";
        }
 
-       $confirmedPasswordError = "";
-       if (!empty($user->getConfirmedPassword()) && $user->getConfirmedPassword() !== $user->getPassword()) {
-           $confirmedPasswordError = "Las contraseñas no coinciden";
+       if (empty($user->getConfirmedPassword())) {
+           $errors['confirmed_password_error'] = "Este campo es obligatorio";
+       } else if (!empty($user->getConfirmedPassword()) && $user->getConfirmedPassword() !== $user->getPassword()) {
+           $errors['confirmed_password_error'] = "Las contraseñas no coinciden";
        }
 
-       $codeError = "";
-       $codes = array("-", "52", "1",  "34",  "595");
-       if (!array_search($user->getCode(), $codes)) {
-           $codeError = "Selecciona un código válido";
-       }
-
-       $phoneNumberError = "";
-       if (empty($user->getPhoneNumber())) {
-           $phoneNumberError = "Este campo es obligatorio";
-       } else if (!preg_match("/^[0-9]{3}[0-9]{4}[0-9]{3}$/", $user->getPhoneNumber())) {
-           $phoneNumberError = "Número celular no válido";
-       }
-
-       $professionError = "";
-       if (!$user->getProfession() == 0) {
-           if (!($user->getProfession() > 0 && $user->getProfession() < 4)) {
-               $professionError = "Selecciona una profesión disponible";
-           } else {
-               $professionError = "";
+       if (empty($user->getCode()) || $user->getCode() == 0) {
+           $errors['code_error'] = "Este campo es obligatorio";
+       } else if ($user->getCode() > 0) {
+           $availableCodes = [];
+           foreach ($codes as $code) {
+               array_push($availableCodes, $code['code']);
            }
-       } else {
-           $professionError = "Este campo es obligatorio";
+           if (!in_array($user->getCode(), $availableCodes)) {
+               $errors['code_error'] = "Selecciona un código válido";
+           }
        }
 
-       $errors = array(
-           "first_name_error"          =>      $firstNameError,
-           "middle_name_error"         =>      $middleNameError,
-           "first_lastname_error"      =>      $firstLastnameError,
-           "second_lastname_error"     =>      $secondLastname,
-           "email_error"               =>      $emailError,
-           "password_error"            =>      $passwordError,
-           "confirmed_password_error"  =>      $confirmedPasswordError,
-           "code_error"                =>      $codeError,
-           "phone_number_error"        =>      $phoneNumberError,
-           "profession_error"          =>      $professionError
-       );
+       if (empty($user->getPhoneNumber())) {
+           $errors['phone_number_error'] = "Este campo es obligatorio";
+       } else if (!preg_match("/^[0-9]{3}[0-9]{4}[0-9]{3}$/", $user->getPhoneNumber())) {
+           $errors['phone_number_error'] = "Número celular no válido";
+       }
 
+
+       if (empty($user->getProfession()) || $user->getProfession() == 0) {
+           $errors['profession_error'] = "Este campo es obligatorio";
+       } else if ($user->getProfession() > 0) {
+           $availableProfessions = [];
+           foreach ($professions as $profession) {
+               array_push($availableProfessions, $profession->getId());
+           }
+           if (!in_array($user->getProfession(), $availableProfessions)) {
+               $errors['profession_error'] = "Selecciona una profesión disponible";
+           }
+       }
 
        if(!array_filter($errors)) {
            try {
@@ -159,31 +168,41 @@ class RegisterController extends Controller {
                // Create user's folder to store all their data such as qr, images, etc...
                $user->setFolder(strtolower(
                    $user->getFirstName() . $user->getMiddleName() .
-                   $user->getFirstLastname() . $user->getSecondLastname()
+                   $user->getFirstLastname() . $user->getSecondLastname() .
+                   '-' . Uuid::uuid4()
                ));
 
                $hashedPassword = password_hash($user->getPassword(), PASSWORD_DEFAULT, ['cost' => 12]);
                $user->setPassword($hashedPassword);
 
-               $user->setQr(Uuid::uuid4());
+               $user->setQr(Uuid::uuid4() . '.png');
 
-               // Store the user
-               $userRepository = new UserRepository();
-               $userRepository->create($user);
+               $user->setSubdomain(strtolower(
+                   $user->getFirstName() . $user->getMiddleName() .
+                   $user->getFirstLastname() . $user->getSecondLastname() .
+                   '.' . $_ENV['APP_DOMAIN']));
 
-               /* Send message so the user can verify their account
+               $user->setEndpoint(strtolower($user->getFirstName() . $user->getMiddleName() .
+                       $user->getFirstLastname() . $user->getSecondLastname()
+               ));
+
+               //Sending an email so the user can verify their account
                $sendAccountVerificationEmail = new UserVerification( array(
                    "email"       =>      $user->getEmail(),
                    "name"        =>      $user->getFirstName(),
                    "lastname"    =>      $user->getFirstLastname(),
                    "token"       =>      $user->getVerificationToken()
                ));
-               $sendAccountVerificationEmail->send();*/
+               $sendAccountVerificationEmail->send();
 
                Storage::createFolder($user->getFolder());
 
                // Render a qr code within the user's folder previously created
-               QRCodeBuilder::build("www.google.com", $user->getFolder(), $user->getQr());
+               QRCodeBuilder::build($user->getEndpoint(), $user->getFolder(), $user->getQr());
+
+               // Store the user
+               $userRepository = new UserRepository();
+               $userRepository->create($user);
 
                header('Location: '. $_ENV['APP_URL'] . '/login');
            } catch (Exception $exception) {

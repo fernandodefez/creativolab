@@ -19,7 +19,14 @@ interface UserRepositoryInterface
      * @param int $id
      * @return User
     */
-    public function getUserById(int $id):User;
+    public function getUserById(int $id): User;
+
+    /**
+     * Retrieves a user by their id
+     * @param string $endpoint
+     * @return User
+     */
+    public function getUserByEndpoint(string $endpoint): User;
 
     /**
      * Retrieves a user by their email

@@ -21,13 +21,17 @@ class User
     private string $folder;
     private string $thumbnail;
     private string $logo;
+    private string $subdomain;
+    private string $endpoint;
     private string $qr;
     private string $verificationToken;
     private bool $isVerified;
 
     private bool $isEducationEnabled;
-    private bool $isTestimonialsEnabled;
-    private bool $isSkillsEnabled;
+    private bool $areProductsEnabled;
+    private bool $areExperienciesEnabled;
+    private bool $areTestimonialsEnabled;
+    private bool $areSkillsEnabled;
 
     private int $profession;
 
@@ -258,6 +262,38 @@ class User
     /**
      * @return string
      */
+    public function getSubdomain(): string
+    {
+        return $this->subdomain;
+    }
+
+    /**
+     * @param string $subdomain
+     */
+    public function setSubdomain(string $subdomain): void
+    {
+        $this->subdomain = $subdomain;
+    }
+
+    /**
+     * @return string
+     */
+    public function getEndpoint(): string
+    {
+        return $this->endpoint;
+    }
+
+    /**
+     * @param string $endpoint
+     */
+    public function setEndpoint(string $endpoint): void
+    {
+        $this->endpoint = $endpoint;
+    }
+
+    /**
+     * @return string
+     */
     public function getQr(): string
     {
         return $this->qr;
@@ -322,37 +358,69 @@ class User
     /**
      * @return bool
      */
-    public function isTestimonialsEnabled(): bool
+    public function isAreProductsEnabled(): bool
     {
-        return $this->isTestimonialsEnabled;
+        return $this->areProductsEnabled;
     }
 
     /**
-     * @param bool $isTestimonialsEnabled
+     * @param bool $areProductsEnabled
      */
-    public function setIsTestimonialsEnabled(bool $isTestimonialsEnabled): void
+    public function setAreProductsEnabled(bool $areProductsEnabled): void
     {
-        $this->isTestimonialsEnabled = $isTestimonialsEnabled;
+        $this->areProductsEnabled = $areProductsEnabled;
     }
 
     /**
      * @return bool
      */
-    public function isSkillsEnabled(): bool
+    public function isAreExperienciesEnabled(): bool
     {
-        return $this->isSkillsEnabled;
+        return $this->areExperienciesEnabled;
     }
 
     /**
-     * @param bool $isSkillsEnabled
+     * @param bool $areExperienciesEnabled
      */
-    public function setIsSkillsEnabled(bool $isSkillsEnabled): void
+    public function setAreExperienciesEnabled(bool $areExperienciesEnabled): void
     {
-        $this->isSkillsEnabled = $isSkillsEnabled;
+        $this->areExperienciesEnabled = $areExperienciesEnabled;
     }
 
     /**
-     * @return Profession
+     * @return bool
+     */
+    public function isAreTestimonialsEnabled(): bool
+    {
+        return $this->areTestimonialsEnabled;
+    }
+
+    /**
+     * @param bool $areTestimonialsEnabled
+     */
+    public function setAreTestimonialsEnabled(bool $areTestimonialsEnabled): void
+    {
+        $this->areTestimonialsEnabled = $areTestimonialsEnabled;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isAreSkillsEnabled(): bool
+    {
+        return $this->areSkillsEnabled;
+    }
+
+    /**
+     * @param bool $areSkillsEnabled
+     */
+    public function setAreSkillsEnabled(bool $areSkillsEnabled): void
+    {
+        $this->areSkillsEnabled = $areSkillsEnabled;
+    }
+
+    /**
+     * @return int
      */
     public function getProfession(): int
     {
@@ -366,5 +434,4 @@ class User
     {
         $this->profession = $profession;
     }
-
 }

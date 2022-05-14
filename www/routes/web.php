@@ -24,10 +24,8 @@ $router->mount("/profile", function () use ($router) {
 
 $router->mount("/module", function () use ($router) {
     $router->get("/skills", '\Creativolab\App\Http\Controllers\SkillController@index');
-    $router->post("/skills", '\Creativolab\App\Http\Controllers\SkillController@index');
 
     $router->get("/languages", '\Creativolab\App\Http\Controllers\LanguageController@index');
-    $router->post("/languages", '\Creativolab\App\Http\Controllers\LanguageController@index');
 
     $router->get("/education", '\Creativolab\App\Http\Controllers\EducationController@index');
     $router->get("/education/{id}", '\Creativolab\App\Http\Controllers\EducationController@show');
@@ -35,8 +33,11 @@ $router->mount("/module", function () use ($router) {
     $router->delete("/education", '\Creativolab\App\Http\Controllers\EducationController@destroy');
     $router->put("/education", '\Creativolab\App\Http\Controllers\EducationController@update');
 
-    $router->get("/experience", '\Creativolab\App\Http\Controllers\LanguageController@index');
-    $router->post("/experience", '\Creativolab\App\Http\Controllers\LanguageController@index');
+    $router->get("/experiences", '\Creativolab\App\Http\Controllers\ExperienceController@index');
+
+    $router->get("/testimonials", '\Creativolab\App\Http\Controllers\TestimonialController@index');
+
+    $router->get("/portfolio", '\Creativolab\App\Http\Controllers\PortfolioController@index');
 });
 
 
@@ -52,8 +53,13 @@ $router->get("/verify-email/{token}", '\Creativolab\App\Http\Controllers\Auth\Us
 
 $router->get('/preview', '\Creativolab\App\Http\Controllers\TemplatePreviewController@index');
 
+$router->get('/{endpoint}', '\Creativolab\App\Http\Controllers\TemplateController@index');
+
+$router->get('/test', '\Creativolab\App\Http\Controllers\TestController@index');
+
 
 $router->set404(function () {
+    http_response_code(404);
     $response = new Response();
     if (Auth::user()) {
         $id = $_SESSION['user_id'];
@@ -65,7 +71,6 @@ $router->set404(function () {
     } else {
         $response->render('errors/404');
     }
-    http_response_code(404);
 });
 
 $router->run();

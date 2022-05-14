@@ -15,7 +15,7 @@ class QRCodeBuilder {
     public static function build(string $link, string $folder, string $filename): void
     {
         #$link = $_ENV['APP_URL'];
-        $file = $_SERVER['DOCUMENT_ROOT'] . "/storage/users/" . $folder . "/" . $filename . ".png";
+        $file = $_SERVER['DOCUMENT_ROOT'] . "/storage/users/" . $folder . "/" . $filename;
 
         $qrCode = new QRCode();
         $qrCode->render($link, $file);

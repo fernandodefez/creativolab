@@ -33,10 +33,12 @@ class UserRepository implements UserRepositoryInterface {
             code,
             phone_number,
             folder,
+            subdomain,
+            endpoint,
             qr,
             verification_token,
             profession_id_fk        
-        )  VALUES (?,?,?,?,?,?,?,?,?,?,?,?)";
+        )  VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
         $this->db->connect()->prepare($sql)->execute(
             [
@@ -49,6 +51,8 @@ class UserRepository implements UserRepositoryInterface {
                 $user->getCode(),
                 $user->getPhoneNumber(),
                 $user->getFolder(),
+                $user->getSubdomain(),
+                $user->getEndpoint(),
                 $user->getQr(),
                 $user->getVerificationToken(),
                 $user->getProfession()
@@ -88,12 +92,63 @@ class UserRepository implements UserRepositoryInterface {
             $user->setFolder($row['folder']);
             $user->setThumbnail($row['thumbnail'] ? $row['thumbnail'] : '');
             $user->setLogo($row['logo'] ? $row['logo'] : '');
+            $user->setSubdomain($row['subdomain'] ? $row['subdomain'] : '');
+            $user->setEndpoint($row['endpoint'] ? $row['endpoint'] : '');
             $user->setQr($row['qr'] ? $row['qr'] : '');
             $user->setVerificationToken($row['verification_token']);
             $user->setIsVerified($row['verified']);
             $user->setIsEducationEnabled($row['education_enabled']);
-            $user->setIsTestimonialsEnabled($row['testimonials_enabled']);
-            $user->setIsSkillsEnabled($row['skills_enabled']);
+            $user->setAreProductsEnabled($row['products_enabled']);
+            $user->setAreExperienciesEnabled($row['experiences_enabled']);
+            $user->setAreTestimonialsEnabled($row['testimonials_enabled']);
+            $user->setAreSkillsEnabled($row['skills_enabled']);
+            $user->setProfession($row['profession_id_fk']);
+        } else {
+            $user->setId(-1);
+        }
+        return $user;
+    }
+
+    /**
+     * Retrieves a user by their id
+     * @param string $endpoint
+     * @return User
+     */
+    public function getUserByEndpoint(string $endpoint): User {
+        $sql = "SELECT * FROM users WHERE endpoint = :endpoint";
+        $stmt = $this->db->connect()->prepare($sql);
+        $stmt->execute(
+            [
+                'endpoint' => $endpoint
+            ]
+        );
+        $row = $stmt->fetch();
+        $user = new User();
+
+        if ($stmt->rowCount() === 1) {
+            $user->setId($row['id']);
+            $user->setFirstName($row['first_name']);
+            $user->setMiddleName($row['middle_name']);
+            $user->setMiddleName($row['middle_name']);
+            $user->setFirstLastname($row['first_lastname']);
+            $user->setSecondLastname($row['second_lastname']);
+            $user->setEmail($row['email']);
+            $user->setPassword($row['password']);
+            $user->setCode($row['code']);
+            $user->setPhoneNumber($row['phone_number']);
+            $user->setFolder($row['folder']);
+            $user->setThumbnail($row['thumbnail'] ? $row['thumbnail'] : '');
+            $user->setLogo($row['logo'] ? $row['logo'] : '');
+            $user->setSubdomain($row['subdomain'] ? $row['subdomain'] : '');
+            $user->setEndpoint($row['endpoint'] ? $row['endpoint'] : '');
+            $user->setQr($row['qr'] ? $row['qr'] : '');
+            $user->setVerificationToken($row['verification_token']);
+            $user->setIsVerified($row['verified']);
+            $user->setIsEducationEnabled($row['education_enabled']);
+            $user->setAreProductsEnabled($row['products_enabled']);
+            $user->setAreExperienciesEnabled($row['experiences_enabled']);
+            $user->setAreTestimonialsEnabled($row['testimonials_enabled']);
+            $user->setAreSkillsEnabled($row['skills_enabled']);
             $user->setProfession($row['profession_id_fk']);
         } else {
             $user->setId(-1);

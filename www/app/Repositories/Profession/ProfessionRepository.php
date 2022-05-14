@@ -42,4 +42,30 @@ class ProfessionRepository implements ProfessionRepositoryInterface {
         }
         return $profession;
     }
+
+    /**
+     * Find all professions
+     * @return array
+     */
+    public function findAll(): array
+    {
+        $sql = "SELECT * FROM professions";
+        $stmt = $this->db->connect()->prepare($sql);
+        $stmt->execute();
+        $rows = $stmt->fetchAll();
+
+        $professions = [];
+
+        if ($stmt->rowCount() >= 0) {
+            foreach ($rows as $row) {
+                $profession = new Profession();
+                $profession->setId($row['id']);
+                $profession->setProfession($row['profession']);
+                $profession->setTemplate($row['template']);
+                array_push($professions, $profession);
+            }
+        }
+
+        return $professions;
+    }
 }
