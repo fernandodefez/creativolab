@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @author Fernando Defez <fernandodefez@outlook.com>
+ */
+
 namespace Creativolab\App;
 
 use chillerlan\QRCode\QRCode;
@@ -7,7 +11,7 @@ use chillerlan\QRCode\QRCode;
 class QRCodeBuilder {
 
     /**
-     * Build a QRCode Image within a user's folder
+     * Build a QRCode image within a user's folder
      * @param string $link user's public profile.
      * @param string $folder user's folder.
      * @param string $filename qrcode image name, it is called "qr" by default

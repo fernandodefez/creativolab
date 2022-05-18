@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @author Fernando Defez <fernandodefez@outlook.com>
+ */
+
 namespace Creativolab\App;
 
 use PDO;
@@ -31,7 +35,7 @@ class Database {
                 PDO::ATTR_EMULATE_PREPARES => false,
             ];
             return new PDO($conn, $this->user, $this->password, $options);
-        } catch(PDOException $e) {
+        } catch(PDOException $PDOException) {
             throw new PDOException("Something went wrong when trying to connect to the database");
         }
     }

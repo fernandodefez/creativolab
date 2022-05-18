@@ -116,8 +116,53 @@ class EducationController extends Controller {
     }
 
     /**
-     * Performs the deletion of a user's degree
+     * Shows a specific degree based on its id
      * @param string $id
+     */
+    public function show(string $id)
+    {
+        /*if (!Auth::user()) {
+            header('Location: '. $_ENV['APP_URL'] . '/login');
+        }
+
+        if (!is_numeric($id) && $id <= 0) {
+            $this->render('errors/404');
+            exit();
+        }
+
+        $userRepository = new UserRepository();
+        $user = $userRepository->getUserById($_SESSION['user_id']);
+
+        $professionRepository = new ProfessionRepository();
+        $profession = $professionRepository->getProfessionByUser($user);
+
+        $educationRepository = new EducationRepository();
+        $degrees = $educationRepository->findAll($user);
+
+        $education = new Education();
+        $education->setId($id);
+        $education->setUser($user->getId());
+
+        // This is the degree to be shown
+        $degree = $educationRepository->get($education);
+
+
+        if ($degree->getId() != -1) {
+            $this->render('panel/education', array(
+                "user"          =>    $user,
+                "profession"    =>    $profession,
+                "degrees"       =>    $degrees,
+                "degree"        =>    $degree
+            ));
+        }
+        else {
+            $this->render('errors/404');
+        }*/
+    }
+
+
+    /**
+     * Performs the deletion of a user's degree
     */
     public function destroy()
     {

@@ -1,7 +1,10 @@
 <?php
 
-namespace Creativolab\App\Repositories\Code;
+/**
+ * @author Fernando Defez <fernandodefez@outlook.com>
+ */
 
+namespace Creativolab\App\Repositories\Code;
 
 use Creativolab\App\Database;
 
@@ -15,9 +18,9 @@ class CodeRepository implements CodeRepositoryInterface
         $this->db = new Database();
     }
 
-
     /**
      * Find all available codes
+     * 
      * @return array
      */
     public function findAll(): array

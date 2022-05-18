@@ -29,7 +29,7 @@ class User
 
     private bool $isEducationEnabled;
     private bool $areProductsEnabled;
-    private bool $areExperienciesEnabled;
+    private bool $areExperiencesEnabled;
     private bool $areTestimonialsEnabled;
     private bool $areSkillsEnabled;
 
@@ -358,7 +358,7 @@ class User
     /**
      * @return bool
      */
-    public function isAreProductsEnabled(): bool
+    public function areProductsEnabled(): bool
     {
         return $this->areProductsEnabled;
     }
@@ -374,23 +374,23 @@ class User
     /**
      * @return bool
      */
-    public function isAreExperienciesEnabled(): bool
+    public function areExperiencesEnabled(): bool
     {
-        return $this->areExperienciesEnabled;
+        return $this->areExperiencesEnabled;
     }
 
     /**
-     * @param bool $areExperienciesEnabled
+     * @param bool $areExperiencesEnabled
      */
-    public function setAreExperienciesEnabled(bool $areExperienciesEnabled): void
+    public function setAreExperiencesEnabled(bool $areExperiencesEnabled): void
     {
-        $this->areExperienciesEnabled = $areExperienciesEnabled;
+        $this->areExperiencesEnabled = $areExperiencesEnabled;
     }
 
     /**
      * @return bool
      */
-    public function isAreTestimonialsEnabled(): bool
+    public function areTestimonialsEnabled(): bool
     {
         return $this->areTestimonialsEnabled;
     }
@@ -406,7 +406,7 @@ class User
     /**
      * @return bool
      */
-    public function isAreSkillsEnabled(): bool
+    public function areSkillsEnabled(): bool
     {
         return $this->areSkillsEnabled;
     }

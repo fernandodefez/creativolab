@@ -4,6 +4,7 @@ namespace Creativolab\App\Http\Controllers;
 
 use Creativolab\App\Auth;
 use Creativolab\App\Repositories\Education\EducationRepository;
+use Creativolab\App\Repositories\Experience\ExperienceRepository;
 use Creativolab\App\Repositories\Profession\ProfessionRepository;
 use Creativolab\App\Repositories\User\UserRepository;
 
@@ -14,6 +15,10 @@ class TemplatePreviewController extends Controller {
         parent::__construct();
     }
 
+    /**
+     * This method is used for the user to preview their template
+     * The user must be logged in
+    */
     public function index()
     {
         if (!Auth::user()) {
@@ -30,12 +35,16 @@ class TemplatePreviewController extends Controller {
         $educationRepository = new EducationRepository();
         $degrees = $educationRepository->findAll($user);
 
+        $experienceRepository = new ExperienceRepository();
+        $experiences = $experienceRepository->findAll($user);
+
 
         $this->render('templates/' . $profession->getTemplate() . '/index',
             array(
-                "user"        =>  $user,
-                "profession"  =>  $profession,
-                "degrees"     =>  $degrees
+                "user"          =>  $user,
+                "profession"    =>  $profession,
+                "degrees"       =>  $degrees,
+                "experiences"   =>  $experiences
             )
         );
     }

@@ -34,6 +34,12 @@ $router->mount("/module", function () use ($router) {
     $router->put("/education", '\Creativolab\App\Http\Controllers\EducationController@update');
 
     $router->get("/experiences", '\Creativolab\App\Http\Controllers\ExperienceController@index');
+    $router->put("/experiences/toggle", '\Creativolab\App\Http\Controllers\ExperienceController@toggle');
+
+    $router->post("/experience/store", '\Creativolab\App\Http\Controllers\ExperienceController@store');
+    $router->post("/experience/show", '\Creativolab\App\Http\Controllers\ExperienceController@show');
+    $router->delete("/experience/destroy", '\Creativolab\App\Http\Controllers\ExperienceController@destroy');
+    $router->put("/experience/update", '\Creativolab\App\Http\Controllers\ExperienceController@update');
 
     $router->get("/testimonials", '\Creativolab\App\Http\Controllers\TestimonialController@index');
 
@@ -71,6 +77,7 @@ $router->set404(function () {
     } else {
         $response->render('errors/404');
     }
+    exit();
 });
 
 $router->run();

@@ -47,95 +47,107 @@
             <div class="container-fluid p-3">
 
                 <!-- Page Heading -->
-                <div class="px-1 d-flex justify-content-between">
-                    <h1 class="h3 mb-4 text-gray-800 px-2 font-weight-bold module">
-                        Mi educación
-                    </h1>
-                    <div class="enable-module-toggle">
-                        <label class="toggle" data-bs-toggle="tooltip" data-bs-placement="bottom"
-                               title="Show module">
-                            <input 
-                                    type="checkbox"
-                                <?php 
-                                if (isset($data) && $data['user']->isEducationEnabled()) {
-                                    echo "checked";
-                                }
-                                ?>
-                            >
-                            <span class="slider round"></span>
-                        </label>
+                <div class="row p-0 m-0">
+                    <div class="col-12 d-flex justify-content-between">
+                        <h3 class="mb-4 text-gray-900 font-weight-bold module">
+                            Mi educación
+                        </h3>
+                        <div class="enable-module-toggle">
+                            <label class="toggle" data-bs-toggle="tooltip" data-bs-placement="bottom"
+                                   title="Show module">
+                                <input
+                                        type="checkbox"
+                                    <?php
+                                    if (isset($data) && $data['user']->isEducationEnabled()) {
+                                        echo "checked";
+                                    }
+                                    ?>
+                                >
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
                     </div>
                 </div>
 
                 <!-- Content Row -->
                 <div class="row p-0 m-0">
 
+                    <!-- Modal -->
+                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <form class="module-fields" action="<?php echo $_ENV['APP_URL'] . '/module/education'; ?>" method="post">
+                                    <div class="modal-body">
+                                        <div class="form-row">
+                                            <div class="form-group col-12" id="level-group">
+                                                <label for="level" class="font-weight-bold text-gray-900"> Nivel escolar </label>
+                                                <select id="level" class="form-control form-control-sm custom-select" name="level">
+                                                    <option value="" selected> Seleccionar nivel </option>
+                                                    <option value="Licenciatura"> Licenciatura </option>
+                                                    <option value="Maestria"> Maestria </option>
+                                                    <option value="Doctorado"> Doctorado </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-12" id="degree-group">
+                                                <label for="degree" class="font-weight-bold text-gray-900"> Título </label>
+                                                <input id="degree" class="form-control" type="text" placeholder="Título" name="degree"
+                                                >
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-12" id="institute-group">
+                                                <label for="institute" class="font-weight-bold text-gray-900">Institución</label>
+                                                <input id="institute" class="form-control" type="text" placeholder="Institución educativa" name="institute">
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-md-6" id="startedAt-group">
+                                                <label for="startedAt" class="font-weight-bold text-gray-900">
+                                                    Inicio
+                                                </label>
+                                                <select id="startedAt" class="form-control custom-select" name="startedAt">
+                                                    <option value="" selected> Año </option>
+                                                    <option value="2022"> 2022 </option>
+                                                </select>
+                                            </div>
+                                            <div class="form-group col-6" id="endedAt-group">
+                                                <label for="endedAt" class="font-weight-bold text-gray-900">
+                                                    Culminación
+                                                </label>
+                                                <select id="endedAt" class="form-control custom-select" name="endedAt">
+                                                    <option value="" selected> Año </option>
+                                                    <option value="2022"> 2022 </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="form-row">
+                                            <div class="form-group col-12" id="details-group">
+                                                <label for="details "class="font-weight-bold text-gray-900"> Detalles </label>
+                                                <textarea id="details" rows="3" class="form-control" type="text" placeholder="Detalles" name="details"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal"> Cerrar </button>
+                                        <button type="submit" id="add" class="btn btn-primary"> Añadir </button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="col-12 mb-4">
-                        <p class="text-gray-900 mb-4">Agregar nivel educativo</p>
-                        <form class="module-fields">
-                            <div class="form-row">
-                                <div class="form-group col-md-3" id="level-group">
-                                    <label for="level">Nivel escolar</label>
-                                    <select id="level" class="form-control custom-select" name="level">
-                                        <option value="" selected>Seleccionar nivel</option>
-                                        <option value="Licenciatura"> Licenciatura </option>
-                                        <option value="Maestria"> Maestria </option>
-                                        <option value="Doctorado"> Doctorado </option>
-                                    </select>
-                                </div>
-                                <div class="form-group col-md-9" id="degree-group">
-                                    <label for="degree"> Título </label>
-                                    <input
-                                            id="degree"
-                                            class="form-control"
-                                            type="text"
-                                            placeholder="Título"
-                                            name="degree"
-                                    >
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group col-md-8" id="institute-group">
-                                    <label for="institute">Institución</label>
-                                    <input
-                                            id="institute"
-                                            class="form-control"
-                                            type="text"
-                                            placeholder="Institución educativa"
-                                            name="institute"
-                                    >
-                                </div>
-                                <div class="form-group col-md-2" id="startedAt-group">
-                                    <label for="startedAt">Inicio</label>
-                                    <select id="startedAt" class="form-control custom-select" name="startedAt">
-                                        <option value="" selected>Año</option>
-                                        <option value="2022"> 2022 </option>
-                                    </select>
-                                </div>
-                                <div class="form-group col-md-2" id="endedAt-group">
-                                    <label for="endedAt">Culminación</label>
-                                    <select id="endedAt" class="form-control custom-select" name="endedAt">
-                                        <option value="" selected>Año</option>
-                                        <option value="2022"> 2022 </option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group" id="details-group">
-                                <label for="details">Detalles</label>
-                                <input
-                                        id="details"
-                                        class="form-control"
-                                        type="text"
-                                        placeholder="Detalles"
-                                        name="details"
-                                >
-                            </div>
-                            <div class="d-flex justify-content-end">
-                                <button type="submit" class="btn btn-primary font-weight-bold shadow-sm">
-                                    Agregar
-                                </button>
-                            </div>
-                        </form>
+                        <button class="btn btn-success m-0 font-weight-bold shadow-sm" type="button" data-toggle="modal" data-target="#exampleModal">
+                            &plus; Añadir nivel educativo
+                        </button>
                     </div>
 
                     <!-- Content Row -->
@@ -151,7 +163,7 @@
                             foreach ($degrees as $degree) {
 
                         ?>
-                            <div class="col-12 col-lg-6">
+                            <div class="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-4">
                                 <div class="card mb-4 shadow-sm">
                                     <div class="card-body">
                                         <p class="font-weight-bold mb-2 text-gray-900 h5">
@@ -178,12 +190,16 @@
                                             </a>
                                             <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
                                                  aria-labelledby="dropdownMenuLink">
-                                                <div class="dropdown-header">Actions</div>
+                                                <div class="dropdown-header">
+                                                    Actions
+                                                </div>
                                                 <a class="dropdown-item"
                                                    href="<?php echo $_ENV['APP_URL'] . $_SERVER['REQUEST_URI'] . "/" .$degree->getId() ?>">
-                                                    <i class="fa fa-pen text-gray-700 mr-2"> </i> Editar </a>
+                                                    <i class="fa fa-pen text-gray-700 mr-2"> </i> Editar
+                                                </a>
                                                 <button class="dropdown-item" onclick="remove(<?php echo $degree->getId()?>);">
-                                                    <i class="fa fa-trash text-gray-700 mr-2"> </i> Borrar </button>
+                                                    <i class="fa fa-trash text-gray-700 mr-2"> </i> Borrar
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
@@ -199,16 +215,6 @@
 
             </div>
             <!-- End of Main Content -->
-
-            <!-- Footer -->
-            <footer class="sticky-footer">
-                <div class="container my-auto">
-                    <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Your Website 2020</span>
-                    </div>
-                </div>
-            </footer>
-            <!-- End of Footer -->
         </div>
         <!-- End of Content Wrapper -->
     </div>

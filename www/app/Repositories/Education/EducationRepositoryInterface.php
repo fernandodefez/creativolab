@@ -7,15 +7,11 @@ use Creativolab\App\Models\User;
 
 interface EducationRepositoryInterface {
 
-    public function create(Education $education) : bool;
+    public function create(Education $degree) : bool;
+
+    public function get(Education $degree) : Education;
 
     public function findAll(User $user) : array;
 
-    public function delete(Education $education) : bool;
-
-    /*
-    public function findAllByUser(User $user) : Education;
-
-    public function removeById() : bool;
-    */
+    public function delete(Education $degree) : bool;
 }

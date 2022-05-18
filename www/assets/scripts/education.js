@@ -5,10 +5,11 @@
  * @author Fernando Defez
  *
  * */
-
 const URL = "http://localhost/module/education";
 
 $("form").submit(function (event) {
+    console.log("Le diste click");
+
     $(".form-control").removeClass("is-invalid");
     $(".invalid-feedback").remove();
     let formData = {
@@ -77,26 +78,26 @@ $("form").submit(function (event) {
         Swal.fire({
             icon: 'error',
             title: 'Server error',
-            text: 'Ocurrió un error al intentar guardar tus datos',
+            text: data
         });
     });
     event.preventDefault();
 });
 
 /**
- * Removes an element of the module
+ * Deletes an element of the module
  * @param id Number
  * */
 function remove(id) {
 
     Swal.fire({
-        title: 'Are you sure?',
-        text: "You won't be able to revert this!",
+        title: 'En realidad quieres borrar este elemento?',
+        text: "No podrás revertir tu decisión",
         icon: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        confirmButtonText: 'Yes, delete it!'
+        confirmButtonText: 'Sí, quiero borrarlo!'
     }).then((result) => {
         if (result.isConfirmed) {
             $.ajax({
@@ -109,14 +110,14 @@ function remove(id) {
                 if (!data.success) {
                     Swal.fire({
                         icon: "error",
-                        title: 'No se pudo borrar el contenido seleccionado',
+                        title: 'No se pudo borrar el elemento seleccionado',
                         text: data.errors
                     });
                 } else {
                     Swal.fire({
                         icon: 'success',
                         title: 'Eliminado!',
-                        text: 'El contenido seleccionado ha sido borrado exitosamente'
+                        text: 'El elemento seleccionado ha sido borrado con éxito'
                     }).then((result) => {
                         if (result.isConfirmed) {
                             location.reload();

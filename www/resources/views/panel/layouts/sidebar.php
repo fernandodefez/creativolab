@@ -72,8 +72,8 @@
         }
         ?>
         " aria-labelledby="headingTwo" data-parent="#accordionSidebar">
-            <div class="bg-white py-2 collapse-inner rounded">
-                <a class="collapse-item
+            <div class="py-2 collapse-inner rounded bg-white">
+                <a class="collapse-item text-primary
                 <?php
                 if ($_SERVER['REQUEST_URI'] === "/profile/personal-data") {
                     echo "active";
@@ -81,7 +81,7 @@
                 " href="<?php echo $_ENV['APP_URL'] . '/profile/personal-data'?>">
                     Datos personales
                 </a>
-                <a class="collapse-item
+                <a class="collapse-item text-primary
                 <?php
                 if ($_SERVER['REQUEST_URI'] === "/profile/about-me") {
                     echo "active";

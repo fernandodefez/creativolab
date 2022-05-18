@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @author Fernando Defez <fernandodefez@outlook.com>
+ */
+
 namespace Creativolab\App\Repositories\User;
 
 use Creativolab\App\Database;
@@ -16,10 +20,11 @@ class UserRepository implements UserRepositoryInterface {
     }
 
     /**
-     * Performs user insertion
+     * This method performs user creation
+     * 
      * @param User $user
      * @return bool
-     */
+    */
     public function create(User $user): bool
     {
         $sql = "
@@ -62,10 +67,11 @@ class UserRepository implements UserRepositoryInterface {
     }
 
     /**
-     * Retrieves a user by their id
+     * This method retrieves a user by their id
+     * 
      * @param int $id
-     * @return User $user;
-     */
+     * @return User
+    */
     public function getUserById(int $id): User
     {
         $sql = "SELECT * FROM users WHERE id = :id";
@@ -99,7 +105,7 @@ class UserRepository implements UserRepositoryInterface {
             $user->setIsVerified($row['verified']);
             $user->setIsEducationEnabled($row['education_enabled']);
             $user->setAreProductsEnabled($row['products_enabled']);
-            $user->setAreExperienciesEnabled($row['experiences_enabled']);
+            $user->setAreExperiencesEnabled($row['experiences_enabled']);
             $user->setAreTestimonialsEnabled($row['testimonials_enabled']);
             $user->setAreSkillsEnabled($row['skills_enabled']);
             $user->setProfession($row['profession_id_fk']);
@@ -110,11 +116,13 @@ class UserRepository implements UserRepositoryInterface {
     }
 
     /**
-     * Retrieves a user by their id
+     * This method retrieves a user by their endpoint column
+     * 
      * @param string $endpoint
      * @return User
-     */
-    public function getUserByEndpoint(string $endpoint): User {
+    */
+    public function getUserByEndpoint(string $endpoint): User 
+    {
         $sql = "SELECT * FROM users WHERE endpoint = :endpoint";
         $stmt = $this->db->connect()->prepare($sql);
         $stmt->execute(
@@ -146,7 +154,7 @@ class UserRepository implements UserRepositoryInterface {
             $user->setIsVerified($row['verified']);
             $user->setIsEducationEnabled($row['education_enabled']);
             $user->setAreProductsEnabled($row['products_enabled']);
-            $user->setAreExperienciesEnabled($row['experiences_enabled']);
+            $user->setAreExperiencesEnabled($row['experiences_enabled']);
             $user->setAreTestimonialsEnabled($row['testimonials_enabled']);
             $user->setAreSkillsEnabled($row['skills_enabled']);
             $user->setProfession($row['profession_id_fk']);
@@ -157,10 +165,11 @@ class UserRepository implements UserRepositoryInterface {
     }
 
     /**
-     * Retrieves a user by their email
+     * This method retrieves a user by their email
+     * 
      * @param string $email
-     * @return User $user
-     */
+     * @return User
+    */
     public function getUserByEmail(string $email): User
     {
         $sql = "SELECT id, email, password, verified FROM users WHERE email = :email";
@@ -181,9 +190,10 @@ class UserRepository implements UserRepositoryInterface {
 
     /**
      * Retrieves a user by their verification_token
+     * 
      * @param string $token
-     * @return User $user
-     */
+     * @return User
+    */
     public function getUserByVerificationToken(string $token): User
     {
         $sql = "SELECT id, email, verified FROM users WHERE verification_token = :token";
@@ -203,9 +213,10 @@ class UserRepository implements UserRepositoryInterface {
 
     /**
      * Performs the user verification by updating the column "verified in users table"
+     * 
      * @param string $token
      * @return bool
-     */
+    */
     public function verifyUser(string $token): bool
     {
         $sql = "UPDATE users SET verified = :verified WHERE verification_token = :token";
@@ -213,6 +224,24 @@ class UserRepository implements UserRepositoryInterface {
             [
                 "verified" => 1,
                 "token" => $token
+            ]
+        );
+        return true;
+    }
+
+    /**
+     * This method make sure to toggle the user's experience module
+     * 
+     * @param User $user
+     * @return bool
+    */
+    public function toggleExperiencesEnabled(User $user): bool 
+    {
+        $sql = "UPDATE users SET experiences_enabled = :experiences_enabled WHERE id = :id";
+        $this->db->connect()->prepare($sql)->execute(
+            [
+                "experiences_enabled" => $user->areExperiencesEnabled(),
+                "id" => $user->getId()
             ]
         );
         return true;

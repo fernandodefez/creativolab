@@ -16,10 +16,10 @@ class EducationRepository implements EducationRepositoryInterface {
     }
 
     /**
-     * @param Education $education
+     * @param Education $degree
      * @return bool
      */
-    public function create(Education $education): bool
+    public function create(Education $degree): bool
     {
         $sql ="
         INSERT INTO users_education 
@@ -84,16 +84,48 @@ class EducationRepository implements EducationRepositoryInterface {
     }
 
     /**
-     * @param Education $education
+     * @param Education $degree
+     * @return Education $degree
+     */
+    public function get(Education $degree): Education
+    {
+        $sql = "SELECT * FROM users_education WHERE id = :id AND user_id_fk =:user_id_fk ";
+        $stmt = $this->db->connect()->prepare($sql);
+        $stmt->execute(
+            [
+                'id'            =>      $degree->getId(),
+                'user_id_fk'    =>      $degree->getUser()
+            ]
+        );
+        $row = $stmt->fetch();
+
+        if ($stmt->rowCount() >= 1) {
+            $degree->setId($row['id']);
+            $degree->setLevel($row['level']);
+            $degree->setDegree($row['degree']);
+            $degree->setInstitute($row['institute']);
+            $degree->setStartedAt($row['started_at']);
+            $degree->setEndedAt($row['ended_at']);
+            $degree->setDetails($row['details']);
+            $degree->setUser($row['user_id_fk']);
+        } else {
+            $degree->setId(-1);
+        }
+        return $degree;
+    }
+
+
+    /**
+     * @param Education $degree
      * @return bool
      */
-    public function delete(Education $education): bool
+    public function delete(Education $degree): bool
     {
         $sql = "DELETE FROM users_education WHERE id = :id";
         $stmt = $this->db->connect()->prepare($sql);
         if ($stmt->execute(
             [
-                "id" => $education->getId()
+                "id" => $degree->getId()
             ]
         ))
         {

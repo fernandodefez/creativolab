@@ -142,7 +142,7 @@ if (isset($data)) { ?>
                                 </div>
                             </div>
                             <div class="row p-3">
-                                <img src="<?php echo "/storage/users/". $data['user']->getFolder() ."/". $data['user']->getQr() . ".png"; ?>" alt="">
+                                <img src="<?php echo "/storage/users/". $data['user']->getFolder() ."/". $data['user']->getQr(); ?>" alt="">
                             </div>
                         </div>
                     </div>
@@ -338,59 +338,52 @@ if (isset($data)) { ?>
                 </div>
             </div>
         </div>
+
+        <!-- Experience Begin -->
+        <?php
+        if (isset($data['experiences']) && !empty($data['experiences']) && $data['user']->areExperiencesEnabled()) {
+        ?>
         <div class="section" id="experience">
             <div class="container cc-experience">
-                <div class="h4 text-center mb-4 title">Work Experience</div>
+                <div class="h4 text-center mb-4 title">
+                    Work Experience
+                </div>
+                <?php
+                foreach ($data['experiences'] as $experience) {
+                ?>
                 <div class="card">
                     <div class="row">
                         <div class="col-md-3 bg-primary" data-aos="fade-right" data-aos-offset="50" data-aos-duration="500">
                             <div class="card-body cc-experience-header">
-                                <p>March 2016 - Present</p>
-                                <div class="h5">CreativeM</div>
+                                <p>
+                                    <?php echo $experience->getStartedAt() . ' - ' . $experience->getEndedAt(); ?>
+                                </p>
+                                <div class="h5"> <?php echo $experience->getCompany(); ?> </div>
                             </div>
                         </div>
                         <div class="col-md-9" data-aos="fade-left" data-aos-offset="50" data-aos-duration="500">
                             <div class="card-body">
-                                <div class="h5">Front End Developer</div>
-                                <p>Euismod massa scelerisque suspendisse fermentum habitant vitae ullamcorper magna quam iaculis, tristique sapien taciti mollis interdum sagittis libero nunc inceptos tellus, hendrerit vel eleifend primis lectus quisque cubilia sed mauris. Lacinia porta vestibulum diam integer quisque eros pulvinar curae, curabitur feugiat arcu vivamus parturient aliquet laoreet at, eu etiam pretium molestie ultricies sollicitudin dui.</p>
+                                <div class="h5">
+                                    <?php echo $experience->getPosition(); ?>
+                                </div>
+                                <p>
+                                    <?php echo $experience->getDetails(); ?>
+                                </p>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="card">
-                    <div class="row">
-                        <div class="col-md-3 bg-primary" data-aos="fade-right" data-aos-offset="50" data-aos-duration="500">
-                            <div class="card-body cc-experience-header">
-                                <p>April 2014 - March 2016</p>
-                                <div class="h5">WebNote</div>
-                            </div>
-                        </div>
-                        <div class="col-md-9" data-aos="fade-left" data-aos-offset="50" data-aos-duration="500">
-                            <div class="card-body">
-                                <div class="h5">Web Developer</div>
-                                <p>Euismod massa scelerisque suspendisse fermentum habitant vitae ullamcorper magna quam iaculis, tristique sapien taciti mollis interdum sagittis libero nunc inceptos tellus, hendrerit vel eleifend primis lectus quisque cubilia sed mauris. Lacinia porta vestibulum diam integer quisque eros pulvinar curae, curabitur feugiat arcu vivamus parturient aliquet laoreet at, eu etiam pretium molestie ultricies sollicitudin dui.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="card">
-                    <div class="row">
-                        <div class="col-md-3 bg-primary" data-aos="fade-right" data-aos-offset="50" data-aos-duration="500">
-                            <div class="card-body cc-experience-header">
-                                <p>April 2013 - February 2014</p>
-                                <div class="h5">WEBM</div>
-                            </div>
-                        </div>
-                        <div class="col-md-9" data-aos="fade-left" data-aos-offset="50" data-aos-duration="500">
-                            <div class="card-body">
-                                <div class="h5">Intern</div>
-                                <p>Euismod massa scelerisque suspendisse fermentum habitant vitae ullamcorper magna quam iaculis, tristique sapien taciti mollis interdum sagittis libero nunc inceptos tellus, hendrerit vel eleifend primis lectus quisque cubilia sed mauris. Lacinia porta vestibulum diam integer quisque eros pulvinar curae, curabitur feugiat arcu vivamus parturient aliquet laoreet at, eu etiam pretium molestie ultricies sollicitudin dui.</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <?php
+                }
+                ?>
             </div>
         </div>
+        <?php
+        }
+        ?>
+        <!-- Experience End -->
+
+        <!-- Education  -->
         <?php
         if (isset($data['degrees']) && !empty($data['degrees'])) {
             ?>
