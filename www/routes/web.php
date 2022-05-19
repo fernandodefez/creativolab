@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @author Fernando Defez <fernandodefez@outlook.com>
+ */
+
 use Creativolab\App\Http\Response;
 use Creativolab\App\Auth;
 use Creativolab\App\Repositories\User\UserRepository;

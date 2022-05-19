@@ -10,7 +10,6 @@ use Creativolab\App\Database;
 
 class CodeRepository implements CodeRepositoryInterface
 {
-
     private Database $db;
 
     public function __construct()
@@ -43,7 +42,6 @@ class CodeRepository implements CodeRepositoryInterface
                 array_push($codes, $code);
             }
         }
-
         return $codes;
     }
 }

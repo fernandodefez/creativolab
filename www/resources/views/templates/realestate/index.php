@@ -39,7 +39,7 @@ if (isset($data)) { ?>
                         </li>
                         <!--
                         <li class="nav-item"><a class="nav-link smooth-scroll" href="#skill">
-                                 Skills
+                                Skills
                             </a>
                         </li>
                         --->
@@ -492,7 +492,11 @@ if (isset($data)) { ?>
                                         <div class="col-md-6">
                                             <div class="card-body">
                                                 <form action="https://formspree.io/your@email.com" method="POST">
-                                                    <div class="p pb-3"><strong>Feel free to contact me </strong></div>
+                                                    <div class="p pb-3">
+                                                        <strong>
+                                                            Feel free to contact me 
+                                                        </strong>
+                                                    </div>
                                                     <div class="row mb-3">
                                                         <div class="col">
                                                             <div class="input-group"><span class="input-group-addon"><i class="fa fa-user-circle"></i></span>

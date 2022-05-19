@@ -11,7 +11,6 @@ use Creativolab\App\Repositories\User\UserRepository;
 
 class ExperienceController extends Controller
 {
-
     public function __construct()
     {
         parent::__construct();

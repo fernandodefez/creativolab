@@ -16,10 +16,12 @@ class EducationRepository implements EducationRepositoryInterface {
     }
 
     /**
+     * This method performs the user's degree creation
+     *
      * @param Education $degree
      * @return bool
      */
-    public function create(Education $degree): bool
+    public function create(Education $degree) : bool
     {
         $sql ="
         INSERT INTO users_education 
@@ -49,8 +51,10 @@ class EducationRepository implements EducationRepositoryInterface {
     }
 
     /**
+     * Find all user's degrees
+     *
      * @param User $user
-     * @return array $degrees
+     * @return array
      */
     public function findAll(User $user) : array
     {
@@ -84,10 +88,12 @@ class EducationRepository implements EducationRepositoryInterface {
     }
 
     /**
+     * This method retrieves a user's degree information based on it's id
+     *
      * @param Education $degree
-     * @return Education $degree
+     * @return array
      */
-    public function get(Education $degree): Education
+    public function get(Education $degree) : array
     {
         $sql = "SELECT * FROM users_education WHERE id = :id AND user_id_fk =:user_id_fk ";
         $stmt = $this->db->connect()->prepare($sql);
@@ -114,12 +120,26 @@ class EducationRepository implements EducationRepositoryInterface {
         return $degree;
     }
 
-
     /**
+     * Updates a specified user's experience
+     * and return true or false whether it was updated
+     *
      * @param Education $degree
      * @return bool
      */
-    public function delete(Education $degree): bool
+    public function update(Education $degree) : bool
+    {
+
+    }
+
+    /**
+     * Deletes a specified user's experience
+     * and return true or false whether it was deleted
+     *
+     * @param Education $degree
+     * @return bool
+     */
+    public function delete(Education $degree) : bool
     {
         $sql = "DELETE FROM users_education WHERE id = :id";
         $stmt = $this->db->connect()->prepare($sql);
