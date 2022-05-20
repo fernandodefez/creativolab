@@ -167,128 +167,6 @@
                     </div>
                 </div>
 
-                <!-- Content Row -->
-                <div class="row p-0 m-0">
-
-                    <!-- Store Modal -->
-                    <div class="modal fade" id="storeModal" tabindex="-1" role="dialog" aria-labelledby="storeModalLabel" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title font-weight-bold text-gray-900">
-                                        Añadir experiencia
-                                    </h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <form id="storeModuleFields" action="<?php echo $_ENV['APP_URL'] . '/module/experience'; ?>" method="post">
-                                    <div class="modal-body">
-                                        <div class="form-row">
-                                            <div class="form-group col-12" id="position-group">
-                                                <label for="position" class="font-weight-bold text-gray-900"> Puesto </label>
-                                                <input id="position" class="form-control form-control-sm" type="text" placeholder="Puesto" name="position">
-                                            </div>
-                                        </div>
-                                        <div class="form-row">
-                                            <div class="form-group col-12" id="company-group">
-                                                <label for="company" class="font-weight-bold text-gray-900"> Empresa </label>
-                                                <input id="company" class="form-control form-control-sm" type="text" placeholder="Empresa" name="company">
-                                            </div>
-                                        </div>
-                                        <div class="form-row">
-                                            <div class="form-group col-6" id="startedAt-group">
-                                                <label for="startedAt" class="font-weight-bold text-gray-900">
-                                                    Fecha de ingreso
-                                                </label>
-                                                <input type="date" class="form-control form-control-sm" id="startedAt" name="startedAt">
-                                            </div>
-                                            <div class="form-group col-6" id="endedAt-group">
-                                                <label for="endedAt" class="font-weight-bold text-gray-900">
-                                                    Fecha de salida
-                                                </label>
-                                                <input type="date" class="form-control form-control-sm" id="endedAt" name="endedAt">
-                                            </div>
-                                        </div>
-                                        <div class="form-row">
-                                            <div class="form-group col-12" id="details-group">
-                                                <label for="details "class="text-gray-900 font-weight-bold"> Detalles </label>
-                                                <textarea id="details" rows="3" class="form-control form-control-sm" type="text" placeholder="Detalles" name="details"></textarea>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal"> Cerrar </button>
-                                        <button type="submit" class="btn btn-primary"> Añadir </button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <!-- Update Modal -->
-                    <div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="updateModal" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title font-weight-bold text-gray-900">
-                                        Actualizando experiencia
-                                    </h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <form id="updateModuleFields" action="<?php echo $_ENV['APP_URL'] . '/module/experience'; ?>">
-                                    <div class="modal-body">
-                                        <div class="form-row">
-                                            <div class="form-group col-12" id="update-position-group">
-                                                <label for="updatePosition" class="font-weight-bold text-gray-900"> Puesto </label>
-                                                <input id="updatePosition" class="form-control form-control-sm" type="text" placeholder="Puesto" name="updatePosition">
-                                            </div>
-                                        </div>
-                                        <div class="form-row">
-                                            <div class="form-group col-12" id="update-company-group">
-                                                <label for="updateCompany" class="font-weight-bold text-gray-900"> Empresa </label>
-                                                <input id="updateCompany" class="form-control form-control-sm" type="text" placeholder="Empresa" name="updateCompany">
-                                            </div>
-                                        </div>
-                                        <div class="form-row">
-                                            <div class="form-group col-6" id="update-startedAt-group">
-                                                <label for="updateStartedAt" class="font-weight-bold text-gray-900">
-                                                    Fecha de ingreso
-                                                </label>
-                                                <input type="date" class="form-control form-control-sm" id="updateStartedAt" name="updateStartedAt">
-                                            </div>
-                                            <div class="form-group col-6" id="update-endedAt-group">
-                                                <label for="updateEndedAt" class="font-weight-bold text-gray-900">
-                                                    Fecha de salida
-                                                </label>
-                                                <input type="date" class="form-control form-control-sm" id="updateEndedAt" name="updateEndedAt">
-                                            </div>
-                                        </div>
-                                        <div class="form-row">
-                                            <div class="form-group col-12" id="update-details-group">
-                                                <label for="updateDetails"class="text-gray-900 font-weight-bold"> Detalles </label>
-                                                <textarea id="updateDetails" rows="3" class="form-control form-control-sm" type="text" placeholder="Detalles" name="updateDetails">
-                                                </textarea>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-dismiss="modal"> Cerrar </button>
-                                        <button type="submit" class="btn btn-primary"> Actualizar </button>
-                                        <input type="number" class="d-none p-0 m-0 col-0" id="hiddenId" name="hiddenId">
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Content Row -->
-                </div>
-                <!-- /.container-fluid -->
-
             </div>
             <!-- End of Main Content -->
         </div>
@@ -297,6 +175,121 @@
     <!-- End of Page Wrapper -->
 </div>
 <!-- End of Page Wrapper -->
+
+<!-- Store Modal -->
+<div class="modal fade px-0" id="storeModal" tabindex="-1" role="dialog" aria-labelledby="storeModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title font-weight-bold text-gray-900">
+                    Añadir experiencia
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="storeModuleFields" action="<?php echo $_ENV['APP_URL'] . '/module/experience'; ?>" method="post">
+                <div class="modal-body">
+                    <div class="form-row">
+                        <div class="form-group col-12" id="position-group">
+                            <label for="position" class="font-weight-bold text-gray-900"> Puesto </label>
+                            <input id="position" class="form-control form-control-sm" type="text" placeholder="Puesto" name="position">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-12" id="company-group">
+                            <label for="company" class="font-weight-bold text-gray-900"> Empresa </label>
+                            <input id="company" class="form-control form-control-sm" type="text" placeholder="Empresa" name="company">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-6" id="startedAt-group">
+                            <label for="startedAt" class="font-weight-bold text-gray-900">
+                                Fecha de ingreso
+                            </label>
+                            <input type="date" class="form-control form-control-sm" id="startedAt" name="startedAt">
+                        </div>
+                        <div class="form-group col-6" id="endedAt-group">
+                            <label for="endedAt" class="font-weight-bold text-gray-900">
+                                Fecha de salida
+                            </label>
+                            <input type="date" class="form-control form-control-sm" id="endedAt" name="endedAt">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-12" id="details-group">
+                            <label for="details "class="text-gray-900 font-weight-bold"> Detalles </label>
+                            <textarea id="details" rows="3" class="form-control form-control-sm" type="text" placeholder="Detalles" name="details"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal"> Cerrar </button>
+                    <button type="submit" class="btn btn-primary"> Añadir </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+<!-- Update Modal -->
+<div class="modal fade p-0" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="updateModal" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title font-weight-bold text-gray-900">
+                    Actualizando experiencia
+                </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="updateModuleFields" action="<?php echo $_ENV['APP_URL'] . '/module/experience'; ?>">
+                <div class="modal-body">
+                    <div class="form-row">
+                        <div class="form-group col-12" id="update-position-group">
+                            <label for="updatePosition" class="font-weight-bold text-gray-900"> Puesto </label>
+                            <input id="updatePosition" class="form-control form-control-sm" type="text" placeholder="Puesto" name="updatePosition">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-12" id="update-company-group">
+                            <label for="updateCompany" class="font-weight-bold text-gray-900"> Empresa </label>
+                            <input id="updateCompany" class="form-control form-control-sm" type="text" placeholder="Empresa" name="updateCompany">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-6" id="update-startedAt-group">
+                            <label for="updateStartedAt" class="font-weight-bold text-gray-900">
+                                Fecha de ingreso
+                            </label>
+                            <input type="date" class="form-control form-control-sm" id="updateStartedAt" name="updateStartedAt">
+                        </div>
+                        <div class="form-group col-6" id="update-endedAt-group">
+                            <label for="updateEndedAt" class="font-weight-bold text-gray-900">
+                                Fecha de salida
+                            </label>
+                            <input type="date" class="form-control form-control-sm" id="updateEndedAt" name="updateEndedAt">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-12" id="update-details-group">
+                            <label for="updateDetails"class="text-gray-900 font-weight-bold"> Detalles </label>
+                            <textarea id="updateDetails" rows="3" class="form-control form-control-sm" type="text" placeholder="Detalles" name="updateDetails">
+                                                </textarea>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal"> Cerrar </button>
+                    <button type="submit" class="btn btn-primary"> Actualizar </button>
+                    <input type="number" class="d-none p-0 m-0 col-0" id="hiddenId" name="hiddenId">
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
 <?php include __DIR__ . "/layouts/footer.php" ?>
 
@@ -364,11 +357,18 @@
                     $("#details").toggleClass("is-invalid");
                     $("#details-group").append(`<div class='invalid-feedback'> ${data.errors.details} </div>`);
                 }
+                if (data.errors.message) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Experiencia no añadida!',
+                        text: data.errors.message
+                    });
+                }
             } else {
                 Swal.fire({
                     icon: 'success',
-                    title: 'Experiencia añadida',
-                    text: 'Tu experiencia ha sido añadida con éxito'
+                    title: 'Experiencia añadida!',
+                    text: data.message
                 }).then((result) => {
                     if (result.isConfirmed) {
                         location.reload();
@@ -377,7 +377,7 @@
                     $('html,body').animate({scrollTop: document.body.scrollHeight},"fast");
                 });
             }
-        }).fail(function (data) {
+        }).fail(function () {
             Swal.fire({
                 icon: 'error',
                 title: 'Whoops!',
@@ -399,8 +399,6 @@
             details:    $("#updateDetails").val()
         };
 
-        console.log(formData);
-
         $.ajax({
             type: "PUT",
             url: "http://localhost/module/experience/update",
@@ -408,7 +406,6 @@
             dataType: "json",
             encode: true,
         }).done(function (data) {
-            console.log(data);
             if (!data.success) {
                 if (data.errors.position) {
                     $("#updatePosition").toggleClass("is-invalid");
@@ -430,11 +427,18 @@
                     $("#updateDetails").toggleClass("is-invalid");
                     $("#update-details-group").append(`<div class='invalid-feedback'> ${data.errors.details} </div>`);
                 }
+                if (data.errors.message) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Experiencia no actualizada!',
+                        text: data.errors.message
+                    });
+                }
             } else {
                 Swal.fire({
                     icon: 'success',
-                    title: 'Experiencia actualizada',
-                    text: 'Tu experiencia ha sido actualizada con éxito'
+                    title: 'Experiencia actualizada!',
+                    text: data.message
                 }).then((result) => {
                     if (result.isConfirmed) {
                         location.reload();
@@ -443,7 +447,7 @@
                     $('html,body').animate({scrollTop: document.body.scrollHeight},"fast");
                 });
             }
-        }).fail(function (data) {
+        }).fail(function () {
             Swal.fire({
                 icon: 'error',
                 title: 'Whoops!',
@@ -453,7 +457,15 @@
         event.preventDefault();
     });
 
-    document.getElementById('toggle').addEventListener('click', function (event) {
+
+
+
+
+
+
+
+
+    document.getElementById('toggle').addEventListener('click', function () {
         const Toast = Swal.mixin({
             toast: true,
             position: 'top-end',
@@ -471,26 +483,20 @@
             data: { experiences_enabled : document.getElementById('toggle').checked },
             dataType: "json",
             encode: true,
-        }).done(function (data) {
+        }).done(function () {
             if (!data.success) {
                 Toast.fire({
                     icon: 'error',
                     title: 'Algo salió mal al intentar habilitar este módulo'
-
                 });
             }
         }).fail(function () {
             Toast.fire({
                 icon: 'error',
-                title: 'Algo salió mal al establecer la conexión con el servidor'
-
+                title: "Conexión no establecida"
             });
         });
     });
-
-
-
-
 
 
 
@@ -506,7 +512,6 @@
             encode: true,
         }).done(function (data) {
             if (data.success) {
-                console.log(data.values);
                 $("#updatePosition").val(data.values.position);
                 $("#updateCompany").val(data.values.company);
                 $("#updateStartedAt").val(data.values.started_at);
@@ -517,14 +522,14 @@
             } else {
                 Swal.fire({
                     icon: 'error',
-                    title: 'Whoops!',
-                    text: 'Algo salió mal al recuperar los datos de la experiencia seleccionada'
+                    title: 'Error al recuperar experiencia!',
+                    text: data.errors.message
                 });
             }
         }).fail(function () {
             Swal.fire({
-                icon: "error",
-                title: "Error del servidor",
+                icon: 'error',
+                title: 'Whoops!',
                 text: "Algo salió mal al establecer la conexión con el servidor"
             });
         });
@@ -550,7 +555,8 @@
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
             cancelButtonColor: "#d33",
-            confirmButtonText: "Sí, quiero borrarlo!"
+            confirmButtonText: "Sí, quiero borrarlo!",
+            cancelButtonText: "Cancelar"
         }).then((result) => {
             if (result.isConfirmed) {
                 $.ajax({
@@ -564,13 +570,13 @@
                         Swal.fire({
                             icon: "error",
                             title: "Whoops!",
-                            text: "No se pudo borrar la experiencia seleccionada"
+                            text: data.errors.message
                         });
                     } else {
                         Swal.fire({
                             icon: "success",
                             title: "Eliminado!",
-                            text: "El elemento seleccionado ha sido borrado con éxito"
+                            text: data.message
                         }).then((result) => {
                             if (result.isConfirmed) {
                                 location.reload();
@@ -580,8 +586,8 @@
                     }
                 }).fail(function () {
                     Swal.fire({
-                        icon: "error",
-                        title: "Error del servidor",
+                        icon: 'error',
+                        title: 'Whoops!',
                         text: "Algo salió mal al establecer la conexión con el servidor"
                     });
                 });

@@ -32,18 +32,18 @@ $router->mount("/module", function () use ($router) {
     $router->get("/languages", '\Creativolab\App\Http\Controllers\LanguageController@index');
 
     $router->get("/education", '\Creativolab\App\Http\Controllers\EducationController@index');
-    $router->get("/education/{id}", '\Creativolab\App\Http\Controllers\EducationController@show');
-    $router->post("/education", '\Creativolab\App\Http\Controllers\EducationController@store');
-    $router->delete("/education", '\Creativolab\App\Http\Controllers\EducationController@destroy');
-    $router->put("/education", '\Creativolab\App\Http\Controllers\EducationController@update');
+    $router->post("/education/store", '\Creativolab\App\Http\Controllers\EducationController@store');
+    $router->post("/education/show", '\Creativolab\App\Http\Controllers\EducationController@show');
+    $router->delete("/education/destroy", '\Creativolab\App\Http\Controllers\EducationController@destroy');
+    $router->put("/education/update", '\Creativolab\App\Http\Controllers\EducationController@update');
+    $router->put("/education/toggle", '\Creativolab\App\Http\Controllers\EducationController@toggle');
 
     $router->get("/experiences", '\Creativolab\App\Http\Controllers\ExperienceController@index');
-    $router->put("/experiences/toggle", '\Creativolab\App\Http\Controllers\ExperienceController@toggle');
-
     $router->post("/experience/store", '\Creativolab\App\Http\Controllers\ExperienceController@store');
     $router->post("/experience/show", '\Creativolab\App\Http\Controllers\ExperienceController@show');
     $router->delete("/experience/destroy", '\Creativolab\App\Http\Controllers\ExperienceController@destroy');
     $router->put("/experience/update", '\Creativolab\App\Http\Controllers\ExperienceController@update');
+    $router->put("/experiences/toggle", '\Creativolab\App\Http\Controllers\ExperienceController@toggle');
 
     $router->get("/testimonials", '\Creativolab\App\Http\Controllers\TestimonialController@index');
 

@@ -31,7 +31,8 @@ class ExperienceRepository implements ExperienceRepositoryInterface {
         (position, company, started_at, ended_at, details, user_id_fk) 
         VALUES (?,?,?,?,?,?)";
 
-        $this->db->connect()->prepare($sql)->execute(
+        $stmt = $this->db->connect()->prepare($sql);
+        $stmt->execute(
             [
                 $experience->getPosition(),
                 $experience->getCompany(),
@@ -41,7 +42,7 @@ class ExperienceRepository implements ExperienceRepositoryInterface {
                 $experience->getUser()
             ]
         );
-        return true;
+        return $stmt->rowCount() == 1;
     }
 
     /**
@@ -95,7 +96,7 @@ class ExperienceRepository implements ExperienceRepositoryInterface {
         $rows = $stmt->fetchAll();
 
         $experiences = [];
-        
+
         if ($stmt->rowCount() >= 1) {
             foreach ($rows as $row) {
                 $experience = new Experience();

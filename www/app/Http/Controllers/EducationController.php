@@ -44,6 +44,9 @@ class EducationController extends Controller {
     /**
      * Store a user's degree
     */
+    /**
+     * This method is used when storing the user's degree
+    */
     public function store()
     {
         if (Auth::user()) {

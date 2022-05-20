@@ -32,18 +32,100 @@ class ExperienceController extends Controller
         $experienceRepository = new ExperienceRepository();
         $experiences = $experienceRepository->findAll($user);
 
-        $this->render('panel/experiences', array(
-            "user" => $user,
-            "profession" => $profession,
-            "experiences" => $experiences
-        ));
+        $this->render('panel/experiences',
+            [
+                "user" => $user,
+                "profession" => $profession,
+                "experiences" => $experiences
+            ]
+        );
     }
 
     /**
-     * Retrieves a specified experience based on its id
+     * This method allows users to create an experience
+     *
      */
-    public function show() {
+    public function store()
+    {
+        if (Auth::user()) {
+            $errors = [];
+            $data = [];
 
+            if (empty($_POST['position'])) {
+                $errors['position'] = 'Este campo es obligatorio';
+            }
+
+            if (empty($_POST['company'])) {
+                $errors['company'] = 'Este campo es obligatorio';
+            }
+
+            if (empty($_POST['startedAt'])) {
+                $errors['startedAt'] = 'Este campo es obligatorio';
+            } else if (!preg_match("/^\d{4}-\d{2}-\d{2}$/", $_POST['startedAt'])) {
+                $errors['startedAt'] = 'Formato no válido';
+            }
+
+            if (empty($_POST['endedAt'])) {
+                $errors['endedAt'] = 'Este campo es obligatorio';
+            } else if (!preg_match("/^\d{4}-\d{2}-\d{2}$/", $_POST['endedAt'])) {
+                $errors['endedAt'] = 'Formato no válido';
+            }
+
+            if (empty($_POST['details'])) {
+                $errors['details'] = 'Este campo es obligatorio';
+            }
+
+            $user = new User();
+            $user->setId($_SESSION['user_id']);
+
+            $experienceRepository = new ExperienceRepository();
+            $experiences = $experienceRepository->findAll($user);
+
+            if (count($experiences) == 3) {
+                $errors['outofbounds'] = "Solo tienes permitido añadir hasta 3 experiencias";
+            }
+
+            if (!empty($errors)) {
+                $data['success'] = false;
+                $data['errors'] = $errors;
+            } else {
+                $user = new User();
+                $user->setId($_SESSION['user_id']);
+
+                $experience = new Experience();
+                $experience->setPosition($_POST['position']);
+                $experience->setCompany($_POST['company']);
+                $experience->setStartedAt($_POST['startedAt']);
+                $experience->setEndedAt($_POST['endedAt']);
+                $experience->setDetails($_POST['details']);
+                $experience->setUser($user->getId());
+
+                // TODO: Store data
+
+                $experienceRepository = new ExperienceRepository();
+                $data['success'] = $experienceRepository->create($experience);
+
+                if ($data['success']) {
+                    $errors['message'] = 'No ha sido posible añadir tu experiencia';
+                    $data['errors'] = $errors;
+                }
+
+                $data['message'] = 'Tu experiencia ha sido añadida con éxito';
+            }
+        } else {
+            $data['success'] = false;
+            $data['unauthorized'] = "No tienes permitido realizar esta operación";
+            http_response_code(401);
+        }
+        echo json_encode($data);
+    }
+
+    /**
+     * This method retrieves a specified user's experience, based on its id
+     *
+     */
+    public function show()
+    {
         $id = $this->post('id');
 
         $errors = [];
@@ -74,12 +156,14 @@ class ExperienceController extends Controller
                 $experienceRepository = new ExperienceRepository();
                 $values = $experienceRepository->get($experience);
 
-                if (!empty($values)){
-                    $data['success'] = true;
-                    $data['values'] = $values;
-                } else {
-                    $data['success'] = false;
+                $data['success'] = !empty($values);
+
+                if (!$data['success']){
+                    $errors['message'] = 'Algo salió mal al recuperar los datos de la experiencia seleccionada';
+                    $data['errors'] = $errors;
                 }
+
+                $data['values'] = $values;
             }
         } else {
             $data['success'] = false;
@@ -91,81 +175,10 @@ class ExperienceController extends Controller
     }
 
     /**
-     * Store user's experience
+     * This method retrieves a specified user's experience, based on its id
+     *
      */
-    public function store()
-    {
-        if (Auth::user()) {
-            $errors = [];
-            $data = [];
-
-            if (empty($_POST['position'])) {
-                $errors['position'] = 'Este campo es obligatorio';
-            }
-
-            if (empty($_POST['company'])) {
-                $errors['company'] = 'Este campo es obligatorio';
-            }
-
-            if (empty($_POST['startedAt'])) {
-                $errors['startedAt'] = 'Este campo es obligatorio';
-            } else if (!preg_match("/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/", $_POST['startedAt'])) {
-                $errors['startedAt'] = 'Formato no válido';
-            }
-
-            if (empty($_POST['endedAt'])) {
-                $errors['endedAt'] = 'Este campo es obligatorio';
-            } else if (!preg_match("/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/", $_POST['endedAt'])) {
-                $errors['endedAt'] = 'Formato no válido';
-            }
-
-            if (empty($_POST['details'])) {
-                $errors['details'] = 'Este campo es obligatorio';
-            }
-
-            $user = new User();
-            $user->setId($_SESSION['user_id']);
-
-            $experienceRepository = new ExperienceRepository();
-            $experiences = $experienceRepository->findAll($user);
-
-            if (count($experiences) == 3) {
-                $errors['outofbounds'] = "Solo tienes permitido añadir hasta 3 experiencias";
-            }
-
-            if (!empty($errors)) {
-                $data['success'] = false;
-                $data['errors'] = $errors;
-            } else {
-
-                $user = new User();
-                $user->setId($_SESSION['user_id']);
-
-                $experience = new Experience();
-                $experience->setPosition($_POST['position']);
-                $experience->setCompany($_POST['company']);
-                $experience->setStartedAt($_POST['startedAt']);
-                $experience->setEndedAt($_POST['endedAt']);
-                $experience->setDetails($_POST['details']);
-                $experience->setUser($user->getId());
-
-                // TODO: Store data
-
-                $experienceRepository = new ExperienceRepository();
-                $experienceRepository->create($experience);
-
-                $data['success'] = true;
-                $data['message'] = 'Success!';
-            }
-        } else {
-            $data['success'] = false;
-            $data['message'] = "No tienes permitido realizar esta operación";
-            http_response_code(401);
-        }
-        echo json_encode($data);
-    }
-
-    public function update() {
+    public function update(){
         $errors = [];
         $data = [];
 
@@ -197,13 +210,13 @@ class ExperienceController extends Controller
 
             if (empty($content['startedAt'])) {
                 $errors['startedAt'] = 'Este campo es obligatorio';
-            } else if (!preg_match("/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/", $content['startedAt'])) {
+            } else if (!preg_match("/^\d{4}-\d{2}-\d{2}$/", $content['startedAt'])) {
                 $errors['startedAt'] = 'Formato no válido';
             }
 
             if (empty($content['endedAt'])) {
                 $errors['endedAt'] = 'Este campo es obligatorio';
-            } else if (!preg_match("/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/", $content['endedAt'])) {
+            } else if (!preg_match("/^\d{4}-\d{2}-\d{2}$/", $content['endedAt'])) {
                 $errors['endedAt'] = 'Formato no válido';
             }
 
@@ -225,7 +238,14 @@ class ExperienceController extends Controller
                 $experience->setUser($_SESSION['user_id']);
 
                 $experienceRepository = new ExperienceRepository();
-                $data['success'] = ($experienceRepository->update($experience));
+                $data['success'] = $experienceRepository->update($experience);
+
+                if (!$data['success']) {
+                    $errors['message'] = 'Tu experiencia no ha recibido ningún cambio';
+                    $data['errors'] = $errors;
+                }
+
+                $data['message'] = 'Tu experiencia ha sido actualizada con éxito';
             }
         } else {
             $data['success'] = false;
@@ -236,6 +256,10 @@ class ExperienceController extends Controller
         echo json_encode($data);
     }
 
+    /**
+     * This method removes a specified user's experience bases on its id
+     *
+     */
     public function destroy()
     {
         $errors = [];
@@ -269,6 +293,13 @@ class ExperienceController extends Controller
 
                 $experienceRepository = new ExperienceRepository();
                 $data['success'] = ($experienceRepository->delete($experience));
+
+                if ($data['success']) {
+                    $errors['message'] = 'Tu experiencia no sido borrada';
+                    $data['errors'] = $errors;
+                }
+
+                $data['message'] = 'Tu experiencia no sido borrada con éxito';
             }
         } else {
             $data['success'] = false;
@@ -279,6 +310,10 @@ class ExperienceController extends Controller
         echo json_encode($data);
     }
 
+    /**
+     * This method toggles the experience module
+     *
+     */
     public function toggle()
     {
         $errors = [];
