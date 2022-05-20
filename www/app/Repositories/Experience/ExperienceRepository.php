@@ -95,6 +95,7 @@ class ExperienceRepository implements ExperienceRepositoryInterface {
         $rows = $stmt->fetchAll();
 
         $experiences = [];
+        
         if ($stmt->rowCount() >= 1) {
             foreach ($rows as $row) {
                 $experience = new Experience();

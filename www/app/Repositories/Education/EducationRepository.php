@@ -25,66 +25,21 @@ class EducationRepository implements EducationRepositoryInterface {
     {
         $sql ="
         INSERT INTO users_education 
-        ( 
-            level,
-            degree, 
-            institute, 
-            started_at, 
-            ended_at, 
-            details, 
-            user_id_fk
-        )  
+        (level, degree, institute, started_at, ended_at, details, user_id_fk)  
         VALUES (?,?,?,?,?,?,?) ";
 
         $this->db->connect()->prepare($sql)->execute(
             [
-                $education->getLevel(),
-                $education->getDegree(),
-                $education->getInstitute(),
-                $education->getStartedAt(),
-                $education->getEndedAt(),
-                $education->getDetails(),
-                $education->getUser()
+                $degree->getLevel(),
+                $degree->getDegree(),
+                $degree->getInstitute(),
+                $degree->getStartedAt(),
+                $degree->getEndedAt(),
+                $degree->getDetails(),
+                $degree->getUser()
             ]
         );
         return true;
-    }
-
-    /**
-     * Find all user's degrees
-     *
-     * @param User $user
-     * @return array
-     */
-    public function findAll(User $user) : array
-    {
-        $sql = "SELECT * FROM users_education WHERE user_id_fk = :user_id_fk";
-        $stmt = $this->db->connect()->prepare($sql);
-        $stmt->execute(
-            [
-                'user_id_fk' => $user->getId()
-            ]
-        );
-
-        $rows = $stmt->fetchAll();
-
-        $degrees = array();
-        if ($stmt->rowCount() >= 1) {
-            foreach ($rows as $row) {
-                $degree = new Education();
-                $degree->setId($row['id']);
-                $degree->setLevel($row['level']);
-                $degree->setDegree($row['degree']);
-                $degree->setInstitute($row['institute']);
-                $degree->setStartedAt($row['started_at']);
-                $degree->setEndedAt($row['ended_at']);
-                $degree->setDetails($row['details']);
-                $degree->setUser($user->getId());
-
-                array_push($degrees, $degree);
-            }
-        }
-        return $degrees;
     }
 
     /**
@@ -105,19 +60,57 @@ class EducationRepository implements EducationRepositoryInterface {
         );
         $row = $stmt->fetch();
 
+        $degree = [];
+
         if ($stmt->rowCount() >= 1) {
-            $degree->setId($row['id']);
-            $degree->setLevel($row['level']);
-            $degree->setDegree($row['degree']);
-            $degree->setInstitute($row['institute']);
-            $degree->setStartedAt($row['started_at']);
-            $degree->setEndedAt($row['ended_at']);
-            $degree->setDetails($row['details']);
-            $degree->setUser($row['user_id_fk']);
-        } else {
-            $degree->setId(-1);
+            $degree['id']           =   $row['id'];
+            $degree['level']        =   $row['level'];
+            $degree['degree']       =   $row['degree'];
+            $degree['institute']    =   $row['institute'];
+            $degree['started_at']   =   $row['started_at'];
+            $degree['ended_at']     =   $row['ended_at'];
+            $degree['details']      =   $row['details'];
+            $degree['user_id_fk']   =   $row['user_id_fk'];
         }
         return $degree;
+    }
+
+    /**
+     * Find all user's degrees
+     *
+     * @param User $user
+     * @return array
+     */
+    public function findAll(User $user) : array
+    {
+        $sql = "SELECT * FROM users_education WHERE user_id_fk = :user_id_fk";
+        $stmt = $this->db->connect()->prepare($sql);
+        $stmt->execute(
+            [
+                'user_id_fk' => $user->getId()
+            ]
+        );
+
+        $rows = $stmt->fetchAll();
+
+        $degrees = [];
+
+        if ($stmt->rowCount() >= 1) {
+            foreach ($rows as $row) {
+                $degree = new Education();
+                $degree->setId($row['id']);
+                $degree->setLevel($row['level']);
+                $degree->setDegree($row['degree']);
+                $degree->setInstitute($row['institute']);
+                $degree->setStartedAt($row['started_at']);
+                $degree->setEndedAt($row['ended_at']);
+                $degree->setDetails($row['details']);
+                $degree->setUser($user->getId());
+
+                array_push($degrees, $degree);
+            }
+        }
+        return $degrees;
     }
 
     /**
@@ -129,7 +122,26 @@ class EducationRepository implements EducationRepositoryInterface {
      */
     public function update(Education $degree) : bool
     {
+        $sql = "
+        UPDATE users_education 
+        SET level = :level, degree =:degree, institute =:institute, started_at = :started_at, ended_at = :ended_at, details =:details  
+        WHERE id = :id AND user_id_fk = :user_id_fk";
 
+        $stmt = $this->db->connect()->prepare($sql);
+        $stmt->execute(
+            [
+                "level"         =>  $degree->getLevel(),
+                "degree"        =>  $degree->getDegree(),
+                "institute"     =>  $degree->getInstitute(),
+                "started_at"    =>  $degree->getStartedAt(),
+                "ended_at"      =>  $degree->getEndedAt(),
+                "details"       =>  $degree->getDetails(),
+                "id"            =>  $degree->getId(),
+                "user_id_fk"    =>  $degree->getUser()
+            ]
+        );
+        $row = $stmt->rowCount();
+        return $row == 1;
     }
 
     /**
@@ -141,16 +153,11 @@ class EducationRepository implements EducationRepositoryInterface {
      */
     public function delete(Education $degree) : bool
     {
-        $sql = "DELETE FROM users_education WHERE id = :id";
+        $sql = "DELETE FROM users_education WHERE id = :id AND user_id_fk = :user_id_fk";
         $stmt = $this->db->connect()->prepare($sql);
-        if ($stmt->execute(
-            [
-                "id" => $degree->getId()
-            ]
-        ))
-        {
-            return true;
-        }
-        return false;
+        $stmt->execute(["id" => $degree->getId(), "user_id_fk" => $degree->getUser()]);
+
+        $row = $stmt->rowCount();
+        return $row == 1;
     }
 }
