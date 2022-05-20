@@ -127,7 +127,7 @@
         <a class="nav-link" href="<?php echo $_ENV['APP_URL'] . '/module/education'?>">
             <i class="fas fa-fw fa-graduation-cap"></i>
             <span>
-                Mi educación
+                Mis estudios
             </span>
         </a>
     </li>
@@ -146,7 +146,10 @@
     <li class="nav-item <?php if ($_SERVER['REQUEST_URI'] === "/module/portfolio") { echo "active"; } ?>">
         <a class="nav-link" href="<?php echo $_ENV['APP_URL'] . '/module/portfolio'?>">
             <i class="fas fa-fw fa-briefcase"></i>
-            <span>Mi Portafolio</span></a>
+            <span>
+                Mi Portafolio
+            </span>
+        </a>
     </li>
 
     <!-- Nav Item - Tables -->

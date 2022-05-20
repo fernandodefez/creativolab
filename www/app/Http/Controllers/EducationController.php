@@ -32,7 +32,6 @@ class EducationController extends Controller {
         $educationRepository = new EducationRepository();
         $degrees = $educationRepository->findAll($user);
 
-
         $this->render('panel/education', array(
             "user"          =>    $user,
             "profession"    =>    $profession,
@@ -40,13 +39,10 @@ class EducationController extends Controller {
         ));
     }
 
-
     /**
-     * Store a user's degree
-    */
-    /**
-     * This method is used when storing the user's degree
-    */
+     * This method allows users to create an experience
+     *
+     */
     public function store()
     {
         if (Auth::user()) {
@@ -104,11 +100,16 @@ class EducationController extends Controller {
                 $degree->setUser($user->getId());
 
                 // TODO: Store data
-                $educationRepository = new EducationRepository();
-                $educationRepository->create($degree);
 
-                $data['success'] = true;
-                $data['message'] = 'Success!';
+                $experienceRepository = new EducationRepository();
+                $data['success'] = $experienceRepository->create($degree);
+
+                if ($data['success']) {
+                    $errors['message'] = 'No ha sido posible añadir tu nivel escolar';
+                    $data['errors'] = $errors;
+                }
+
+                $data['message'] = 'Tu nivel escolar ha sido añadido con éxito';
             }
         } else {
             $data['success'] = false;
@@ -119,92 +120,243 @@ class EducationController extends Controller {
     }
 
     /**
-     * Shows a specific degree based on its id
-     * @param string $id
+     * This method retrieves a specified user's degree, based on its id
+     *
      */
-    public function show(string $id)
+    public function show()
     {
-        /*if (!Auth::user()) {
-            header('Location: '. $_ENV['APP_URL'] . '/login');
+        $id = $this->post('id');
+
+        $errors = [];
+        $data = [];
+
+        if (Auth::user()) {
+
+            if (!isset($id)) {
+                $errors['key'] = "La clave 'id' no ha sido especificado";
+            }
+
+            if (!is_numeric($id)) {
+                $errors['value'] = "El valor del 'id' debe ser un número";
+            }
+
+            if ($id < 0) {
+                $errors['value'] = "El valor del 'id' debe ser mayor que 0";
+            }
+
+            if (!empty($errors)) {
+                $data['errors'] = $errors;
+                $data['success'] = false;
+            } else {
+                $degree = new Education();
+                $degree->setId($id);
+                $degree->setUser($_SESSION['user_id']);
+
+                $educationRepository = new EducationRepository();
+                $values = $educationRepository->get($degree);
+
+                $data['success'] = !empty($values);
+
+                if (!$data['success']){
+                    $errors['message'] = 'Algo salió mal al recuperar los datos';
+                    $data['errors'] = $errors;
+                }
+
+                $data['values'] = $values;
+            }
+        } else {
+            $data['success'] = false;
+            $data['unauthorized'] = "No tienes permitido realizar esta acción";
+            http_response_code(401);
         }
 
-        if (!is_numeric($id) && $id <= 0) {
-            $this->render('errors/404');
-            exit();
-        }
-
-        $userRepository = new UserRepository();
-        $user = $userRepository->getUserById($_SESSION['user_id']);
-
-        $professionRepository = new ProfessionRepository();
-        $profession = $professionRepository->getProfessionByUser($user);
-
-        $educationRepository = new EducationRepository();
-        $degrees = $educationRepository->findAll($user);
-
-        $education = new Education();
-        $education->setId($id);
-        $education->setUser($user->getId());
-
-        // This is the degree to be shown
-        $degree = $educationRepository->get($education);
-
-
-        if ($degree->getId() != -1) {
-            $this->render('panel/education', array(
-                "user"          =>    $user,
-                "profession"    =>    $profession,
-                "degrees"       =>    $degrees,
-                "degree"        =>    $degree
-            ));
-        }
-        else {
-            $this->render('errors/404');
-        }*/
+        echo json_encode($data);
     }
 
+    /**
+     * This method updates a specified user's degree, based on its id
+     *
+     */
+    public function update(){
+        $errors = [];
+        $data = [];
+
+        if (Auth::user()) {
+            parse_str(file_get_contents('php://input'), $content);
+            if (!$_SERVER['REQUEST_METHOD'] == "PUT") {
+                $errors['request'] = "Petición no soportada";
+            }
+
+            if (!isset($content['id'])) {
+                $errors['key'] = "La clave 'id' no ha sido especificado";
+            }
+
+            if (!is_numeric($content['id'])) {
+                $errors['value'] = "El valor del 'id' debe ser un número";
+            }
+
+            if ($content['id'] < 0) {
+                $errors['value'] = "El valor del 'id' debe ser mayor que 0";
+            }
+
+            if (empty($content['level'])) {
+                $errors['level'] = 'Este campo es obligatorio';
+            }
+
+            if (empty($content['degree'])) {
+                $errors['degree'] = 'Este campo es obligatorio';
+            }
+
+            if (empty($content['institute'])) {
+                $errors['institute'] = 'Este campo es obligatorio';
+            }
+
+            if (empty($content['startedAt'])) {
+                $errors['startedAt'] = 'Este campo es obligatorio';
+            } else if (!preg_match("/^\d{4}$/", $content['startedAt'])) {
+                $errors['startedAt'] = 'Formato no válido';
+            }
+
+            if (empty($content['endedAt'])) {
+                $errors['endedAt'] = 'Este campo es obligatorio';
+            } else if (!preg_match("/^\d{4}$/", $content['endedAt'])) {
+                $errors['endedAt'] = 'Formato no válido';
+            }
+
+            if (empty($content['details'])) {
+                $errors['details'] = 'Este campo es obligatorio';
+            }
+
+            if (!empty($errors)) {
+                $data['errors'] = $errors;
+                $data['success'] = false;
+            } else {
+                $degree = new Education();
+                $degree->setId($content['id']);
+                $degree->setLevel($content['level']);
+                $degree->setDegree($content['degree']);
+                $degree->setInstitute($content['institute']);
+                $degree->setStartedAt($content['startedAt']);
+                $degree->setEndedAt($content['endedAt']);
+                $degree->setDetails($content['details']);
+                $degree->setUser($_SESSION['user_id']);
+
+                $educationRepository = new EducationRepository();
+                $data['success'] = $educationRepository->update($degree);
+
+                if (!$data['success']) {
+                    $errors['message'] = 'Tu nivel escolar no ha recibido ningún cambio';
+                    $data['errors'] = $errors;
+                }
+
+                $data['message'] = 'Tu nivel escolar ha sido actualizada con éxito';
+            }
+        } else {
+            $data['success'] = false;
+            $data['unauthorized'] = "No tienes permitido realizar esta acción";
+            http_response_code(401);
+        }
+
+        echo json_encode($data);
+    }
 
     /**
-     * Performs the deletion of a user's degree
-    */
+     * This method removes a specified user's experience bases on its id
+     *
+     */
     public function destroy()
     {
-        $data = [];
         $errors = [];
+        $data = [];
+
         if (Auth::user()) {
-            if ($_SERVER['REQUEST_METHOD'] == "DELETE") {
-                parse_str(file_get_contents('php://input'), $content);
-                if ($content['id']) {
-                    if (is_numeric($content['id'])) {
+            parse_str(file_get_contents('php://input'), $content);
+            if (!$_SERVER['REQUEST_METHOD'] == "DELETE") {
+                $errors['request'] = "Petición no soportada";
+            }
 
-                        $education = new Education();
-                        $education->setId($content['id']);
+            if (!isset($content['id'])) {
+                $errors['key'] = "La clave 'id' no ha sido especificado";
+            }
 
-                        $educationRepository = new EducationRepository();
-                        $educationRepository->delete($education);
+            if (!is_numeric($content['id'])) {
+                $errors['value'] = "El valor del 'id' debe ser un número";
+            }
 
-                    } else {
-                        $errors['id_not_specified'] = "Solo se permiten números.";
-                    }
-                } else {
-                    $errors['id_not_specified'] = "No se pudo remover el elemento";
-                }
+            if ($content['id'] < 0) {
+                $errors['value'] = "El valor del 'id' debe ser mayor que 0";
+            }
+
+            if (!empty($errors)) {
+                $data['errors'] = $errors;
+                $data['success'] = false;
             } else {
-                $errors['request'] = "Ocurrió un error en la petición.";
+                $degree = new Education();
+                $degree->setId($content['id']);
+                $degree->setUser($_SESSION['user_id']);
+
+                $educationRepository = new EducationRepository();
+                $data['success'] = ($educationRepository->delete($degree));
+
+                if (!$data['success']) {
+                    $errors['message'] = 'Tu nivel escolar no ha sido borrado';
+                    $data['errors'] = $errors;
+                }
+
+                $data['message'] = 'Tu nivel escolar ha sido borrada con éxito';
+            }
+        } else {
+            $data['success'] = false;
+            $data['unauthorized'] = "No tienes permitido realizar esta acción";
+            http_response_code(401);
+        }
+
+        echo json_encode($data);
+    }
+
+    /**
+     * This method toggles the education module
+     *
+     */
+    public function toggle()
+    {
+        $errors = [];
+        $data = [];
+
+        if (Auth::user()) {
+            parse_str(file_get_contents('php://input'), $content);
+            if (!$_SERVER['REQUEST_METHOD'] == "PUT") {
+                $errors['request'] = "Request method not allowed";
+            }
+
+            if (!isset($content['education_enabled'])) {
+                $errors['key'] = "The key is not allowed";
+            }
+
+            if (!(($content['education_enabled'] == 'false') || ($content['education_enabled'] == 'true'))) {
+                $errors['value'] = "The value is not valid";
             }
 
             if (!empty($errors)) {
                 $data['success'] = false;
                 $data['errors'] = $errors;
             } else {
+                $user = new User();
+                $user->setId($_SESSION['user_id']);
+                $user->setIsEducationEnabled(!(($content['education_enabled'] == 'false')));
+                $userRepository = new UserRepository();
+                $userRepository->toggleEducationEnabled($user);
+
                 $data['success'] = true;
                 $data['message'] = "Success!";
             }
         } else {
-            $data['success'] = false;
-            $data['message'] = "No tienes permitido realizar esta operación";
+            $errors['unauthorized'] = "You are not allowed to perform this action";
+            $data['errors'] = $errors;
             http_response_code(401);
         }
+
         echo json_encode($data);
     }
+
 }

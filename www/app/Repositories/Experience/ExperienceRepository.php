@@ -108,7 +108,7 @@ class ExperienceRepository implements ExperienceRepositoryInterface {
                 $experience->setDetails($row['details']);
                 $experience->setUser($user->getId());
 
-                array_push($experiences, $experience);
+                $experiences[] = $experience;
             }
         }
         return $experiences;

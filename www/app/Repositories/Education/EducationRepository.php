@@ -107,7 +107,7 @@ class EducationRepository implements EducationRepositoryInterface {
                 $degree->setDetails($row['details']);
                 $degree->setUser($user->getId());
 
-                array_push($degrees, $degree);
+                $degrees[] = $degree;
             }
         }
         return $degrees;

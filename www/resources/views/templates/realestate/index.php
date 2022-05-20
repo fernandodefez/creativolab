@@ -385,16 +385,15 @@ if (isset($data)) { ?>
 
         <!-- Education  -->
         <?php
-        if (isset($data['degrees']) && !empty($data['degrees'])) {
-            ?>
+        if (isset($data['degrees']) && !empty($data['degrees']) && $data['user']->isEducationEnabled()) {
+        ?>
             <div class="section">
                 <div class="container cc-education">
                     <div class="h4 text-center mb-4 title">
                         Education
                     </div>
                     <?php
-                    $degrees = $data['degrees'];
-                    foreach ($degrees as $degree) {
+                    foreach ($data['degrees'] as $degree) {
                     ?>
                         <div class="card">
                             <div class="row">

@@ -10,7 +10,7 @@
     <ul class="navbar-nav ml-auto">
 
         <li class="nav-item d-flex align-items-center">
-            <a href="<?php echo $_ENV['APP_URL'] . "/preview" ?>" class="btn btn-primary btn-sm font-weight-bold">
+            <a href="<?php echo $_ENV['APP_URL'] . "/preview" ?>" class="btn btn-primary btn-sm font-weight-bold" target="_blank">
                 <i class="fa fa-eye mr-1"></i> Previsualizar
             </a>
         </li>

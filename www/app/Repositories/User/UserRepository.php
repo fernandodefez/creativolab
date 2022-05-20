@@ -246,4 +246,22 @@ class UserRepository implements UserRepositoryInterface {
         );
         return true;
     }
+
+    /**
+     * This method make sure to toggle the user's education module
+     *
+     * @param User $user
+     * @return bool
+    */
+    public function toggleEducationEnabled(User $user): bool
+    {
+        $sql = "UPDATE users SET education_enabled = :education_enabled WHERE id = :id";
+        $this->db->connect()->prepare($sql)->execute(
+            [
+                "education_enabled" => $user->isEducationEnabled(),
+                "id" => $user->getId()
+            ]
+        );
+        return true;
+    }
 }

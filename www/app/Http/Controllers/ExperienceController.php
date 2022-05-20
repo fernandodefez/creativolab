@@ -175,7 +175,7 @@ class ExperienceController extends Controller
     }
 
     /**
-     * This method retrieves a specified user's experience, based on its id
+     * This method updates a specified user's experience, based on its id
      *
      */
     public function update(){
@@ -294,12 +294,12 @@ class ExperienceController extends Controller
                 $experienceRepository = new ExperienceRepository();
                 $data['success'] = ($experienceRepository->delete($experience));
 
-                if ($data['success']) {
-                    $errors['message'] = 'Tu experiencia no sido borrada';
+                if (!$data['success']) {
+                    $errors['message'] = 'Tu experiencia no ha sido borrada';
                     $data['errors'] = $errors;
                 }
 
-                $data['message'] = 'Tu experiencia no sido borrada con éxito';
+                $data['message'] = 'Tu experiencia ha sido borrada con éxito';
             }
         } else {
             $data['success'] = false;
@@ -319,22 +319,24 @@ class ExperienceController extends Controller
         $errors = [];
         $data = [];
 
-        if (!Auth::user()) {
-            $errors['unauthorized'] = "You are not allowed to perform this action";
-            http_response_code(401);
-        }
-
         parse_str(file_get_contents('php://input'), $content);
-        if (!$_SERVER['REQUEST_METHOD'] == "PUT") {
-            $errors['request'] = "Request method not allowed";
-        }
+        if (Auth::user()) {
+            if (!$_SERVER['REQUEST_METHOD'] == "PUT") {
+                $errors['request'] = "Request method not allowed";
+            }
 
-        if (!isset($content['experiences_enabled'])) {
-            $errors['key'] = "The key is not allowed";
-        }
+            if (!isset($content['experiences_enabled'])) {
+                $errors['key'] = "The key is not allowed";
+            }
 
-        if (!(($content['experiences_enabled'] == 'false') || ($content['experiences_enabled'] == 'true'))) {
-            $errors['value'] = "The value is not valid";
+            if (!(($content['experiences_enabled'] == 'false') || ($content['experiences_enabled'] == 'true'))) {
+                $errors['value'] = "The value is not valid";
+            }
+
+        } else {
+            $errors['unauthorized'] = "You are not allowed to perform this action";
+            $data['errors'] = $errors;
+            http_response_code(401);
         }
 
         if (!empty($errors)) {

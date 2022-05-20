@@ -218,7 +218,7 @@
                     </div>
                     <div class="form-row">
                         <div class="form-group col-12" id="details-group">
-                            <label for="details "class="text-gray-900 font-weight-bold"> Detalles </label>
+                            <label for="details" class="text-gray-900 font-weight-bold"> Detalles </label>
                             <textarea id="details" rows="3" class="form-control form-control-sm" type="text" placeholder="Detalles" name="details"></textarea>
                         </div>
                     </div>
@@ -275,9 +275,9 @@
                     </div>
                     <div class="form-row">
                         <div class="form-group col-12" id="update-details-group">
-                            <label for="updateDetails"class="text-gray-900 font-weight-bold"> Detalles </label>
+                            <label for="updateDetails" class="text-gray-900 font-weight-bold"> Detalles </label>
                             <textarea id="updateDetails" rows="3" class="form-control form-control-sm" type="text" placeholder="Detalles" name="updateDetails">
-                                                </textarea>
+                            </textarea>
                         </div>
                     </div>
                 </div>
@@ -483,7 +483,7 @@
             data: { experiences_enabled : document.getElementById('toggle').checked },
             dataType: "json",
             encode: true,
-        }).done(function () {
+        }).done(function (data) {
             if (!data.success) {
                 Toast.fire({
                     icon: 'error',
