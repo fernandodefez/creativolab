@@ -47,170 +47,86 @@
             <div class="container-fluid p-3">
 
                 <!-- Page Heading -->
-                <div class="px-1 d-flex justify-content-between">
-                    <h1 class="h3 mb-4 text-gray-800 px-2 font-weight-bold module">
-                        Testimonios
-                    </h1>
-                    <!--
-                    <div class="enable-module-toggle">
-                        <label class="toggle" data-bs-toggle="tooltip" data-bs-placement="bottom"
-                               title="Show module">
-                            <input type="checkbox"
-
-                                /*
-                                if (isset($data) && $data['user']->isTestimonialsEnabled()) {
-                                    echo "checked";
-                                }*/
-
-                            >
-                            <span class="slider round"></span>
-                        </label>
-                    </div> -->
-                </div>
-
-                <!-- Content Row -->
-                <div class="row p-0 m-0">
-
-                    <!--
-                    <div class="col-12 mb-4">
-                        <p class="text-gray-900 mb-4">
-                            Añadir un testimonio
-                        </p>
-                        <form class="module-fields">
-                            <div class="form-row">
-                                <div class="form-group col-md-3" id="level-group">
-                                    <label for="level">
-                                        Nivel escolar
+                <div class="col-12 p-0 m-0">
+                    <div class="d-flex p-0 m-0 justify-content-between flex-lg-row flex-column-reverse">
+                        <div class="col-12 mb-4 col-lg-8">
+                            <div class="row p-0 m-0 d-flex justify-content-between mb-4">
+                                <h4 class="text-gray-900 font-weight-bold m-0">
+                                    Testimonios
+                                </h4>
+                                <div class="enable-module-toggle py-1">
+                                    <label class="toggle m-0" data-bs-toggle="tooltip" data-bs-placement="bottom"
+                                           title="Habilitar módulo en mi plantilla">
+                                        <input id="toggle" type="checkbox"<?php if (isset($data) && $data['user']->areExperiencesEnabled()) { echo "checked"; } ?>>
+                                        <span class="slider round"></span>
                                     </label>
-                                    <select id="level" class="form-control custom-select" name="level">
-                                        <option value="" selected> Seleccionar nivel </option>
-                                        <option value="Licenciatura"> Licenciatura </option>
-                                        <option value="Maestria"> Maestria </option>
-                                        <option value="Doctorado"> Doctorado </option>
-                                    </select>
-                                </div>
-                                <div class="form-group col-md-9" id="degree-group">
-                                    <label for="degree"> Título </label>
-                                    <input
-                                        id="degree"
-                                        class="form-control"
-                                        type="text"
-                                        placeholder="Título"
-                                        name="degree"
-                                    >
                                 </div>
                             </div>
-                            <div class="form-row">
-                                <div class="form-group col-md-8" id="institute-group">
-                                    <label for="institute">Institución</label>
-                                    <input
-                                        id="institute"
-                                        class="form-control"
-                                        type="text"
-                                        placeholder="Institución educativa"
-                                        name="institute"
-                                    >
+                            <dic class="row mb-4">
+                                <div class="col-12">
+                                    <button class="btn btn-success btn-sm m-0 font-weight-bold module-fields" type="button" data-toggle="modal" data-target="#storeModal">
+                                        &plus; Añadir testimonio
+                                    </button>
                                 </div>
-                                <div class="form-group col-md-2" id="startedAt-group">
-                                    <label for="startedAt">Inicio</label>
-                                    <select id="startedAt" class="form-control custom-select" name="startedAt">
-                                        <option value="" selected>Año</option>
-                                        <option value="2022"> 2022 </option>
-                                    </select>
-                                </div>
-                                <div class="form-group col-md-2" id="endedAt-group">
-                                    <label for="endedAt">Culminación</label>
-                                    <select id="endedAt" class="form-control custom-select" name="endedAt">
-                                        <option value="" selected>Año</option>
-                                        <option value="2022"> 2022 </option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-group" id="details-group">
-                                <label for="details">Detalles</label>
-                                <input
-                                    id="details"
-                                    class="form-control"
-                                    type="text"
-                                    placeholder="Detalles"
-                                    name="details"
-                                >
-                            </div>
-                            <div class="d-flex justify-content-end">
-                                <button type="submit" class="btn btn-primary font-weight-bold shadow-sm">
-                                    Agregar
-                                </button>
-                            </div>
-                        </form>
-                    </div> -->
-
-                    <!-- Content Row -->
-                </div>
-                <!-- /.container-fluid -->
-
-                <!--
-                <div class="col-12 p-0 m-0 module-content">
-                    <div class="col-12 d-flex flex-wrap p-0">
-                        <div class="col-12 col-lg-6">
-                            <div class="card mb-4 shadow-sm">
-                                <div class="card-body">
-                                    <p class="font-weight-bold mb-2 text-gray-900 h5">
-                                        Datos
-                                    </p>
-                                    <p class="text-muted mb-2 text-gray-600 font-italic">
-                                        Datos
-                                    </p>
-                                    <p class="text-muted mb-2 text-gray-600">
-                                        Datos
-                                    </p>
-                                    <p class="mb-0 text-gray-500">
-                                        Datos
-                                    </p>
-                                </div>
-                                <div class="card-footer bg-white d-flex justify-content-between font-italic">
-                                    <div>
-                                        Datos
-                                    </div>
-                                    <div class="dropdown no-arrow">
-                                        <a class="dropdown-toggle" role="button" id="dropdownMenuLink"
-                                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-600"></i>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                             aria-labelledby="dropdownMenuLink">
-                                            <div class="dropdown-header">
-                                                Actions
+                            </dic>
+                            <dic class="row mb-4">
+                                <div class="col-12">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="card">
+                                                p
                                             </div>
-                                            <a class="dropdown-item"
-                                               href="">
-                                                <i class="fa fa-pen text-gray-700 mr-2"> </i> Editar </a>
-                                            <button class="dropdown-item" onclick="">
-                                                <i class="fa fa-trash text-gray-700 mr-2"> </i> Borrar </button>
                                         </div>
                                     </div>
+                                </div>
+                            </dic>
+                        </div>
+                        <div class="col-12 mb-5 col-lg-4">
+                            <div class="card m-0 shadow-sm p-0">
+                                <div class="card-body">
+                                    <p class="p-0 mt-2 text-gray-500 font-weight-bold h5">
+                                        Plantilla
+                                    </p>
+                                    <div class="p-0 d-flex justify-content-start align-items-center mt-3">
+                                        <p class="p-0 m-0 h2 text-gray-900 font-weight-bolder align-self-end">
+                                            $49
+                                        </p>
+                                        <span class="align-self-end text-gray-00 mx-1">
+                                            /anual
+                                        </span>
+                                    </div>
+                                    <div class="p-0 mt-3 mb-1 d-flex align-items-center">
+                                        <div class="p-0">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="#0275d8" style="height: 20px; width: 20px;">
+                                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                                            </svg>
+                                        </div>
+                                        <div class="col-fill p-0 mx-1">
+                                            <span class="p-0 m-0 font-weight-light text-gray-600">
+                                                Plantilla
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="p-0 mt-1 mb-3 d-flex align-items-center">
+                                        <div class="p-0">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="#0275d8" style="height: 20px; width: 20px;">
+                                                <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" />
+                                            </svg>
+                                        </div>
+                                        <div class="col-fill p-0 mx-1">
+                                            <span class="p-0 m-0 font-weight-light text-gray-600">
+                                                Subdominio
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <button class="btn btn-primary font-weight-bold btn-block mt-3">
+                                        Comprar
+                                    </button>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                -->
-
-            </div>
-            <!-- End of Main Content -->
-
-            <!-- Footer -->
-            <!--
-            <footer class="sticky-footer">
-                <div class="container my-auto">
-                    <div class="copyright text-center my-auto">
-                        <span>
-                            Copyright &copy; CreativoLab 2022
-                        </span>
-                    </div>
-                </div>
-            </footer>
-            -->
-            <!-- End of Footer -->
         </div>
         <!-- End of Content Wrapper -->
     </div>

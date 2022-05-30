@@ -8,7 +8,9 @@
     <!-- Bootstrap CSS -->
     <link href="/assets/core/css/sb-admin-2.css" rel="stylesheet">
 
-    <title>Home</title>
+    <title>
+        Home
+    </title>
 
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Roboto&display=swap');

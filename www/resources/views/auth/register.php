@@ -378,14 +378,6 @@
     <!-- SweetAlert2 -->
     <script src="/assets/core/sweetalert2/sweetalert2.js"> </script>
     <script>
-    <?php
-        if (isset($errors) && !empty($errors['exception'])) {
-            $errors['exception'];
-            ?>
-    Swal.fire(<?php echo $errors['exception']?>);
-    <?php
-        }
-        ?>
     </script>
 
 </body>

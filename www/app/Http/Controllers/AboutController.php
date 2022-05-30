@@ -6,7 +6,7 @@ use Creativolab\App\Auth;
 use Creativolab\App\Repositories\Profession\ProfessionRepository;
 use Creativolab\App\Repositories\User\UserRepository;
 
-class PersonalDataController extends Controller {
+class AboutController extends Controller {
 
     public function __construct()
     {
@@ -28,7 +28,7 @@ class PersonalDataController extends Controller {
 
         $user->setProfession($profession->getId());
 
-        $this->render('panel/personal-data', array(
+        $this->render('panel/about', array(
             "user"        =>  $user,
             "profession"  =>  $profession
         ));

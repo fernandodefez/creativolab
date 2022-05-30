@@ -75,44 +75,44 @@
                                         <div class="col-12">
                                             <?php if (isset($data['experiences']) && !empty($data['experiences'])) {
                                                 foreach ($data['experiences'] as $experience) {
-                                            ?>
-                                            <div class="card mb-4 shadow-sm">
-                                                <div class="card-body">
-                                                    <p class="font-weight-bold mb-2 text-gray-900 h5">
-                                                        <?php echo $experience->getPosition(); ?>
-                                                    </p>
-                                                    <p class="text-muted mb-2 text-gray-600">
-                                                        <?php echo $experience->getCompany(); ?>
-                                                    </p>
-                                                    <p class="mb-0 text-gray-600 font-weight-light">
-                                                        <?php echo $experience->getDetails(); ?>
-                                                    </p>
-                                                </div>
-                                                <div class="card-footer bg-white d-flex justify-content-between">
-                                                    <div>
-                                                        <?php echo $experience->getStartedAt() . ' - ' . $experience->getEndedAt(); ?>
-                                                    </div>
-                                                    <div class="dropdown no-arrow">
-                                                        <a class="dropdown-toggle" role="button" id="dropdownMenuLink"
-                                                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                                            <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-600"></i>
-                                                        </a>
-                                                        <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
-                                                             aria-labelledby="dropdownMenuLink">
-                                                            <div class="dropdown-header">
-                                                                Actions
+                                                    ?>
+                                                    <div class="card mb-4 shadow-sm">
+                                                        <div class="card-body">
+                                                            <p class="font-weight-bold mb-2 text-gray-900 h5">
+                                                                <?php echo $experience->getPosition(); ?>
+                                                            </p>
+                                                            <p class="text-muted mb-2 text-gray-600">
+                                                                <?php echo $experience->getCompany(); ?>
+                                                            </p>
+                                                            <p class="mb-0 text-gray-600 font-weight-light">
+                                                                <?php echo $experience->getDetails(); ?>
+                                                            </p>
+                                                        </div>
+                                                        <div class="card-footer bg-white d-flex justify-content-between">
+                                                            <div>
+                                                                <?php echo $experience->getStartedAt() . ' - ' . $experience->getEndedAt(); ?>
                                                             </div>
-                                                            <button class="dropdown-item" onclick="show(<?php echo $experience->getId() ?>)">
-                                                                <i class="fa fa-pen text-gray-700 mr-2"></i> Editar
-                                                            </button>
-                                                            <button class="dropdown-item" onclick="destroy(<?php echo $experience->getId() ?>)">
-                                                                <i class="fa fa-trash text-gray-700 mr-2"> </i> Borrar
-                                                            </button>
+                                                            <div class="dropdown no-arrow">
+                                                                <a class="dropdown-toggle" role="button" id="dropdownMenuLink"
+                                                                   data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                                    <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-600"></i>
+                                                                </a>
+                                                                <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                                                     aria-labelledby="dropdownMenuLink">
+                                                                    <div class="dropdown-header">
+                                                                        Actions
+                                                                    </div>
+                                                                    <button class="dropdown-item" onclick="show(<?php echo $experience->getId() ?>)">
+                                                                        <i class="fa fa-pen text-gray-700 mr-2"></i> Editar
+                                                                    </button>
+                                                                    <button class="dropdown-item" onclick="destroy(<?php echo $experience->getId() ?>)">
+                                                                        <i class="fa fa-trash text-gray-700 mr-2"> </i> Borrar
+                                                                    </button>
+                                                                </div>
+                                                            </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                            </div>
-                                            <?php
+                                                    <?php
                                                 }
                                             } ?>
                                         </div>

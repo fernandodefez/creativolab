@@ -121,13 +121,13 @@
 
                         <!-- Content Row -->
 
-                        <div class="col-12 d-flex flex-column flex-lg-row p-0 justify-content-around">
+                        <div class="col-12 d-flex flex-column flex-lg-row p-0 justify-content-around modules">
 
                             <!-- Area Chart -->
                             <div class="col-xl-8 col-lg-7">
                                 <div class="card shadow mb-4">
                                     <!-- Card Header - Dropdown -->
-                                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                                    <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between tour">
                                         <h6 class="m-0 font-weight-bold text-primary">
                                             Earnings Overview
                                         </h6>
@@ -220,17 +220,8 @@
                     </div>
                     <!-- /.container-fluid -->
                 </div>
-            <!-- End of Main Content -->
+                <!-- End of Main Content -->
 
-                <!-- Footer -->
-                <footer class="sticky-footer">
-                    <div class="container my-auto">
-                        <div class="copyright text-center my-auto">
-                            <span>Copyright &copy; CreativoLab 2022</span>
-                        </div>
-                    </div>
-                </footer>
-                <!-- End of Footer -->
             </div>
             <!-- End of Content Wrapper -->
         </div>
@@ -249,51 +240,48 @@
     <script src="/assets/core/js/demo/chart-pie-demo.js"></script>
 
     <!-- Product Tour Library JavaScript -->
-    <script src="/assets/product-tour/lib.js"></script>
+    <script src="/assets/core/product-tour/lib.js"></script>
 
     <script>
 
-        let isActive = localStorage.getItem('product-tour-is-active');
-        if (isActive === "true") {
-
-            let tourOptions = {
-                options: {
-                    darkLayerPersistence: true,
-                    next: 'Next',
-                    prev: 'Previous',
-                    finish: 'Okay!',
-                    mobileThreshold: 768
+        let tourOptions = {
+            options: {
+                darkLayerPersistence: true,
+                next: 'Next',
+                prev: 'Previous',
+                finish: 'Okay!',
+                mobileThreshold: 768
+            },
+            tips: [
+                {
+                    title: '🤘🏼 Módulos',
+                    description: 'Estos son los módulos en los que puedes crear el contenido de tu plantilla',
+                    selector: '.modules',
+                    x: 50,
+                    y: 50,
+                    offx: 5,
+                    offy: -5,
+                    position: 'right',
+                    onSelected: false
                 },
-                tips: [
-                    {
-                        title: '🤘🏼 Módulos',
-                        description: 'Estos son los módulos en los que puedes crear el contenido de tu plantilla',
-                        selector: '.modules',
-                        x: 50,
-                        y: 50,
-                        offx: 5,
-                        offy: -5,
-                        position: 'right',
-                        onSelected: false
-                    },
-                    {
-                        title: 'Activación de guía',
-                        description: 'Puedes activar y desactivar en cualquier momento esta guía de uso',
-                        selector: '.tour',
-                        x: 0,
-                        y: 50,
-                        offx: -60,
-                        offy: 24,
-                        position: 'bottom',
-                        onSelected: false
-                    },
-                ]
-            };
-            ProductTourJS.init(tourOptions);
-            ProductTourJS.start();
-        }
-    </script>
+                {
+                    title: 'Activación de guía',
+                    description: 'Puedes activar y desactivar en cualquier momento esta guía de uso',
+                    selector: '.tour',
+                    x: 0,
+                    y: 50,
+                    offx: -60,
+                    offy: 24,
+                    position: 'bottom',
+                    onSelected: false
+                },
+            ]
+        };
 
+        ProductTourJS.init(tourOptions);
+        ProductTourJS.start();
+
+    </script>
 </body>
 
 </html>

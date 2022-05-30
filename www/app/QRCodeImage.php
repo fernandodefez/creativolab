@@ -8,7 +8,7 @@ namespace Creativolab\App;
 
 use chillerlan\QRCode\QRCode;
 
-class QRCodeBuilder {
+class QRCodeImage {
 
     /**
      * Build a QRCode image within the user's folder
@@ -17,7 +17,7 @@ class QRCodeBuilder {
      * @param string $folder user's folder.
      * @param string $filename qrcode image name, it is called "qr" by default
      */
-    public static function build(string $link, string $folder, string $filename): void
+    public static function make(string $link, string $folder, string $filename): void
     {
         $file = $_SERVER['DOCUMENT_ROOT'] . "/storage/users/" . $folder . "/" . $filename;
 

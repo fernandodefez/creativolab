@@ -1,17 +1,14 @@
 <?php
 
-namespace Creativolab\App\Http\Controllers;
+namespace Creativolab\App\Http\Controllers\Skill;
 
 use Creativolab\App\Auth;
+use Creativolab\App\Http\Controllers\Controller;
 use Creativolab\App\Repositories\Profession\ProfessionRepository;
 use Creativolab\App\Repositories\User\UserRepository;
 
-class AboutMeController extends Controller {
-
-    public function __construct()
-    {
-        parent::__construct();
-    }
+class SkillController extends Controller
+{
 
     public function index()
     {
@@ -28,9 +25,9 @@ class AboutMeController extends Controller {
 
         $user->setProfession($profession->getId());
 
-        $this->render('panel/about-me', array(
+        $this->render('panel/skills', [
             "user"        =>  $user,
             "profession"  =>  $profession
-        ));
+        ]);
     }
 }

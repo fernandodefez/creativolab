@@ -7,7 +7,7 @@ use Creativolab\App\Http\Controllers\Controller;
 use Creativolab\App\Models\Profession;
 use Creativolab\App\Models\User;
 use Creativolab\App\Notifications\UserVerification;
-use Creativolab\App\QRCodeBuilder;
+use Creativolab\App\QRCodeImage;
 use Creativolab\App\Repositories\Code\CodeRepository;
 use Creativolab\App\Repositories\Profession\ProfessionRepository;
 use Creativolab\App\Repositories\User\UserRepository;
@@ -28,7 +28,11 @@ class RegisterController extends Controller {
             $professions = (new ProfessionRepository())->findAll();
             $codes = (new CodeRepository())->findAll();
             if (count($professions) > 0 && count($codes) > 0) {
-                $this->render('auth/register', ["professions" => $professions, 'codes' => $codes]);
+                $this->render('auth/register',
+                    [
+                        "professions" => $professions,
+                        'codes' => $codes
+                    ]);
                 exit();
             }
             header('Location: '. $_ENV['APP_URL']);

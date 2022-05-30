@@ -43,9 +43,7 @@
 
 <!-- Product Tour Toggle  -->
 <script>
-    $(document).ready(function() {
-        if (localStorage.getItem("product-tour-is-active") === null) {
-            localStorage.setItem('product-tour-is-active', "false");
-        }
-    });
+
+
+
 </script>

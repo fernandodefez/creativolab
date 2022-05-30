@@ -21,14 +21,14 @@ $router->mount('/dashboard', function () use ($router) {
     $router->get("", '\Creativolab\App\Http\Controllers\DashboardController@index');
 });
 
-$router->mount("/profile", function () use ($router) {
-    $router->get("/personal-data", '\Creativolab\App\Http\Controllers\PersonalDataController@index');
-    $router->get("/about-me", '\Creativolab\App\Http\Controllers\AboutMeController@index');
+$router->mount("/account", function () use ($router) {
+    $router->get("/about", '\Creativolab\App\Http\Controllers\AboutController@index');
+    $router->post("/about", '\Creativolab\App\Http\Controllers\AboutController@store');
+    $router->get("/settings", '\Creativolab\App\Http\Controllers\SettingsController@index');
+    $router->post("/settings", '\Creativolab\App\Http\Controllers\SettingsController@store');
 });
 
 $router->mount("/module", function () use ($router) {
-    $router->get("/skills", '\Creativolab\App\Http\Controllers\SkillController@index');
-
     $router->get("/languages", '\Creativolab\App\Http\Controllers\LanguageController@index');
 
     $router->get("/education", '\Creativolab\App\Http\Controllers\EducationController@index');
@@ -45,10 +45,17 @@ $router->mount("/module", function () use ($router) {
     $router->put("/experience/update", '\Creativolab\App\Http\Controllers\ExperienceController@update');
     $router->put("/experiences/toggle", '\Creativolab\App\Http\Controllers\ExperienceController@toggle');
 
-    $router->get("/testimonials", '\Creativolab\App\Http\Controllers\TestimonialController@index');
-
     $router->get("/portfolio", '\Creativolab\App\Http\Controllers\PortfolioController@index');
 });
+
+$router->get("/testimonials", '\Creativolab\App\Http\Controllers\TestimonialController@index');
+
+
+$router->get('/skills', '\Creativolab\App\Http\Controllers\Skill\SkillController@index');
+$router->get('/api/v1/skills/categories', '\Creativolab\App\Http\Controllers\Skill\CategoryController@show');
+$router->post('/api/v1/skills/categories', '\Creativolab\App\Http\Controllers\Skill\CategoryController@store');
+$router->get('/api/v1/skills', '\Creativolab\App\Http\Controllers\Skill\SkillController@show');
+$router->post('/api/v1/skills', '\Creativolab\App\Http\Controllers\Skill\SkillController@index');
 
 
 $router->get("/login", '\Creativolab\App\Http\Controllers\Auth\LoginController@index');
