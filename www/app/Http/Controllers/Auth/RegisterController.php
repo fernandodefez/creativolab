@@ -32,7 +32,8 @@ class RegisterController extends Controller {
                     [
                         "professions" => $professions,
                         'codes' => $codes
-                    ]);
+                    ])
+                ;
                 exit();
             }
             header('Location: '. $_ENV['APP_URL']);
@@ -148,7 +149,7 @@ class RegisterController extends Controller {
         if (empty($user->getPhoneNumber())) {
             $errors['phone_number_error'] = "Este campo es obligatorio";
         } else if (!preg_match("/^[0-9]{3}[0-9]{4}[0-9]{3}$/", $user->getPhoneNumber())) {
-            $errors['phone_number_error'] = "Número celular no válido";
+            $errors['phone_number_error'] = "Número telefónico no válido";
         }
 
 
@@ -172,14 +173,13 @@ class RegisterController extends Controller {
                 // Create user's folder to store all their data such as qr, images, etc...
                 $user->setFolder(strtolower(
                     $user->getFirstName() . $user->getMiddleName() .
-                    $user->getFirstLastname() . $user->getSecondLastname() .
-                    '-' . Uuid::uuid4()
+                    $user->getFirstLastname() . $user->getSecondLastname()
                 ));
 
                 $hashedPassword = password_hash($user->getPassword(), PASSWORD_DEFAULT, ['cost' => 12]);
                 $user->setPassword($hashedPassword);
 
-                $user->setQr(Uuid::uuid4() . '.png');
+                $user->setQr(str_replace('-', '', date("d-m-Y").time()). '.png');
 
                 $user->setSubdomain(strtolower(
                     $user->getFirstName() . $user->getMiddleName() .
@@ -202,7 +202,7 @@ class RegisterController extends Controller {
                 Storage::createFolder($user->getFolder());
 
                 // Render a qr code within the user's folder previously created
-                QRCodeBuilder::build($user->getEndpoint(), $user->getFolder(), $user->getQr());
+                QRCodeImage::make($user->getEndpoint(), $user->getFolder(), $user->getQr());
 
                 // Store the user
                 $userRepository = new UserRepository();

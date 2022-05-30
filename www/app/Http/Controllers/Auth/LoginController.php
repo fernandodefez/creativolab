@@ -57,7 +57,7 @@ class LoginController extends Controller {
                 if (password_verify($password, $user->getPassword())) {
                     if ($user->isVerified() === true) {
                         $_SESSION['user_id'] = $user->getId();
-                        header('Location: '. $_ENV['APP_URL'] . '/profile/personal-data');
+                        header('Location: '. $_ENV['APP_URL'] . '/account/about');
                     } else if ($user->isVerified() === false) {
                         $this->render('auth/user_not_verified', array("email" => $user->getEmail()));
                     } else {
