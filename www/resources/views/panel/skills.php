@@ -104,7 +104,9 @@
                                                             Eliminar
                                                         </button>
                                                     </div>
-                                                    <div class="divider col-12 my-2"></div>
+                                                    <div class="divider col-12 my-2" id="cont-categories">
+
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="card mb-4">
@@ -234,7 +236,141 @@
 <script src="/assets/core/sweetalert2/sweetalert2.js"> </script>
 <!-- Form Submit -->
 <script>
-    //Swal.fire('Any fool can use a computer');
+    //Swal.fire('Any fool can use a computer')
+
+    //POST
+
+    $("#create-category-form").submit(function(event){
+        $(".form-control").removeClass("is-invalid");
+        $(".invalid-feedback").remove();
+
+        var  category ={body:$("#create-category-form-category".val())}
+
+        $.ajax({
+            type: "POST",
+            url: "http://localhost/module/skills/categories",
+            data: category,
+            dataType: "json",
+            encode: true,
+        }).done(function (data) {
+            if (!data.success) {
+                if (data.errors.outofbounds) {
+                    Swal.fire({
+                        icon: "error",
+                        title: "Límite alcanzado",
+                        text: data.errors.outofbounds,
+                    });
+                }
+                if (data.errors.category) {
+                    $("#create-category-form-category").toggleClass("is-invalid");
+                }
+                if (data.errors.message) {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Nombre de la categoria no añadido!',
+                        text: data.errors.message
+                    });
+                }
+            } else {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Nueva categoria añadida!',
+                    text: data.message
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        location.reload();
+                    }
+                    location.reload();
+                    $('html,body').animate({scrollTop: document.body.scrollHeight},"fast");
+                });
+            }
+        }).fail(function () {
+            Swal.fire({
+                icon: 'error',
+                title: 'Whoops!',
+                text: "Algo salió mal al establecer la conexión con el servidor"
+            });
+        });
+        event.preventDefault();
+
+    });
+//GET
+    function mostrarCategory(id){
+
+            $.ajax({
+            type: "GET",
+            url: "http://localhost/module/skills/mostrarCategory",
+            data: { id  },
+            dataType: "json",
+            encode: true,
+        }).done(function (data) {
+            if (data.success) {
+                $("#cont-categories").val(data.values.category);
+            } else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error al recuperar las categorias',
+                    text: data.errors.message
+                });
+            }
+        }).fail(function () {
+            Swal.fire({
+                icon: 'error',
+                title: 'Whoops!',
+                text: "Algo salió mal al establecer la conexión con el servidor"
+            });
+        });
+
+    }
+//DELETE
+    function deleteCategory(id) {
+        Swal.fire({
+            title: "¿En realidad quieres borrar esta categoria?",
+            text: "No podrás revertir tu decisión",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Sí, quiero borrarla!",
+            cancelButtonText: "Cancelar"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    type: "DELETE",
+                    url: "http://localhost/module/skills/deleteCategory",
+                    data: { id },
+                    dataType: "json",
+                    encode: true,
+                }).done(function (data) {
+                    if (!data.success) {
+                        Swal.fire({
+                            icon: "error",
+                            title: "Whoops!",
+                            text: data.errors.message
+                        });
+                    } else {
+                        Swal.fire({
+                            icon: "success",
+                            title: "Eliminada!",
+                            text: data.message
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                location.reload();
+                            }
+                            location.reload();
+                        });
+                    }
+                }).fail(function () {
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Whoops!',
+                        text: "Algo salió mal al establecer la conexión con el servidor"
+                    });
+                });
+            }
+        });
+    }
+
 </script>
 
 </body>
