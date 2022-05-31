@@ -133,9 +133,7 @@
                                                             <div class="form-group col-md-3">
                                                                 <label for="add-skill-form-category"> Categoría </label>
                                                                 <select class="custom-select" id="add-skill-form-category" name="category" required>
-                                                                    <option selected disabled value=""> Categoría </option>
-                                                                    <option>...</option>
-                                                                    <option>...</option>
+
                                                                 </select>
                                                             </div>
                                                         </div>
@@ -318,6 +316,7 @@
         }
 
         let html = "";
+        let dropdown = `<option selected disabled value=""> Categoría </option>`;
         if (data.success) {
             if (data.categories.length === 0) {
                 html =
@@ -335,11 +334,15 @@
                     </div>
                     <div class="divider col-12 my-2">
                     </div>`;
+                    dropdown += `<option value="${category.id}"> ${category.category} </option>`;
                 }
             }
         }
         document.getElementById("categories-list").innerHTML = "";
         document.getElementById('categories-list').innerHTML = html;
+
+        document.getElementById("add-skill-form-category").innerHTML = "";
+        document.getElementById("add-skill-form-category").innerHTML = dropdown;
     }
 
 
