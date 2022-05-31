@@ -81,7 +81,7 @@
                                                     </p>
                                                     <form id="create-category-form" class="mt-2">
                                                         <div class="form-row">
-                                                            <div class="form-group col-md-5 mb-md-1">
+                                                            <div class="form-group col-md-6" id="create-category-form-category-group">
                                                                 <label for="create-category-form-category"> Categoría </label>
                                                                 <input type="text"
                                                                        name="skill"
@@ -89,24 +89,14 @@
                                                                        id="create-category-form-category"
                                                                        placeholder="Establece la categoría">
                                                             </div>
-                                                            <div class="form-group col-md-auto align-self-md-end mb-1 mb-md-1">
-                                                                <button type="submit" class="btn btn-primary font-weight-bold" id="add-skill-form-submit">
-                                                                    Crear
-                                                                </button>
-                                                            </div>
                                                         </div>
+                                                        <button type="submit" class="btn btn-primary font-weight-bold mx-0" id="create-category-form-category">
+                                                            Crear
+                                                        </button>
                                                     </form>
                                                 </div>
-                                                <div class="card-body">
-                                                    <div class="d-flex justify-content-between align-items-center px-1">
-                                                        <p class="text-dark font-weight-bold m-0"> Categoría </p>
-                                                        <button class="btn btn-outline-danger btn-sm">
-                                                            Eliminar
-                                                        </button>
-                                                    </div>
-                                                    <div class="divider col-12 my-2" id="cont-categories">
+                                                <div class="card-body" id="categories-list">
 
-                                                    </div>
                                                 </div>
                                             </div>
                                             <div class="card mb-4">
@@ -236,33 +226,41 @@
 <script src="/assets/core/sweetalert2/sweetalert2.js"> </script>
 <!-- Form Submit -->
 <script>
-    //Swal.fire('Any fool can use a computer')
+    const BASE_URL = "http://localhost";
 
-    //POST
+    fetchCategories();
 
-    $("#create-category-form").submit(function(event){
+    // POST
+    $("#create-category-form").submit(function(event) {
+        event.preventDefault();
+
         $(".form-control").removeClass("is-invalid");
         $(".invalid-feedback").remove();
 
-        var  category ={body:$("#create-category-form-category".val())}
+        var category ={
+            category: $("#create-category-form-category").val()
+        }
 
         $.ajax({
             type: "POST",
-            url: "http://localhost/module/skills/categories",
+            url: BASE_URL + "/api/v1/skills/categories",
             data: category,
             dataType: "json",
             encode: true,
         }).done(function (data) {
+            console.log(data);
             if (!data.success) {
+                /*
                 if (data.errors.outofbounds) {
                     Swal.fire({
                         icon: "error",
                         title: "Límite alcanzado",
                         text: data.errors.outofbounds,
                     });
-                }
+                }*/
                 if (data.errors.category) {
                     $("#create-category-form-category").toggleClass("is-invalid");
+                    $("#create-category-form-category-group").append( `<div class='invalid-feedback'> ${data.errors.category} </div>`);
                 }
                 if (data.errors.message) {
                     Swal.fire({
@@ -277,11 +275,8 @@
                     title: 'Nueva categoria añadida!',
                     text: data.message
                 }).then((result) => {
-                    if (result.isConfirmed) {
-                        location.reload();
-                    }
-                    location.reload();
-                    $('html,body').animate({scrollTop: document.body.scrollHeight},"fast");
+                    $("#create-category-form-category").val("");
+                    fetchCategories();
                 });
             }
         }).fail(function () {
@@ -291,38 +286,64 @@
                 text: "Algo salió mal al establecer la conexión con el servidor"
             });
         });
-        event.preventDefault();
 
     });
-//GET
-    function mostrarCategory(id){
 
-            $.ajax({
-            type: "GET",
-            url: "http://localhost/module/skills/mostrarCategory",
-            data: { id  },
-            dataType: "json",
-            encode: true,
-        }).done(function (data) {
-            if (data.success) {
-                $("#cont-categories").val(data.values.category);
-            } else {
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Error al recuperar las categorias',
-                    text: data.errors.message
-                });
-            }
-        }).fail(function () {
+    // GET
+    async function fetchCategories() {
+        document.getElementById("categories-list").innerHTML =
+            `<div class="d-flex justify-content-center">
+            <div class="spinner-border" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>`;
+
+        const response = await fetch(BASE_URL + '/api/v1/skills/categories');
+        const data = await response.json();
+
+        if (!response.ok) {
             Swal.fire({
-                icon: 'error',
-                title: 'Whoops!',
-                text: "Algo salió mal al establecer la conexión con el servidor"
+                title: 'Error al traer las categorías!',
+                text: "Quieres volver a traer las categorías?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Sí, fetch them!'
+            }).then(async (result) => {
+                if (result.isConfirmed) {
+                    fetchCategories();
+                }
             });
-        });
+        }
 
+        let html = "";
+        if (data.success) {
+            if (data.categories.length === 0) {
+                html =
+                    `<div class="col-12 d-flex p-2 py-5 justify-content-center">
+                    <p class="fw-bold mb-0"> Todavía no tienes categorías! </p>
+                </div>`;
+            } else {
+                for (const category of data.categories) {
+                    html +=
+                        `<div class="d-flex justify-content-between align-items-center px-1">
+                        <p class="text-dark font-weight-bold m-0"> ${category.category} </p>
+                        <button class="btn btn-outline-danger btn-sm" onClick="console.log(${category.id})">
+                            Eliminar
+                        </button>
+                    </div>
+                    <div class="divider col-12 my-2">
+                    </div>`;
+                }
+            }
+        }
+        document.getElementById("categories-list").innerHTML = "";
+        document.getElementById('categories-list').innerHTML = html;
     }
-//DELETE
+
+
+    //DELETE
     function deleteCategory(id) {
         Swal.fire({
             title: "¿En realidad quieres borrar esta categoria?",
@@ -337,7 +358,7 @@
             if (result.isConfirmed) {
                 $.ajax({
                     type: "DELETE",
-                    url: "http://localhost/module/skills/deleteCategory",
+                    url: "http://localhost/api/v1/skills/categories",
                     data: { id },
                     dataType: "json",
                     encode: true,
