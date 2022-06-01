@@ -281,7 +281,66 @@
     <!-- End of Page Wrapper -->
 
     <?php include __DIR__ . "/layouts/footer.php" ?>
+ <script>
+    const BASE_URL = "http://localhost";
+    
+    
 
+// POST
+$("#social-networking-form-submit").submit(function(event) {
+    event.preventDefault();
+
+    $(".form-control").removeClass("is-invalid");
+    $(".invalid-feedback").remove();
+
+    var social ={
+        social: $("#social-networking-form-submit").val()
+    }
+
+    $.ajax({
+        type: "POST",
+        url: BASE_URL + " /api/v1/account/settings/social-networking",
+        data: social,
+        dataType: "json",
+        encode: true,
+    }).done(function (data) {
+        console.log(data);
+        if (!data.success) {
+            
+            if (data.errors.social) {
+                $("#social-networking-form-submit").toggleClass("is-invalid");
+                $("#social-networking-form").append( `<div class='invalid-feedback'> ${data.errors.social} </div>`);
+            }
+            if (data.errors.message) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Url no añadido!',
+                    text: data.errors.message
+                });
+            }
+        } else {
+            Swal.fire({
+                icon: 'success',
+                title: 'Url añadida!',
+                text: data.message
+            }).then((result) => {
+                $("#social-networking-form-submit").val("");
+                
+            });
+        }
+    }).fail(function () {
+        Swal.fire({
+            icon: 'error',
+            title: 'Whoops!',
+            text: "Algo salió mal al establecer la conexión con el servidor"
+        });
+    });
+
+});
+        
+        
+        
+        </script>
 </body>
 
 </html>
