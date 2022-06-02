@@ -281,7 +281,76 @@
     <!-- End of Page Wrapper -->
 
     <?php include __DIR__ . "/layouts/footer.php" ?>
+<script>
+    const BASE_URL = "http://localhost";
+    
+    
 
+// POST
+$("#social-networking-form-link").submit(function(event) {
+    event.preventDefault();
+
+    $(".form-control").removeClass("is-invalid");
+    $(".invalid-feedback").remove();
+
+    var input  ={
+        facebook: $("#social-networking-form-facebook").val(),
+        twitter: $("#social-networking-form-twitter").val()
+        linkedin: $("#social-networking-form-linkedin").val()
+    }
+   
+    $.ajax({
+        type: "POST",
+        url: BASE_URL + " /api/v1/account/settings/social-networking",
+        data: social,
+        dataType: "input",
+        encode: true,
+    }).done(function (data) {
+        console.log(data);
+        if (!data.success) {
+            
+            if (data.errors.facebook) {
+                $("#facebook").toggleClass("is-invalid");
+                $("#social-networking-form-facebook").append( `<div class='invalid-feedback'> ${data.errors.facebook} </div>`);
+            }
+            if(data.errors.twitter){
+                $("#twitter").toggleClass("is-invalid");
+                $("social-networking-form-twitter").append( `<div class='invalid-feedback'> ${data.errors.twitter} </div>`);
+            }
+            if(data.errors.linkedin){
+                $("linkedin").toggleClass("is-invalid");
+                $("social-networking-from-linkedin").append(`<div class='invalid-feedback'> ${data.errors.twitter} </div>`);
+            }
+            if (data.errors.message) {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Url no añadido!',
+                    text: data.errors.message
+                });
+            }
+        } else {
+            Swal.fire({
+                icon: 'success',
+                title: 'Url añadida!',
+                text: data.message
+            }).then((result) => {
+                $("#social-networking-form-link").val("");
+                
+            });
+        }
+    }).fail(function () {
+        Swal.fire({
+            icon: 'error',
+            title: 'Whoops!',
+            text: "Algo salió mal al establecer la conexión con el servidor"
+        });
+    });
+
+});
+        
+        
+        
+</script>
 </body>
 
 </html>
